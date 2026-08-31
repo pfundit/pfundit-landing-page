@@ -1,0 +1,98 @@
+[
+  {
+    "id": "01",
+    "title": "Chief Risk Officer",
+    "type": "Advisory",
+    "category": "Leadership",
+    "tags": [
+      "Credit Risk",
+      "NBFC Regulation",
+      "RBI Compliance"
+    ],
+    "description": "Shape the risk architecture of India's first AI-native NBFC. Define credit frameworks, oversee AI underwriting guardrails, and build RBI-compliant risk infrastructure from the ground up."
+  },
+  {
+    "id": "02",
+    "title": "Chief Compliance Officer",
+    "type": "Advisory",
+    "category": "Leadership",
+    "tags": [
+      "RBI Frameworks",
+      "KYC / AML",
+      "Regulatory Affairs"
+    ],
+    "description": "Lead compliance design ahead of RBI licensing. Own KYC, AML/CFT, Fair Practices Code and ensure regulatory readiness across India and Singapore operations."
+  },
+  {
+    "id": "03",
+    "title": "Chief Financial Officer",
+    "type": "Advisory",
+    "category": "Leadership",
+    "tags": [
+      "NBFC Finance",
+      "Capital Planning",
+      "Investor Relations"
+    ],
+    "description": "Build the financial architecture, treasury strategy and investor reporting framework for a greenfield NBFC. Partner directly with the founding board on capital structure."
+  },
+  {
+    "id": "04",
+    "title": "Chief Technology Officer",
+    "type": "Full-Time",
+    "category": "Technology",
+    "tags": [
+      "AI/ML",
+      "Fintech Infrastructure",
+      "Credit Systems"
+    ],
+    "description": "Architect the AI-native lending stack — credit decisioning engine, data pipelines, API infrastructure. Greenfield opportunity to build with no legacy constraints."
+  },
+  {
+    "id": "05",
+    "title": "Chief Credit Officer",
+    "type": "Advisory",
+    "category": "Leadership",
+    "tags": [
+      "Credit Policy",
+      "Underwriting",
+      "Portfolio Management"
+    ],
+    "description": "Define credit policy for a new asset class in Real Estate, AI infrastructure and clean-tech supply chains. Partner with AI teams to build human-in-the-loop credit gates."
+  },
+  {
+    "id": "06",
+    "title": "Chief Operating Officer",
+    "type": "Advisory",
+    "category": "Leadership",
+    "tags": [
+      "Operations",
+      "Hub & Spoke",
+      "Process Design"
+    ],
+    "description": "Design and operationalize the Hub & Spoke model across India. Own everything from loan origination workflows to collections infrastructure and partner integrations."
+  },
+  {
+    "id": "07",
+    "title": "Head of Product",
+    "type": "Consultant",
+    "category": "Technology",
+    "tags": [
+      "Lending Product",
+      "API-first",
+      "Roadmap"
+    ],
+    "description": "Define and execute the product roadmap for an API-first lending platform. Own borrower UX, partner integration surfaces and the AI decisioning product."
+  },
+  {
+    "id": "08",
+    "title": "Head of Business Development & Partnerships",
+    "type": "Consultant",
+    "category": "Business",
+    "tags": [
+      "Partnerships",
+      "Channel Distribution",
+      "Co-lending"
+    ],
+    "description": "Build the institutional pipeline — co-lending arrangements, originator partnerships and capital relationships across India and Southeast Asia."
+  }
+]

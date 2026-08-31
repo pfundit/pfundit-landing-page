@@ -1,0 +1,10 @@
+export { HeroSection } from './hero-section';
+export { MissionVision } from './mission-vision';
+export { InvestmentThesis } from './investment-thesis';
+export { Infrastructure } from './structural-advantage';
+export { Leadership } from './founders';
+export { Stakeholders } from './stakeholders';
+export { Hiring } from './hiring';
+export { Governance } from './governance-trust';
+export { Contact } from './contact';
+export { PlatformOverview } from './platform-overview';
