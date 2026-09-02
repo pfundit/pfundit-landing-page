@@ -16,17 +16,19 @@ export const useLenisScroll = () => {
   useEffect(() => {
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
 
-    if (prefersReducedMotion) {
+    // On touch devices (iOS/mobile) or reduced motion, rely on native smooth momentum scrolling
+    if (prefersReducedMotion || isTouch) {
       return;
     }
 
-    // Initialize Lenis
+    // Initialize Lenis for desktop wheel scrolling
     const lenis = new Lenis({
       duration: 1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      touchMultiplier: 1.35,
+      smoothWheel: true,
+      syncTouch: false,
     } as any);
 
     // Connect Lenis to ScrollTrigger
@@ -39,7 +41,7 @@ export const useLenisScroll = () => {
     };
 
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       gsap.ticker.remove(updateTicker);

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -38,11 +38,23 @@ export function useScrollReveal(containerRef: React.RefObject<HTMLElement | null
 
       if (prefersReducedMotion) {
         // Fallback for reduced motion
-        tl.to([eyebrow, heading, paragraphs, blocks, statNumbers, underlines, texture], {
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.1
-        });
+        const validEls = [
+          eyebrow,
+          heading,
+          ...Array.from(paragraphs),
+          ...Array.from(blocks),
+          ...Array.from(statNumbers),
+          ...Array.from(underlines),
+          texture,
+        ].filter(Boolean);
+
+        if (validEls.length) {
+          tl.to(validEls, {
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.1,
+          });
+        }
         return;
       }
 

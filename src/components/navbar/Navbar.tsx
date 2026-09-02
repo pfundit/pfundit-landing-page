@@ -95,10 +95,10 @@ export function Navbar() {
     [0, 50],
     ['rgba(247, 246, 242, 0.0)', 'rgba(249, 248, 244, 0.96)']
   );
-  const navBorderValue = useTransform(
+  const navBorderColor = useTransform(
     scrollY,
     [0, 50],
-    ['1px solid rgba(15, 27, 61, 0)', '1px solid rgba(15, 27, 61, 0.12)']
+    ['rgba(15, 27, 61, 0)', 'rgba(15, 27, 61, 0.12)']
   );
 
   // Always dark nav since backgrounds are light or forced white
@@ -249,7 +249,9 @@ export function Navbar() {
         style={{
           height: navHeight,
           backgroundColor: isPlatformPage ? 'rgba(249, 248, 244, 0.96)' : navBackground,
-          borderBottom: isPlatformPage ? '1px solid rgba(15, 27, 61, 0.12)' : navBorderValue,
+          borderBottomWidth: 1,
+          borderBottomStyle: 'solid',
+          borderBottomColor: isPlatformPage ? 'rgba(15, 27, 61, 0.12)' : navBorderColor,
         }}
         className="relative w-full transition-all duration-300 flex items-center"
       >
