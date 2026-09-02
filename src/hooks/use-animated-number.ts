@@ -62,7 +62,17 @@ export function useAnimatedNumber(value: number, opts: UseAnimatedNumberOptions 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, duration, enabled]);
 
-  const formatted = format ? format(current) : Math.round(current).toLocaleString();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const formatted = format
+    ? format(current)
+    : mounted
+      ? Math.round(current).toLocaleString()
+      : String(Math.round(current));
   return { value: current, formatted };
 }
 

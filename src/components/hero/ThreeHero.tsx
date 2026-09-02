@@ -66,6 +66,22 @@ function ArchitecturalObject() {
 }
 
 export function ThreeHero() {
+  const [canRender, setCanRender] = React.useState(false);
+
+  React.useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (gl) {
+        setCanRender(true);
+      }
+    } catch (e) {
+      setCanRender(false);
+    }
+  }, []);
+
+  if (!canRender) return null;
+
   return (
     <div className="absolute top-0 right-0 w-full h-full lg:w-1/2 z-0 pointer-events-none opacity-60">
       <Canvas shadows dpr={[1, 2]} gl={{ alpha: true }}>

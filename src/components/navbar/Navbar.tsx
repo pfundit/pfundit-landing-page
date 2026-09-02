@@ -74,16 +74,17 @@ export function Navbar() {
   const headerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
-  const [isScrolled, setIsScrolled] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.scrollY > 20;
-    }
-    return false;
-  });
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 20);
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsScrolled(window.scrollY > 20);
+    }
+  }, []);
   const navRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const navContainerRef = useRef<HTMLDivElement | null>(null);
   const [underline, setUnderline] = useState({ left: 0, width: 0, opacity: 0 });
@@ -129,7 +130,7 @@ export function Navbar() {
     };
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const measure = () => {
       const container = navContainerRef.current;
       if (!container) return setUnderline((u) => ({ ...u, opacity: 0 }));

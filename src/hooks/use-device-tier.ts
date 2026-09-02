@@ -27,16 +27,32 @@ export function useDeviceTier(): DeviceTier {
       setPrefersReducedMotion(reducedMotionQuery.matches);
     };
 
+    const addListener = (query: MediaQueryList, handler: () => void) => {
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', handler);
+      } else if (typeof (query as any).addListener === 'function') {
+        (query as any).addListener(handler);
+      }
+    };
+
+    const removeListener = (query: MediaQueryList, handler: () => void) => {
+      if (typeof query.removeEventListener === 'function') {
+        query.removeEventListener('change', handler);
+      } else if (typeof (query as any).removeListener === 'function') {
+        (query as any).removeListener(handler);
+      }
+    };
+
     update();
 
-    mobileQuery.addEventListener('change', update);
-    coarsePointerQuery.addEventListener('change', update);
-    reducedMotionQuery.addEventListener('change', update);
+    addListener(mobileQuery, update);
+    addListener(coarsePointerQuery, update);
+    addListener(reducedMotionQuery, update);
 
     return () => {
-      mobileQuery.removeEventListener('change', update);
-      coarsePointerQuery.removeEventListener('change', update);
-      reducedMotionQuery.removeEventListener('change', update);
+      removeListener(mobileQuery, update);
+      removeListener(coarsePointerQuery, update);
+      removeListener(reducedMotionQuery, update);
     };
   }, []);
 

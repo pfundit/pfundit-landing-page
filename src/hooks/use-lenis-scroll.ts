@@ -31,19 +31,20 @@ export const useLenisScroll = () => {
 
     // Connect Lenis to ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
+    (window as any).__lenis = lenis;
 
     // Use gsap ticker for optimal performance
-    gsap.ticker.add((time: number) => {
+    const updateTicker = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
 
+    gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(updateTicker);
+      delete (window as any).__lenis;
       lenis.destroy();
-      gsap.ticker.remove((time: number) => {
-        lenis.raf(time * 1000);
-      });
     };
   }, []);
 };

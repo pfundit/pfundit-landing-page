@@ -75,16 +75,32 @@ export function PremiumCursor() {
       }
     };
 
+    const addListener = (query: MediaQueryList, handler: () => void) => {
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', handler);
+      } else if (typeof (query as any).addListener === 'function') {
+        (query as any).addListener(handler);
+      }
+    };
+
+    const removeListener = (query: MediaQueryList, handler: () => void) => {
+      if (typeof query.removeEventListener === 'function') {
+        query.removeEventListener('change', handler);
+      } else if (typeof (query as any).removeListener === 'function') {
+        (query as any).removeListener(handler);
+      }
+    };
+
     updateEnabled();
 
-    pointerFine.addEventListener('change', updateEnabled);
-    hoverCapable.addEventListener('change', updateEnabled);
-    reducedMotion.addEventListener('change', updateEnabled);
+    addListener(pointerFine, updateEnabled);
+    addListener(hoverCapable, updateEnabled);
+    addListener(reducedMotion, updateEnabled);
 
     return () => {
-      pointerFine.removeEventListener('change', updateEnabled);
-      hoverCapable.removeEventListener('change', updateEnabled);
-      reducedMotion.removeEventListener('change', updateEnabled);
+      removeListener(pointerFine, updateEnabled);
+      removeListener(hoverCapable, updateEnabled);
+      removeListener(reducedMotion, updateEnabled);
       document.body.classList.remove('has-premium-cursor');
     };
   }, []);

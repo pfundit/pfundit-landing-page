@@ -17,6 +17,10 @@ export function useStoryScroll() {
       gsap.registerPlugin(ScrollTrigger);
     } catch (e) {}
 
+    const updateScrollTrigger = () => {
+      if (typeof ScrollTrigger !== "undefined") ScrollTrigger.update();
+    };
+
     // If lenis exists globally via useLenisScroll, wire ScrollTrigger to it.
     const lenisAny: any = (window as any).__lenis;
     if (lenisAny && ScrollTrigger && !initialized.current) {
@@ -39,16 +43,13 @@ export function useStoryScroll() {
         lenisAny.on("scroll", () => ScrollTrigger.update());
       }
 
-      gsap.ticker.add(() => {
-        if (typeof ScrollTrigger !== "undefined") ScrollTrigger.update();
-      });
-
+      gsap.ticker.add(updateScrollTrigger);
       initialized.current = true;
     }
 
     return () => {
       try {
-        gsap.ticker.remove(() => ScrollTrigger.update());
+        gsap.ticker.remove(updateScrollTrigger);
       } catch (e) {}
     };
   }, []);
