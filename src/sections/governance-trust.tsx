@@ -37,7 +37,7 @@ const pillars = [
 
 const timeline = [
   { year: '2025', label: 'Singapore HoldCo incorporated (ACRA)' },
-  { year: '2026', label: 'India subsidiary formation & board structuring (underway)' },
+  { year: '2026', label: 'India subsidiary incorporated & Board constituted Pfundit Capital Private Limited established in India.' },
   { year: '2026', label: 'RBI NBFC-ND-ICC application (Pre-application stage)' },
   { year: 'Target: 2026–27', label: 'Regulatory approvals & first-loan operations' },
 ];
