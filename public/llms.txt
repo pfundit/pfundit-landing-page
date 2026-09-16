@@ -1,0 +1,22 @@
+# Pfundit
+
+> Regulated Credit for the Real Economy | Singapore Holding Company
+
+Pfundit is a Singapore holding company (Pfundit Pte. Ltd., ACRA UEN: 202544131H) building a regulated, technology-enabled lending platform for Asia. Pfundit focuses on short-tenor, asset-backed financing in the real economy across India, Southeast Asia (SEA), and the GCC.
+
+## Core Navigation & Resources
+
+- [Home](https://pfundit.com/): Overview of Pfundit's mission, thesis, leadership, governance, and contact.
+- [Platform](https://pfundit.com/platform): Architecture of the AI-native, API-first lending stack and collateral underwriting engine.
+- [Hiring & Careers](https://pfundit.com/hiring): Open founding team and leadership opportunities across Risk, Compliance, Finance, Technology, and Credit.
+- [Full LLM Knowledge Base](https://pfundit.com/llms-full.txt): Comprehensive documentation for generative AI engines and research assistants.
+
+## Key Facts
+
+- **Entity**: Pfundit Pte. Ltd. (Incorporated in Singapore, 2025)
+- **ACRA UEN**: 202544131H
+- **Headquarters**: Singapore
+- **India Entity**: Wholly-owned subsidiary in formation, preparing for RBI NBFC-ND-ICC license application
+- **Target Geography**: India, Southeast Asia, GCC
+- **Lending Focus**: Short-tenor, collateralized real-economy credit (Real Estate, Clean-tech supply chain, Mid-market enterprises)
+- **Contact**: info@pfundit.com

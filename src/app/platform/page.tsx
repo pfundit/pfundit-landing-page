@@ -1,22 +1,41 @@
-'use client';
+import type { Metadata } from 'next';
+import { PlatformClient } from '@/components/pages/platform-client';
+import { getBreadcrumbSchema, getFinancialProductSchema } from '@/lib/seo/schemas';
 
-import { Navbar } from '@/components/navbar/Navbar';
-import { Footer } from '@/components/footer';
-import { PlatformOverview } from '@/sections';
-import { useLenisScroll } from '@/hooks/use-lenis-scroll';
+export const metadata: Metadata = {
+  title: 'Platform Architecture & Asset-Backed Lending Stack',
+  description:
+    'Explore the Pfundit lending platform — an AI-native, API-first regulated credit architecture purpose-built for short-tenor asset-backed financing across India and Asia.',
+  alternates: {
+    canonical: '/platform',
+  },
+  openGraph: {
+    title: 'Platform Architecture & Asset-Backed Lending Stack | Pfundit',
+    description:
+      'Explore the Pfundit lending platform — an AI-native, API-first regulated credit architecture purpose-built for short-tenor asset-backed financing across India and Asia.',
+    url: 'https://pfundit.com/platform',
+    type: 'website',
+  },
+};
 
 export default function PlatformPage() {
-  useLenisScroll();
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Platform', url: '/platform' },
+  ]);
+  const productSchema = getFinancialProductSchema();
 
   return (
-    <div className="relative min-h-screen" style={{ background: '#F7F6F2' }}>
-      <Navbar />
-
-      <main className="relative z-10">
-        <PlatformOverview />
-      </main>
-
-      <Footer />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <PlatformClient />
+    </>
   );
 }

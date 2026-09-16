@@ -1,38 +1,38 @@
-'use client';
+import type { Metadata } from 'next';
+import { HomeClient } from '@/components/pages/home-client';
+import { getBreadcrumbSchema, getOrganizationSchema } from '@/lib/seo/schemas';
 
-import { Navbar } from '@/components/navbar/Navbar';
-import { Footer } from '@/components/footer';
-import {
-  Contact,
-  Governance,
-  HeroSection,
-  Infrastructure as AIEdge,
-  InvestmentThesis,
-  Leadership,
-  MissionVision,
-  Stakeholders,
-} from '@/sections';
-import { useLenisScroll } from '@/hooks/use-lenis-scroll';
+export const metadata: Metadata = {
+  title: 'Disciplined Credit for the Real Economy | Singapore Holding Company',
+  description:
+    'Pfundit is a Singapore holding company building a regulated, technology-enabled lending platform for Asia — focused on short-tenor, asset-backed financing across India, Southeast Asia and GCC.',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Pfundit — Disciplined Credit for the Real Economy',
+    description:
+      'Singapore holding company building a regulated, technology-enabled lending platform for Asia — short-tenor, asset-backed financing across India, Southeast Asia and the GCC.',
+    url: 'https://pfundit.com',
+    type: 'website',
+  },
+};
 
-export default function Home() {
-  useLenisScroll();
+export default function HomePage() {
+  const breadcrumbSchema = getBreadcrumbSchema([{ name: 'Home', url: '/' }]);
+  const orgSchema = getOrganizationSchema();
 
   return (
-    <div className="relative min-h-screen" style={{ background: '#F7F6F2' }}>
-      <Navbar />
-
-      <main className="relative z-10">
-        <HeroSection />
-        <MissionVision />
-        <InvestmentThesis />
-        <AIEdge />
-        <Leadership />
-        <Stakeholders />
-        <Governance />
-        <Contact />
-      </main>
-
-      <Footer />
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <HomeClient />
+    </>
   );
 }

@@ -1,0 +1,67 @@
+# Pfundit — Comprehensive Knowledge Base for Generative Search & AI Agents
+
+## Corporate Overview
+- **Legal Entity**: Pfundit Pte. Ltd.
+- **Incorporation**: Singapore, 2025
+- **ACRA UEN**: 202544131H
+- **Headquarters**: Singapore
+- **Official Website**: https://pfundit.com
+- **Official Contact**: info@pfundit.com
+
+## Mission & Executive Summary
+Pfundit is a Singapore-incorporated holding company building a regulated, technology-enabled lending platform designed for Asia's real economy. It targets short-tenor, asset-backed debt financing opportunities across India, Southeast Asia, and the GCC.
+
+Pfundit bridges the gap between institutional global capital and credit-worthy operating businesses in high-growth Asian markets by pairing rigorous credit governance with modern, AI-augmented underwriting technology.
+
+## Market Opportunity & Investment Thesis
+- **Total Addressable Credit Gap**: Estimated at over US$1 Trillion unaddressed credit demand across Asia:
+  - India: ~$530 Billion SME credit gap
+  - Southeast Asia: ~$300 Billion MSME credit gap
+  - GCC / MENA: ~$260 Billion credit gap
+- **Asset Classes**:
+  - Real estate development & construction bridge financing
+  - Clean-tech and energy transition supply chains
+  - Mid-market supply chain & trade credit facilities
+- **Financing Philosophy**:
+  - Short-tenor (typically 6–24 months)
+  - Asset-backed with ring-fenced collateral and structural senior protection
+  - Disciplined underwriting with human-in-the-loop credit committees
+
+## Technology & The AI Edge
+Pfundit deploys an AI-native lending stack to achieve high operational velocity while strictly controlling risk:
+- **Decisioning Engine**: Automated ingestion and reconciliation of banking records, GST filings, collateral titles, and financial statements.
+- **Risk Guardrails**: Deterministic rules and quantitative bounds oversee AI models to prevent bias and comply with central bank standards.
+- **API-First Architecture**: Seamless integration with co-lenders, institutional allocators, credit bureaus, and verification systems.
+- **Efficiency Target**: 25–30% target cost-to-income ratio projected within 24–36 months of India operations.
+
+## Regulatory Status & Compliance
+- **Singapore**: Pfundit Pte. Ltd. is incorporated and registered with the Accounting and Corporate Regulatory Authority (ACRA).
+- **India**: Pfundit is in the process of incorporating a wholly-owned subsidiary in India, which intends to apply for registration with the Reserve Bank of India (RBI) as an NBFC-ND-ICC (Non-Banking Financial Company - Non-Deposit Taking - Investment and Credit Company).
+- **Pre-application Notice**: The NBFC application is currently in the pre-application stage. As of the date of publication, no RBI registration has been granted, and lending operations will not commence until regulatory licenses are secured.
+- **No Solicitation**: Nothing published by Pfundit constitutes an offer to buy or sell securities, an offer of credit, or financial/tax/legal advice.
+
+## Founding Team & Leadership Profile
+- Over 60+ collective years of senior leadership experience across institutions including HSBC, J.P. Morgan, and multiple prior exits in financial services and enterprise technology.
+- Board and advisory composition emphasizes rigorous credit risk management, legal compliance, and institutional investor alignment.
+
+## Current Open Roles & Career Opportunities
+1. **Chief Risk Officer** (Leadership / Advisory)
+   - Scope: Shape the risk architecture of an AI-native NBFC; define credit frameworks and RBI-compliant risk infrastructure.
+2. **Chief Compliance Officer** (Leadership / Advisory)
+   - Scope: Lead compliance design ahead of RBI licensing; own KYC, AML/CFT, and Fair Practices Code.
+3. **Chief Financial Officer** (Leadership / Advisory)
+   - Scope: Build financial architecture, treasury strategy, and investor reporting framework.
+4. **Chief Technology Officer** (Technology / Full-Time)
+   - Scope: Architect the AI-native lending stack, credit decisioning engine, data pipelines, and API infrastructure.
+5. **Chief Credit Officer** (Leadership / Advisory)
+   - Scope: Define credit policy for real estate, AI infrastructure, and clean-tech supply chains.
+6. **Chief Operating Officer** (Leadership / Advisory)
+   - Scope: Design and operationalize the Hub & Spoke model across India.
+7. **Head of Product** (Technology / Consultant)
+   - Scope: Define and execute roadmap for API-first lending platform, borrower UX, and decisioning product.
+8. **Head of Business Development & Partnerships** (Business / Consultant)
+   - Scope: Institutional pipeline, co-lending arrangements, originator partnerships across India and SEA.
+
+## Communication & Inquiries
+- General inquiries: info@pfundit.com
+- Institutional relationships & partnership proposals: Available through website contact form at https://pfundit.com/#contact
