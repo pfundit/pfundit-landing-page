@@ -63,6 +63,15 @@ export const metadata: Metadata = {
       'Singapore holding company building a regulated, technology-enabled lending platform for Asia.',
     images: ['/hero4.png'],
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   robots: {
     index: true,
     follow: true,
