@@ -19,8 +19,14 @@ function getMongoDbName() {
 
 export function getMongoClient() {
   if (!global.__pfunditMongoClientPromise) {
-    const client = new MongoClient(getMongoUri());
-    global.__pfunditMongoClientPromise = client.connect();
+    const client = new MongoClient(getMongoUri(), {
+      serverSelectionTimeoutMS: 8000,
+      connectTimeoutMS: 8000,
+    });
+    global.__pfunditMongoClientPromise = client.connect().catch((error) => {
+      global.__pfunditMongoClientPromise = undefined;
+      throw error;
+    });
   }
 
   return global.__pfunditMongoClientPromise;

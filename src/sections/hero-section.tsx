@@ -6,7 +6,7 @@ import { TalkToUsButton } from '@/components/button';
 
 const stats = [
   { value: 'US$1Tn+', label: 'Unaddressed credit demand across Asia', subLabel: 'India · Southeast Asia · GCC†' },
-  { value: '60+ yrs', label: 'HSBC · J.P. Morgan · 3 exits', subLabel: 'Three founders. Three exits.' },
+  { value: '60+ yrs', label: 'Institutional banking, credit and entrepreneurship.', subLabel: 'HSBC · J.P. Morgan · Proven exits' },
   { value: '25\u201330%*', label: 'Target cost-to-income', subLabel: 'Projected within 24–36 months of India launch. Subject to regulatory approval and market conditions.' },
 ];
 
@@ -182,7 +182,7 @@ export function HeroSection() {
               { label: 'SEA & GCC', detail: 'Opportunistic expansion' },
               { label: null, detail: 'Incorporated in Singapore · ACRA Registered' },
             ].map((item, i) => (
-              <div key={i} data-hero-check className="flex items-center gap-2.5 text-[0.8rem] leading-[1.45] text-navy/55">
+              <div key={i} data-hero-check className="flex items-center gap-2.5 text-[0.85rem] sm:text-[0.875rem] leading-[1.45] text-navy/60">
                 <svg className="h-4 w-4 shrink-0 text-[#D4A437]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <circle cx="8" cy="8" r="7" fill="currentColor" />
                   <path d="m4.8 8 2 2 4.3-4.3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -214,7 +214,7 @@ export function HeroSection() {
                   </div>
                   {stat.subLabel && (
                     <div className="mt-3 flex-1 flex flex-col justify-start">
-                      <p className="max-w-[32ch] text-[11px] leading-[1.5] text-navy/40">
+                      <p className="max-w-[32ch] text-xs sm:text-[12.5px] leading-relaxed text-navy/55">
                         {stat.subLabel}
                       </p>
                     </div>
@@ -224,10 +224,10 @@ export function HeroSection() {
             </div>
             {/* Disclaimer row — full-width, below all 3 columns, no mixing */}
             <div className="mx-auto max-w-[60rem] border-t border-navy/10 px-4 py-5 sm:px-8 text-center flex flex-col items-center justify-center">
-              <p className="text-[10px] leading-[1.4] text-navy/40 mb-1 max-w-[90ch]">
+              <p className="text-[11.5px] sm:text-xs leading-relaxed text-navy/55 mb-1.5 max-w-[90ch]">
                 † Combined MSME and SME credit gap estimates: India ~$530Bn · Southeast Asia ~$300Bn · GCC / MENA ~$260Bn. Figures reflect TAM estimates from 3rd-party institutional research (e.g., EY 2024, ADB, IFC). Not a Pfundit forecast or commitment.
               </p>
-              <p className="text-[10px] leading-[1.4] text-navy/40 max-w-[90ch]">
+              <p className="text-[11.5px] sm:text-xs leading-relaxed text-navy/55 max-w-[90ch]">
                 * Target cost-to-income of 25-30% is projected to be achievable within 24-36 months of launch in India. Subject to regulatory approvals and market conditions. Not a financial guarantee.
               </p>
             </div>

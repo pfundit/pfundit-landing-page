@@ -14,7 +14,7 @@ const capabilities = [
 
 const esgStats = [
   { value: 'US$54B', label: 'India waste management market by 2030 — up from US$22B in 2023' },
-  { value: 'US$218B', label: "Projected annual value of India's circular economy by 2030" },
+  { value: 'US$218B', label: "Projected annual value of Indiaʹs circular economy by 2030" },
   { value: '500K tonnes', label: 'EV batteries requiring recycling or repurposing by 2030' },
 ];
 
@@ -247,7 +247,7 @@ export function InvestmentThesis() {
             ))}
           </div>
 
-          <p className="mt-6 typo-small text-navy/30">
+          <p className="mt-6 text-xs sm:text-[12.5px] leading-relaxed text-navy/55">
             Market estimates: NextMSC India Waste Management Market (2024); IBEF / Kalaari Capital circular-economy projections. Figures reflect total addressable market opportunity from third-party research, not Pfundit's current loan book or AUM.
           </p>
         </div>

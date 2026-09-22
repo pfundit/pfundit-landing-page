@@ -81,7 +81,7 @@ export function PlatformOverview() {
             <div className="mb-12 platform-reveal">
               <div className="mb-4 flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
-                <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#D4A437]/80">THE PLATFORM</span>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#D4A437]">THE PLATFORM</span>
               </div>
               <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-[0.95] tracking-[-0.03em] text-white">
                 Engineered for <br/>
@@ -117,7 +117,7 @@ export function PlatformOverview() {
                   <h3 className="typo-button text-white mb-3 transition-colors duration-300 group-hover:text-[#D4A437]">
                     {pillar.title}
                   </h3>
-                  <p className="text-[0.85rem] leading-[1.65] text-white/55">
+                  <p className="text-[0.88rem] leading-[1.65] text-white/65">
                     {pillar.description}
                   </p>
 
@@ -156,7 +156,7 @@ export function PlatformOverview() {
                 <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D4A437] diagram-dot" />
                 <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:bottom-[calc(100%+12px)]">
                   <div className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] backdrop-blur-sm diagram-pill">
-                    <span className="text-[0.55rem] md:text-[0.7rem] font-bold uppercase tracking-wider text-white">Asset Intelligence</span>
+                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold uppercase tracking-wider text-white">Asset Intelligence</span>
                   </div>
                 </div>
               </div>
@@ -166,7 +166,7 @@ export function PlatformOverview() {
                 <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D4A437] diagram-dot" />
                 <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:bottom-[calc(100%+12px)]">
                   <div className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] backdrop-blur-sm diagram-pill">
-                    <span className="text-[0.55rem] md:text-[0.7rem] font-bold uppercase tracking-wider text-white">Partner APIs</span>
+                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold uppercase tracking-wider text-white">Partner APIs</span>
                   </div>
                 </div>
               </div>
@@ -176,7 +176,7 @@ export function PlatformOverview() {
                 <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D4A437] diagram-dot" />
                 <div className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:top-[calc(100%+12px)]">
                   <div className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] backdrop-blur-sm diagram-pill">
-                    <span className="text-[0.55rem] md:text-[0.7rem] font-bold uppercase tracking-wider text-white">Human Oversight</span>
+                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold uppercase tracking-wider text-white">Human Oversight</span>
                   </div>
                 </div>
               </div>
@@ -186,7 +186,7 @@ export function PlatformOverview() {
                 <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D4A437] diagram-dot" />
                 <div className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:top-[calc(100%+12px)]">
                   <div className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] backdrop-blur-sm diagram-pill">
-                    <span className="text-[0.55rem] md:text-[0.7rem] font-bold uppercase tracking-wider text-white">Credit Operations</span>
+                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold uppercase tracking-wider text-white">Credit Operations</span>
                   </div>
                 </div>
               </div>

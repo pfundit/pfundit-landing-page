@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -40,10 +41,18 @@ export function AdminLogin() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F0F5FF] p-4">
       <div className="w-full max-w-md rounded-[2rem] border border-[#0f1b3d]/10 bg-white p-8 shadow-[0_24px_80px_rgba(15,27,61,0.12)] sm:p-10">
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center flex flex-col items-center">
+          <Image
+            src="/logo-main.svg"
+            alt="Pfundit"
+            width={2378}
+            height={699}
+            className="h-7 w-auto aspect-[2378/699] object-contain mb-4"
+            priority
+          />
           <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D4A437]">Admin Access</p>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#0f1b3d]">Pfundit Admin</h1>
-          <p className="mt-3 text-sm leading-relaxed text-[#0f1b3d]/60">Sign in to manage jobs, applications, and contact submissions.</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#0f1b3d]">Pfundit Admin</h1>
+          <p className="mt-2 text-sm leading-relaxed text-[#0f1b3d]/60">Sign in to manage jobs, applications, and contact submissions.</p>
         </div>
 
         {error && (

@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { RichTextEditor } from '@/components/editor/rich-text-editor';
 
-type TabKey = 'jobs' | 'applications' | 'contacts';
+type TabKey = 'jobs' | 'applications' | 'contacts' | 'settings';
 
 type Job = {
   id: string;
@@ -12,6 +14,9 @@ type Job = {
   category: string;
   tags: string[];
   description?: string;
+  cardBlurb?: string;
+  location?: string;
+  jdUrl?: string;
 };
 
 type JobFormState = Partial<Job>;
@@ -51,6 +56,7 @@ const tabs: Array<{ key: TabKey; label: string; description: string }> = [
   { key: 'jobs', label: 'Job Posting', description: 'Create, update, or remove live roles.' },
   { key: 'applications', label: 'Job Applications', description: 'Review applications submitted through hiring.' },
   { key: 'contacts', label: 'Contact Forms', description: 'Review inbound contact submissions.' },
+  { key: 'settings', label: 'Email Notifications', description: 'Configure recipient emails for new job applications.' },
 ];
 
 function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
@@ -72,9 +78,17 @@ function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
     );
   }
 
+  if (tabKey === 'contacts') {
+    return (
+      <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10.5c0 5.247-4.477 9.5-10 9.5a10.95 10.95 0 0 1-3.1-.44L3 21l1.48-4.27A9.1 9.1 0 0 1 1 10.5C1 5.253 5.477 1 11 1s10 4.253 10 9.5Z" />
+      </svg>
+    );
+  }
+
   return (
     <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10.5c0 5.247-4.477 9.5-10 9.5a10.95 10.95 0 0 1-3.1-.44L3 21l1.48-4.27A9.1 9.1 0 0 1 1 10.5C1 5.253 5.477 1 11 1s10 4.253 10 9.5Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
     </svg>
   );
 }
@@ -241,10 +255,17 @@ export function AdminDashboard() {
   const [contactDateFilter, setContactDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication | null>(null);
   const [selectedContactSubmission, setSelectedContactSubmission] = useState<ContactSubmission | null>(null);
+  const [recipientEmails, setRecipientEmails] = useState<string[]>([]);
+  const [savedRecipientEmails, setSavedRecipientEmails] = useState<string[]>([]);
+  const [newEmailInput, setNewEmailInput] = useState('');
+  const [emailInputError, setEmailInputError] = useState('');
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsSavedMessage, setSettingsSavedMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [currentJob, setCurrentJob] = useState<JobFormState>({});
   const [tagInput, setTagInput] = useState('');
   const [formLoading, setFormLoading] = useState(false);
+  const [modalTab, setModalTab] = useState<'edit' | 'preview'>('edit');
   const router = useRouter();
 
   const filteredJobApplications = jobApplications.filter((application) => {
@@ -260,10 +281,11 @@ export function AdminDashboard() {
   });
 
   const loadDashboardData = async () => {
-    const [jobsResponse, jobApplicationsResponse, contactResponse] = await Promise.all([
+    const [jobsResponse, jobApplicationsResponse, contactResponse, settingsResponse] = await Promise.all([
       fetch('/api/jobs'),
       fetch('/api/applications/jobs'),
       fetch('/api/applications/contact'),
+      fetch('/api/admin/settings'),
     ]);
 
     if (jobsResponse.ok) {
@@ -276,6 +298,14 @@ export function AdminDashboard() {
 
     if (contactResponse.ok) {
       setContactSubmissions(await contactResponse.json());
+    }
+
+    if (settingsResponse && settingsResponse.ok) {
+      const settingsData = await settingsResponse.json();
+      if (Array.isArray(settingsData.recipientEmails)) {
+        setRecipientEmails(settingsData.recipientEmails);
+        setSavedRecipientEmails(settingsData.recipientEmails);
+      }
     }
   };
 
@@ -297,18 +327,23 @@ export function AdminDashboard() {
   const openCreateModal = () => {
     setCurrentJob({
       title: '',
-      type: 'Full-Time',
-      category: 'Technology',
+      type: 'Full-time',
+      category: 'Leadership',
+      location: 'Mumbai, India',
       tags: [],
+      cardBlurb: '',
       description: '',
+      jdUrl: '',
     });
     setTagInput('');
+    setModalTab('edit');
     setIsEditing(true);
   };
 
   const openEditModal = (job: Job) => {
     setCurrentJob({ ...job, tags: [...job.tags] });
     setTagInput(job.tags.join(', '));
+    setModalTab('edit');
     setIsEditing(true);
   };
 
@@ -367,6 +402,106 @@ export function AdminDashboard() {
     }
   };
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const hasPendingValidInput = useMemo(() => {
+    if (!newEmailInput.trim()) return false;
+    const parts = newEmailInput
+      .split(/[,;\s]+/)
+      .map((p) => p.trim().toLowerCase())
+      .filter((p) => emailRegex.test(p));
+    return parts.length > 0;
+  }, [newEmailInput]);
+
+  const isSettingsDirty = useMemo(() => {
+    if (recipientEmails.length !== savedRecipientEmails.length) return true;
+    const listChanged = recipientEmails.some((email, idx) => email !== savedRecipientEmails[idx]);
+    return listChanged || hasPendingValidInput;
+  }, [recipientEmails, savedRecipientEmails, hasPendingValidInput]);
+
+  const canSaveSettings = isSettingsDirty && !settingsLoading && (recipientEmails.length > 0 || hasPendingValidInput);
+
+  const handleAddEmail = () => {
+    setEmailInputError('');
+    const trimmed = newEmailInput.trim().toLowerCase();
+    if (!trimmed) return;
+    const parts = trimmed
+      .split(/[,;\s]+/)
+      .map((p) => p.trim().toLowerCase())
+      .filter((p) => emailRegex.test(p));
+
+    if (parts.length === 0) {
+      setEmailInputError('Please enter a valid email address.');
+      return;
+    }
+
+    const next = Array.from(new Set([...recipientEmails, ...parts]));
+    setRecipientEmails(next);
+    setNewEmailInput('');
+    setSettingsSavedMessage('');
+  };
+
+  const handleRemoveEmail = (emailToRemove: string) => {
+    setRecipientEmails(recipientEmails.filter((e) => e !== emailToRemove));
+    setSettingsSavedMessage('');
+    setEmailInputError('');
+  };
+
+  const handleDiscardSettings = () => {
+    setRecipientEmails(savedRecipientEmails);
+    setNewEmailInput('');
+    setEmailInputError('');
+    setSettingsSavedMessage('');
+  };
+
+  const handleSaveSettings = async () => {
+    setEmailInputError('');
+    let emailsToSave = [...recipientEmails];
+
+    if (newEmailInput.trim()) {
+      const parts = newEmailInput
+        .split(/[,;\s]+/)
+        .map((p) => p.trim().toLowerCase())
+        .filter((p) => emailRegex.test(p));
+      if (parts.length > 0) {
+        emailsToSave = Array.from(new Set([...emailsToSave, ...parts]));
+        setRecipientEmails(emailsToSave);
+        setNewEmailInput('');
+      } else if (emailsToSave.length === 0) {
+        setEmailInputError('Please enter a valid email address.');
+        return;
+      }
+    }
+
+    if (emailsToSave.length === 0) {
+      setEmailInputError('At least one recipient email address is required.');
+      return;
+    }
+
+    setSettingsLoading(true);
+    setSettingsSavedMessage('');
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipientEmails: emailsToSave }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to save settings');
+      }
+      setRecipientEmails(data.recipientEmails);
+      setSavedRecipientEmails(data.recipientEmails);
+      setSettingsSavedMessage('Changes saved');
+      setTimeout(() => setSettingsSavedMessage(''), 4000);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error saving settings';
+      setEmailInputError(msg);
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
+
   const activeTabConfig = tabs.find((tab) => tab.key === activeTab) || tabs[0];
 
   return (
@@ -375,14 +510,29 @@ export function AdminDashboard() {
         <div className="flex items-start justify-between gap-3 lg:block">
           <div className="pb-2 lg:pb-3">
             <p className="text-[0.625rem] font-semibold uppercase tracking-[0.28em] text-[#0f1b3d]/38">Admin panel</p>
-            <h2 className="mt-1 text-[1.15rem] font-semibold tracking-tight text-[#0f1b3d]">Pfundit</h2>
+            <div className="mt-2 flex items-center">
+              <Image
+                src="/logo-main.svg"
+                alt="Pfundit"
+                width={2378}
+                height={699}
+                className="h-5 w-auto aspect-[2378/699] object-contain"
+              />
+            </div>
           </div>
         </div>
 
         <nav className="mt-3 grid flex-1 content-start gap-1.5 lg:mt-3.5 lg:gap-1.5">
           {tabs.map((tab) => {
             const isActive = tab.key === activeTab;
-            const count = tab.key === 'jobs' ? jobs.length : tab.key === 'applications' ? jobApplications.length : contactSubmissions.length;
+            const count =
+              tab.key === 'jobs'
+                ? jobs.length
+                : tab.key === 'applications'
+                ? jobApplications.length
+                : tab.key === 'contacts'
+                ? contactSubmissions.length
+                : recipientEmails.length;
 
             return (
               <button
@@ -455,23 +605,35 @@ export function AdminDashboard() {
                     <thead className="sticky top-0 bg-[#F6F8FF] text-xs uppercase text-[#0f1b3d]/55">
                       <tr>
                         <th className="px-5 py-4 font-bold tracking-wider">ID</th>
-                        <th className="px-5 py-4 font-bold tracking-wider">Title</th>
+                        <th className="px-5 py-4 font-bold tracking-wider">Role &amp; Card Blurb</th>
                         <th className="px-5 py-4 font-bold tracking-wider">Category</th>
-                        <th className="px-5 py-4 font-bold tracking-wider">Type</th>
+                        <th className="px-5 py-4 font-bold tracking-wider">Engagement / Location</th>
                         <th className="px-5 py-4 font-bold tracking-wider text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#0f1b3d]/5">
                       {jobs.map((job) => (
                         <tr key={job.id} className="transition-colors hover:bg-[#F6F8FF]">
-                          <td className="px-5 py-4 font-mono text-[#D4A437]">{job.id}</td>
-                          <td className="px-5 py-4 font-semibold">{job.title}</td>
+                          <td className="px-5 py-4 font-mono font-bold text-[#D4A437]">{job.id}</td>
+                          <td className="px-5 py-4">
+                            <div className="font-semibold text-[#0f1b3d]">{job.title}</div>
+                            {job.cardBlurb && (
+                              <div className="mt-1 line-clamp-1 max-w-lg text-xs text-[#0f1b3d]/60">
+                                {job.cardBlurb}
+                              </div>
+                            )}
+                          </td>
                           <td className="px-5 py-4">
                             <span className="rounded-full bg-[#0f1b3d]/5 px-2.5 py-1 text-xs font-semibold text-[#0f1b3d]/70">
                               {job.category}
                             </span>
                           </td>
-                          <td className="px-5 py-4 text-[#0f1b3d]/70">{job.type}</td>
+                          <td className="px-5 py-4 text-xs">
+                            <span className="font-semibold text-[#0f1b3d]">{job.type}</span>
+                            {job.location && (
+                              <span className="block text-[11px] text-[#0f1b3d]/50 mt-0.5">{job.location}</span>
+                            )}
+                          </td>
                           <td className="px-5 py-4 text-right">
                             <button onClick={() => openEditModal(job)} className="mr-3 rounded-full bg-[#D4A437]/10 px-3 py-1.5 text-xs font-bold text-[#D4A437] transition-colors hover:bg-[#D4A437]/15">
                               Edit
@@ -600,16 +762,174 @@ export function AdminDashboard() {
               </div>
             </div>
           )}
+
+          {activeTab === 'settings' && (
+            <div className="max-w-4xl space-y-6">
+              <div className="rounded-[1.5rem] border border-[#0f1b3d]/10 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,27,61,0.06)]">
+                <div className="border-b border-[#0f1b3d]/10 pb-5">
+                  <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d] sm:text-xl">
+                    Application Notification Recipients
+                  </h2>
+                  <p className="mt-1 text-xs text-[#0f1b3d]/65 sm:text-sm">
+                    Configure which email addresses receive notification alerts whenever a candidate submits a job application.
+                  </p>
+                </div>
+
+                {/* Email Badges List */}
+                <div className="mt-6">
+                  <div className="mb-2.5 flex items-center justify-between">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/70">
+                      Active Recipients ({recipientEmails.length})
+                    </label>
+                    {isSettingsDirty && (
+                      <span className="text-[0.68rem] font-semibold uppercase tracking-wider text-[#D4A437]">
+                        • Unsaved Changes
+                      </span>
+                    )}
+                  </div>
+
+                  {recipientEmails.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-[#0f1b3d]/15 bg-[#F6F8FF] p-4 text-xs font-medium text-[#0f1b3d]/70">
+                      No recipient emails configured yet. Add at least one email address below to receive notifications.
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {recipientEmails.map((email) => (
+                        <span
+                          key={email}
+                          className="inline-flex items-center gap-2 rounded-full border border-[#0f1b3d]/15 bg-[#F0F5FF] px-3.5 py-1.5 text-xs font-semibold text-[#0f1b3d] shadow-sm transition-all hover:border-[#D4A437]/40"
+                        >
+                          <span>{email}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveEmail(email)}
+                            className="rounded-full p-0.5 text-[#0f1b3d]/40 transition-colors hover:bg-red-100 hover:text-red-700"
+                            title={`Remove ${email}`}
+                          >
+                            <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Add Email Form */}
+                <div className="mt-6 border-t border-[#0f1b3d]/10 pt-5">
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/70">
+                    Add Recipient Email Address
+                  </label>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <input
+                      type="email"
+                      value={newEmailInput}
+                      onChange={(e) => {
+                        setNewEmailInput(e.target.value);
+                        if (emailInputError) setEmailInputError('');
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleAddEmail();
+                        }
+                      }}
+                      placeholder="e.g. founder@pfundit.com or comma-separated emails"
+                      className="flex-1 rounded-xl border border-[#0f1b3d]/15 bg-white px-4 py-2.5 text-sm text-[#0f1b3d] placeholder:text-[#0f1b3d]/40 focus:border-[#D4A437] focus:outline-none focus:ring-1 focus:ring-[#D4A437]"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddEmail}
+                      disabled={!newEmailInput.trim()}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#0f1b3d]/20 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#0f1b3d] transition-all hover:bg-[#F0F5FF] disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      + Add to List
+                    </button>
+                  </div>
+                  {emailInputError ? (
+                    <p className="mt-1.5 text-xs font-medium text-red-600">
+                      {emailInputError}
+                    </p>
+                  ) : (
+                    <p className="mt-1.5 text-[0.72rem] text-[#0f1b3d]/50">
+                      Supports multiple emails separated by commas. Hit Enter or click &quot;+ Add to List&quot;.
+                    </p>
+                  )}
+                </div>
+
+                {/* Save and Discard Actions */}
+                <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#0f1b3d]/10 pt-5">
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleSaveSettings}
+                      disabled={!canSaveSettings}
+                      className="inline-flex items-center gap-2 rounded-full bg-[#0f1b3d] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#0f1b3d]/90 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      {settingsLoading ? (
+                        <>
+                          <svg className="h-3.5 w-3.5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                          </svg>
+                          Saving...
+                        </>
+                      ) : (
+                        'Save Email Recipients'
+                      )}
+                    </button>
+
+                    {isSettingsDirty && !settingsLoading && (
+                      <button
+                        type="button"
+                        onClick={handleDiscardSettings}
+                        className="rounded-full px-4 py-2 text-xs font-semibold text-[#0f1b3d]/60 transition-colors hover:bg-[#0f1b3d]/5 hover:text-[#0f1b3d]"
+                      >
+                        Discard Changes
+                      </button>
+                    )}
+
+                    {settingsSavedMessage && (
+                      <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                        ✓ {settingsSavedMessage}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
 
       {isEditing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f1b3d]/40 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-[1.75rem] bg-white p-6 shadow-2xl md:p-8">
-            <div className="mb-6 flex items-center justify-between gap-4">
-              <h2 className="text-xl font-bold tracking-tight text-[#0f1b3d]">
-                {currentJob.id ? 'Edit Job Posting' : 'Create New Job'}
-              </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f1b3d]/45 p-4 backdrop-blur-sm">
+          <div className="flex max-h-[92vh] w-full max-w-3xl flex-col rounded-[1.75rem] bg-white shadow-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-[#0f1b3d]/10 bg-[#F8FAFF] px-6 py-4">
+              <div className="flex items-center gap-4">
+                <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d]">
+                  {currentJob.id ? `Edit Job #${currentJob.id}` : 'Create New Job'}
+                </h2>
+                {/* Edit / Preview Tabs */}
+                <div className="flex rounded-full bg-white p-1 border border-[#0f1b3d]/10 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setModalTab('edit')}
+                    className={`rounded-full px-3 py-1 font-bold transition-colors ${modalTab === 'edit' ? 'bg-[#0f1b3d] text-white' : 'text-[#0f1b3d]/60 hover:text-[#0f1b3d]'}`}
+                  >
+                    Edit Details
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModalTab('preview')}
+                    className={`rounded-full px-3 py-1 font-bold transition-colors ${modalTab === 'preview' ? 'bg-[#0f1b3d] text-white' : 'text-[#0f1b3d]/60 hover:text-[#0f1b3d]'}`}
+                  >
+                    Live Preview
+                  </button>
+                </div>
+              </div>
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
@@ -621,88 +941,184 @@ export function AdminDashboard() {
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Title</label>
-                  <input
-                    required
-                    type="text"
-                    value={currentJob.title || ''}
-                    onChange={(event) => setCurrentJob({ ...currentJob, title: event.target.value })}
-                    className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Category</label>
-                  <select
-                    required
-                    value={currentJob.category || ''}
-                    onChange={(event) => setCurrentJob({ ...currentJob, category: event.target.value })}
-                    className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
-                  >
-                    <option value="Leadership">Leadership</option>
-                    <option value="Technology">Technology</option>
-                    <option value="Business">Business</option>
-                  </select>
-                </div>
-              </div>
+            {/* Modal Content */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8">
+              {modalTab === 'edit' ? (
+                <form id="job-edit-form" onSubmit={handleSave} className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                      <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Role Title *</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="e.g. Head of Credit / Credit Manager"
+                        value={currentJob.title || ''}
+                        onChange={(event) => setCurrentJob({ ...currentJob, title: event.target.value })}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Category *</label>
+                      <select
+                        required
+                        value={currentJob.category || 'Leadership'}
+                        onChange={(event) => setCurrentJob({ ...currentJob, category: event.target.value })}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      >
+                        <option value="Leadership">Leadership</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Business">Business</option>
+                      </select>
+                    </div>
+                  </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Type</label>
-                  <select
-                    required
-                    value={currentJob.type || ''}
-                    onChange={(event) => setCurrentJob({ ...currentJob, type: event.target.value })}
-                    className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
-                  >
-                    <option value="Full-Time">Full-Time</option>
-                    <option value="Advisory">Advisory</option>
-                    <option value="Consultant">Consultant</option>
-                    <option value="Contract">Contract</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Tags (comma separated)</label>
-                  <input
-                    required
-                    type="text"
-                    value={tagInput}
-                    onChange={(event) => setTagInput(event.target.value)}
-                    className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
-                  />
-                </div>
-              </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Engagement Type *</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Full-time, Advisory, etc."
+                        value={currentJob.type || ''}
+                        onChange={(event) => setCurrentJob({ ...currentJob, type: event.target.value })}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Location</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Mumbai, India · Hybrid"
+                        value={currentJob.location || ''}
+                        onChange={(event) => setCurrentJob({ ...currentJob, location: event.target.value })}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Tags (comma separated) *</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Credit & Risk, Underwriting"
+                        value={tagInput}
+                        onChange={(event) => setTagInput(event.target.value)}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">Description</label>
-                <textarea
-                  required
-                  rows={5}
-                  value={currentJob.description || ''}
-                  onChange={(event) => setCurrentJob({ ...currentJob, description: event.target.value })}
-                  className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-3 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
-                />
-              </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">
+                      Card Version Blurb (Short summary shown on careers card)
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="e.g. Build the credit engine of a new-generation, AI-native NBFC, from the first policy to the first disbursement."
+                      value={currentJob.cardBlurb || ''}
+                      onChange={(event) => setCurrentJob({ ...currentJob, cardBlurb: event.target.value })}
+                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                    />
+                  </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(false)}
-                  className="rounded-full border border-[#0f1b3d]/12 bg-white px-5 py-2.5 text-sm font-bold text-[#0f1b3d] transition-colors hover:bg-[#F0F5FF]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={formLoading}
-                  className="rounded-full bg-[#0f1b3d] px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-[#0f1b3d]/90 disabled:opacity-70"
-                >
-                  {formLoading ? 'Saving...' : 'Save Job'}
-                </button>
-              </div>
-            </form>
+                  <div>
+                    <label className="mb-1 block text-xs font-bold uppercase text-[#0f1b3d]/70">
+                      Full Job Description Link (Optional URL to PDF, Google Doc, or Notion)
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://..."
+                      value={currentJob.jdUrl || ''}
+                      onChange={(event) => setCurrentJob({ ...currentJob, jdUrl: event.target.value })}
+                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                    />
+                  </div>
+
+                  <div>
+                    <div className="mb-1 flex items-center justify-between">
+                      <label className="block text-xs font-bold uppercase text-[#0f1b3d]/70">
+                        Page Version / Detailed Description (Rich Text Editor) *
+                      </label>
+                      <span className="text-[11px] text-[#0f1b3d]/50">Rich text toolbar + HTML toggle</span>
+                    </div>
+                    <RichTextEditor
+                      value={currentJob.description || ''}
+                      onChange={(html) => setCurrentJob({ ...currentJob, description: html })}
+                      placeholder="Write the full role description, what the candidate will build, requirements, and contact details..."
+                    />
+                  </div>
+                </form>
+              ) : (
+                <div className="space-y-6">
+                  {/* Card Preview */}
+                  <div>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D4A437]">Card Version Preview</p>
+                    <div className="rounded-2xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/40 p-5">
+                      <div className="flex items-baseline justify-between gap-4">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-xs font-bold text-[#D4A437]">{currentJob.id || 'NEW'}</span>
+                          <h3 className="text-base font-bold text-[#0f1b3d]">{currentJob.title || 'Untitled Role'}</h3>
+                        </div>
+                        <span className="rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 text-xs font-bold text-[#D4A437]">
+                          {currentJob.type || 'Full-time'}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-[#0f1b3d]/75">
+                        {currentJob.cardBlurb || currentJob.description?.replace(/<[^>]+>/g, '') || 'No card blurb provided.'}
+                      </p>
+                      <div className="mt-3 flex flex-wrap gap-1.5">
+                        {tagInput.split(',').map((t) => t.trim()).filter(Boolean).map((tag) => (
+                          <span key={tag} className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-[#0f1b3d]/60 border border-[#0f1b3d]/10">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Page Description Preview */}
+                  <div>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D4A437]">Page Version / Detailed View Preview</p>
+                    <div className="rounded-2xl border border-[#0f1b3d]/10 bg-white p-6 shadow-sm">
+                      <h2 className="text-xl font-bold text-[#0f1b3d] mb-1">{currentJob.title || 'Untitled Role'}</h2>
+                      <div className="flex items-center gap-3 text-xs text-[#0f1b3d]/60 mb-4">
+                        <span>{currentJob.category}</span>
+                        <span>·</span>
+                        <span>{currentJob.type}</span>
+                        {currentJob.location && (
+                          <>
+                            <span>·</span>
+                            <span>{currentJob.location}</span>
+                          </>
+                        )}
+                      </div>
+                      <div
+                        className="prose prose-sm max-w-none text-sm text-[#0f1b3d]/80 leading-relaxed space-y-3"
+                        dangerouslySetInnerHTML={{ __html: currentJob.description || '<p>No description entered yet.</p>' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-end gap-3 border-t border-[#0f1b3d]/10 bg-[#F8FAFF] px-6 py-4">
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="rounded-full border border-[#0f1b3d]/12 bg-white px-5 py-2 text-sm font-bold text-[#0f1b3d] transition-colors hover:bg-[#F0F5FF]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="job-edit-form"
+                disabled={formLoading}
+                className="rounded-full bg-[#0f1b3d] px-6 py-2 text-sm font-bold text-white transition-all hover:bg-[#0f1b3d]/90 disabled:opacity-70"
+              >
+                {formLoading ? 'Saving...' : 'Save Job Posting'}
+              </button>
+            </div>
           </div>
         </div>
       )}

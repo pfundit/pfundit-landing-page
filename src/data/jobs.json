@@ -1,98 +1,34 @@
 [
   {
     "id": "01",
-    "title": "Chief Risk Officer",
-    "type": "Advisory",
+    "title": "Head of Credit / Credit Manager",
+    "type": "Full-time",
     "category": "Leadership",
+    "location": "Mumbai, India",
     "tags": [
-      "Credit Risk",
-      "NBFC Regulation",
-      "RBI Compliance"
+      "Credit & Risk",
+      "Underwriting",
+      "NBFC Policy"
     ],
-    "description": "Shape the risk architecture of India's first AI-native NBFC. Define credit frameworks, oversee AI underwriting guardrails, and build RBI-compliant risk infrastructure from the ground up."
+    "cardBlurb": "Build the credit engine of a new-generation, AI-native NBFC, from the first policy to the first disbursement.",
+    "description": "<p>Pfundit is building a technology-first NBFC, and we’re looking for our first senior credit leader. You will write the credit policy, set the underwriting standards for Assigned Future Receivables and Loan Against Property, and work with our technology team to turn sound credit judgement into a data-driven decision engine. If you want to design credit the right way and see it operate at scale, this is your seat.</p><h3>What You Will Do</h3><ul><li>Write and establish foundational credit policy and risk framework from day zero.</li><li>Set rigorous underwriting standards for Assigned Future Receivables and Loan Against Property (LAP).</li><li>Collaborate with engineering and data teams to turn credit judgement into data-driven decision rules.</li><li>Oversee loan structuring, portfolio monitoring, and early warning indicators.</li></ul><h3>Application & Contact</h3><p>Apply directly using the application form on this page, or send your CV and portfolio to <a href=\"mailto:careers@pfundit.com?subject=Credit – Head / Manager\">careers@pfundit.com</a> with the subject line <strong>“Credit – Head / Manager”</strong>.</p>",
+    "jdUrl": "https://docs.google.com/document/d/1fyMCsSXRA0HCKn2K1n4rFs2ryU6UOMFR/edit?usp=drive_link",
+    "updatedAt": "2026-09-22T16:35:15.942Z"
   },
   {
     "id": "02",
-    "title": "Chief Compliance Officer",
-    "type": "Advisory",
+    "title": "Head – Business Development, Sales & Partnerships",
+    "type": "Full-time",
     "category": "Leadership",
+    "location": "Mumbai, India",
     "tags": [
-      "RBI Frameworks",
-      "KYC / AML",
-      "Regulatory Affairs"
+      "Growth & Distribution",
+      "Sales & Partnerships",
+      "Channel Strategy"
     ],
-    "description": "Lead compliance design ahead of RBI licensing. Own KYC, AML/CFT, Fair Practices Code and ensure regulatory readiness across India and Singapore operations."
-  },
-  {
-    "id": "03",
-    "title": "Chief Financial Officer",
-    "type": "Advisory",
-    "category": "Leadership",
-    "tags": [
-      "NBFC Finance",
-      "Capital Planning",
-      "Investor Relations"
-    ],
-    "description": "Build the financial architecture, treasury strategy and investor reporting framework for a greenfield NBFC. Partner directly with the founding board on capital structure."
-  },
-  {
-    "id": "04",
-    "title": "Chief Technology Officer",
-    "type": "Full-Time",
-    "category": "Technology",
-    "tags": [
-      "AI/ML",
-      "Fintech Infrastructure",
-      "Credit Systems"
-    ],
-    "description": "Architect the AI-native lending stack — credit decisioning engine, data pipelines, API infrastructure. Greenfield opportunity to build with no legacy constraints."
-  },
-  {
-    "id": "05",
-    "title": "Chief Credit Officer",
-    "type": "Advisory",
-    "category": "Leadership",
-    "tags": [
-      "Credit Policy",
-      "Underwriting",
-      "Portfolio Management"
-    ],
-    "description": "Define credit policy for a new asset class in Real Estate, AI infrastructure and clean-tech supply chains. Partner with AI teams to build human-in-the-loop credit gates."
-  },
-  {
-    "id": "06",
-    "title": "Chief Operating Officer",
-    "type": "Advisory",
-    "category": "Leadership",
-    "tags": [
-      "Operations",
-      "Hub & Spoke",
-      "Process Design"
-    ],
-    "description": "Design and operationalize the Hub & Spoke model across India. Own everything from loan origination workflows to collections infrastructure and partner integrations."
-  },
-  {
-    "id": "07",
-    "title": "Head of Product",
-    "type": "Consultant",
-    "category": "Technology",
-    "tags": [
-      "Lending Product",
-      "API-first",
-      "Roadmap"
-    ],
-    "description": "Define and execute the product roadmap for an API-first lending platform. Own borrower UX, partner integration surfaces and the AI decisioning product."
-  },
-  {
-    "id": "08",
-    "title": "Head of Business Development & Partnerships",
-    "type": "Consultant",
-    "category": "Business",
-    "tags": [
-      "Partnerships",
-      "Channel Distribution",
-      "Co-lending"
-    ],
-    "description": "Build the institutional pipeline — co-lending arrangements, originator partnerships and capital relationships across India and Southeast Asia."
+    "cardBlurb": "Build the growth engine of a new-generation, AI-native NBFC: its channels, its partners and its market.",
+    "description": "<p>Pfundit is building a technology-first NBFC, and we’re looking for the leader who will take it to market. You will design our distribution from scratch, building channel and partner networks for Loan Against Property, originating Assigned Future Receivables programmes, and creating digital partnerships that put our products where customers already are. Growth here is built on trust, compliance and portfolio quality. If you have built distribution for a lender before, and want to build it again the right way, this is your seat.</p><h3>What You Will Do</h3><ul><li>Design and scale commercial distribution and origination channels across India.</li><li>Build channel partner networks and sourcing ecosystems for Loan Against Property.</li><li>Originate bespoke Assigned Future Receivables lending programmes for high-growth enterprises.</li><li>Create digital partnerships that embed Pfundit credit solutions directly into enterprise workflows.</li></ul><h3>Application &amp; Contact</h3><p>Apply directly using the application form on this page, or send your CV and portfolio to <a href=\"mailto:careers@pfundit.com?subject=Business%20Development%2C%20Sales%20%26%20Partnerships%20%E2%80%93%20Head\">careers@pfundit.com</a> with the subject line <strong>“Business Development, Sales &amp; Partnerships – Head”</strong>.</p>",
+    "jdUrl": "https://docs.google.com/document/d/1f2Wmi6PWfIPBeIxRGCGAvQlR2l6X_d8o/edit?usp=drive_link&ouid=115327265850518555590&rtpof=true&sd=true",
+    "updatedAt": "2026-09-22T16:34:34.746Z"
   }
 ]

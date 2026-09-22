@@ -16,9 +16,9 @@ interface PremiumButtonProps extends MotionButtonProps {
 }
 
 const sizeMap: Record<Size, string> = {
-  sm: 'px-4 py-2 text-[0.7rem]',
-  md: 'px-6 py-3 text-xs',
-  lg: 'px-8 py-4 text-xs',
+  sm: 'px-4 py-2 text-xs',
+  md: 'px-6 py-3 text-xs sm:text-sm',
+  lg: 'px-8 py-4 text-sm',
 };
 
 export const PremiumButton = forwardRef<HTMLButtonElement, PremiumButtonProps>(function PremiumButton(

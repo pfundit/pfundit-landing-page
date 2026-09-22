@@ -8,7 +8,7 @@ export function getOrganizationSchema() {
     name: 'Pfundit',
     legalName: 'Pfundit Pte. Ltd.',
     url: SITE_URL,
-    logo: `${SITE_URL}/file.svg`,
+    logo: `${SITE_URL}/logo-main.svg`,
     description:
       'Pfundit is a Singapore holding company building a regulated, technology-enabled lending platform for Asia — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
     foundingDate: '2025',
@@ -98,7 +98,7 @@ export function getJobPostingsSchema(
     type: string;
     category: string;
     tags: string[];
-    description: string;
+    description?: string;
   }>
 ) {
   return {
@@ -106,10 +106,11 @@ export function getJobPostingsSchema(
     '@type': 'ItemList',
     name: 'Open Careers and Founding Opportunities at Pfundit',
     itemListElement: jobs.map((job, index) => {
+      const lowerType = (job.type || '').toLowerCase();
       let employmentType = 'OTHER';
-      if (job.type === 'Full-Time') employmentType = 'FULL_TIME';
-      else if (job.type === 'Consultant') employmentType = 'CONTRACTOR';
-      else if (job.type === 'Advisory') employmentType = 'PART_TIME';
+      if (lowerType.includes('full')) employmentType = 'FULL_TIME';
+      else if (lowerType.includes('consult') || lowerType.includes('contract')) employmentType = 'CONTRACTOR';
+      else if (lowerType.includes('advisor') || lowerType.includes('part')) employmentType = 'PART_TIME';
 
       return {
         '@type': 'ListItem',
@@ -118,7 +119,7 @@ export function getJobPostingsSchema(
           '@type': 'JobPosting',
           '@id': `${SITE_URL}/hiring/#job-${job.id}`,
           title: job.title,
-          description: job.description,
+          description: job.description?.replace(/<[^>]+>/g, ' ').slice(0, 500) || '',
           datePosted: '2026-01-01',
           employmentType,
           hiringOrganization: {

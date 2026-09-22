@@ -7,37 +7,39 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 const pillars = [
   {
     id: '01',
-    headline: 'Institutional structure from day one',
+    headline: 'Corporate structure',
     points: [
-      'Singapore HoldCo (Pte. Ltd.) — ACRA registered (UEN: 202544131H, 2025)',
-      'Board of Directors with independent oversight (in formation)',
-      'Single-purpose corporate structure — no legacy entities or prior business history',
+      'Singapore HoldCo, ACRA registered · UEN 202544131H',
+      'Pfundit Capital Private Limited incorporated in India',
+      'Board constituted, independent oversight',
+      'Single-purpose entity, no legacy business',
     ],
   },
   {
     id: '02',
-    headline: 'Risk & Compliance',
+    headline: 'Risk & compliance',
     points: [
-      'Regulatory compliant AI architecture as a founding constraint',
-      'Mandatory human-in-the-loop at every decision gate',
-      'Full explainability and audit trail on credit decisions',
+      'RBI NBFC-ND-ICC at pre-application stage',
+      'No lending commences in India until registration is granted',
+      'Mandatory human sign-off at every decision gate',
+      'Model validation, drift monitoring, override tracking',
     ],
   },
   {
     id: '03',
-    headline: 'Data, Security & Audit',
+    headline: 'Data, security & audit',
     points: [
       'API-first architecture with controlled data access',
       'Asset-level monitoring from the first loan',
-      'Transparent, institutional-grade reporting',
-      'Clean capital architecture from day one',
+      'Full explainability and audit trail per decision',
+      'Institutional-grade reporting, clean capital structure',
     ],
   },
 ];
 
 const timeline = [
   { year: '2025', label: 'Singapore HoldCo incorporated (ACRA)' },
-  { year: '2026', label: 'India subsidiary incorporated & Board constituted Pfundit Capital Private Limited established in India.' },
+  { year: '2026', label: 'Pfundit Capital Private Limited has been incorporated in India, and its board has been constituted.' },
   { year: '2026', label: 'RBI NBFC-ND-ICC application (Pre-application stage)' },
   { year: 'Target: 2026–27', label: 'Regulatory approvals & first-loan operations' },
 ];
@@ -123,7 +125,7 @@ export function Governance() {
             Built on <span className="text-[#C9A84C]">Regulated Rails</span>
           </h2>
           <p className="typo-body text-navy/60">
-            A Singapore-incorporated holding company operating to institutional standards from day one — designed for the scrutiny of regulators, investors and partners.
+            Institutional standards from day one — designed for the scrutiny of regulators, investors and partners.
           </p>
         </header>
 
@@ -199,6 +201,16 @@ export function Governance() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="mt-14 pt-8 border-t border-[rgba(15,27,61,0.08)] text-xs sm:text-[12.5px] leading-relaxed text-navy/60 space-y-1">
+          <p>
+            Nothing on this site constitutes an offer or solicitation to buy or sell any security, an offer of credit, or investment, legal, tax or financial advice.
+          </p>
+          <p>
+            Market sizing and cost benchmarks are management estimates; sources are set out in the investor pack.
+          </p>
         </div>
 
       </div>

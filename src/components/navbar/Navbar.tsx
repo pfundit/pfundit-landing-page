@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { TalkToUsButton } from '@/components/button';
 
@@ -227,7 +228,7 @@ export function Navbar() {
                   <span className="absolute inset-[-200%] animate-border-beam bg-border-beam" />
 
                   {/* Foreground inner content */}
-                  <span className="relative z-10 rounded-full bg-navy px-2.5 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-gold">
+                  <span className="relative z-10 rounded-full bg-navy px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-gold">
                     Hiring
                   </span>
                 </span>
@@ -267,16 +268,16 @@ export function Navbar() {
 
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className={`group flex items-center gap-2 text-[clamp(1.55rem,5vw,1.95rem)] font-bold tracking-[-0.05em] leading-none transition-colors duration-300 ${showDarkNav ? 'text-navy' : 'text-white'}`}
+            className="flex items-center"
+            aria-label="Pfundit Home"
           >
-            <span className="relative inline-block overflow-hidden">
-              <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-full">Pfundit</span>
-              <span className="absolute left-0 top-full block text-gold transition-transform duration-500 ease-out group-hover:-translate-y-full">Pfundit</span>
-            </span>
-            <motion.span
-              animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,164,55,0.8)]"
+            <Image
+              src="/logo-main.svg"
+              alt="Pfundit"
+              width={2378}
+              height={699}
+              className="h-6 sm:h-[26px] w-auto object-contain"
+              priority
             />
           </motion.button>
 
@@ -332,31 +333,31 @@ export function Navbar() {
                         >
                           <div className="w-[20.5rem] overflow-hidden rounded-[1.25rem] border border-[rgba(15,27,61,0.08)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,247,243,0.98))] p-2.5 shadow-[0_20px_44px_rgba(15,27,61,0.12)]">
                             <div className="grid gap-2">
-                            {companyItems.map((item) => (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => scrollToSection(item.id)}
-                                className="group flex w-full items-center justify-between gap-4 rounded-[1rem] border border-[rgba(15,27,61,0.08)] bg-white px-4 py-3.5 text-left shadow-[0_6px_18px_rgba(15,27,61,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(212,164,55,0.28)] hover:shadow-[0_12px_28px_rgba(15,27,61,0.09)]"
-                              >
-                                <span className="min-w-0">
-                                  <span className="block text-[0.96rem] font-semibold tracking-[-0.02em] text-navy transition-colors duration-300 group-hover:text-gold">
-                                    {item.title}
-                                  </span>
-                                  <span className="mt-0.5 block text-[0.78rem] leading-[1.35] text-navy/52">
-                                    {item.description}
-                                  </span>
-                                </span>
-                                <svg
-                                  className="h-4 w-4 shrink-0 text-gold transition-transform duration-300 group-hover:translate-x-0.5"
-                                  viewBox="0 0 20 20"
-                                  fill="none"
-                                  aria-hidden="true"
+                              {companyItems.map((item) => (
+                                <button
+                                  key={item.id}
+                                  type="button"
+                                  onClick={() => scrollToSection(item.id)}
+                                  className="group flex w-full items-center justify-between gap-4 rounded-[1rem] border border-[rgba(15,27,61,0.08)] bg-white px-4 py-3.5 text-left shadow-[0_6px_18px_rgba(15,27,61,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(212,164,55,0.28)] hover:shadow-[0_12px_28px_rgba(15,27,61,0.09)]"
                                 >
-                                  <path d="M7 4l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </button>
-                            ))}
+                                  <span className="min-w-0">
+                                    <span className="block text-[0.96rem] font-semibold tracking-[-0.02em] text-navy transition-colors duration-300 group-hover:text-gold">
+                                      {item.title}
+                                    </span>
+                                    <span className="mt-0.5 block text-[0.82rem] leading-[1.35] text-navy/60">
+                                      {item.description}
+                                    </span>
+                                  </span>
+                                  <svg
+                                    className="h-4 w-4 shrink-0 text-gold transition-transform duration-300 group-hover:translate-x-0.5"
+                                    viewBox="0 0 20 20"
+                                    fill="none"
+                                    aria-hidden="true"
+                                  >
+                                    <path d="M7 4l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>
+                                </button>
+                              ))}
                             </div>
                           </div>
                         </motion.div>

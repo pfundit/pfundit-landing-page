@@ -222,7 +222,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
         <form onSubmit={handleSubmit} className="grid gap-4 rounded-none bg-transparent p-0">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70">Name</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Name</label>
               <input
                 ref={nameRef}
                 required
@@ -235,7 +235,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70">Email</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Email</label>
               <input
                 ref={emailRef}
                 required
@@ -250,7 +250,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70">Message</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Message</label>
             <textarea
               ref={messageRef}
               required

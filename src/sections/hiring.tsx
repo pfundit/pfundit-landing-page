@@ -16,6 +16,9 @@ type Role = {
   category: Category;
   tags: string[];
   description?: string;
+  cardBlurb?: string;
+  location?: string;
+  jdUrl?: string;
 };
 
 /* ─────────────────── helpers ─────────────────── */
@@ -38,6 +41,7 @@ export function Hiring() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
+  const [detailedRole, setDetailedRole] = useState<Role | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   useEffect(() => {
@@ -130,11 +134,6 @@ export function Hiring() {
         { opacity: 1, y: 0, duration: 0.65, stagger: 0.08, ease: 'power2.out', delay: 0.25,
           scrollTrigger: { trigger: '[data-hr="list"]', start: 'top 82%' } }
       );
-      runFromTo('[data-hr="cta"]',
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out',
-          scrollTrigger: { trigger: '[data-hr="cta"]', start: 'top 90%' } }
-      );
 
       /* hover: role row underline reveal */
       const rows = gsap.utils.toArray<HTMLElement>('[data-hr="role-row"]');
@@ -207,9 +206,9 @@ export function Hiring() {
                 {cat !== 'All Roles' && (
                   <span style={{
                     marginLeft: 6,
-                    fontSize: '0.65rem',
+                    fontSize: '0.75rem',
                     fontWeight: 700,
-                    color: isActive ? 'rgba(255,255,255,0.5)' : 'rgba(15,27,61,0.35)',
+                    color: isActive ? 'rgba(255,255,255,0.6)' : 'rgba(15,27,61,0.45)',
                   }}>
                     {roles.filter(r => r.category === cat).length}
                   </span>
@@ -225,7 +224,7 @@ export function Hiring() {
                 borderRadius: 999,
                 background: 'rgba(212,164,55,0.1)',
                 border: '1px solid rgba(212,164,55,0.25)',
-                fontSize: '0.72rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
                 color: '#D4A437',
                 letterSpacing: '0.06em',
@@ -239,26 +238,6 @@ export function Hiring() {
 
         {/* ── role list ── */}
         <div data-hr="list">
-
-          {/* list header */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr auto',
-            gap: '1rem',
-            padding: '0.6rem 1.25rem',
-            borderBottom: '1px solid rgba(15,27,61,0.1)',
-            marginBottom: '0.25rem',
-          }} className="hidden lg:grid">
-            {['Role', 'Category', 'Engagement', ''].map((h) => (
-              <span key={h} style={{
-                fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em',
-                textTransform: 'uppercase', color: 'rgba(15,27,61,0.35)',
-              }}>
-                {h}
-              </span>
-            ))}
-          </div>
-
           {/* rows */}
           <div ref={listRef} style={{ display: 'flex', flexDirection: 'column' }}>
             {isLoadingRoles ? (
@@ -270,33 +249,16 @@ export function Hiring() {
                 No roles found in this category.
               </div>
             ) : filtered.map((role) => (
-              <a
+              <div
                 key={role.id}
-                href="#contact"
                 data-hr="role-row"
-                className="group grid grid-cols-1 gap-5 rounded-[1rem] border border-transparent bg-white/40 md:bg-transparent lg:grid-cols-[2fr_1fr_1fr_auto]"
-                style={{
-                  alignItems: 'start',
-                  padding: 'clamp(1rem, 2.5vw, 1.35rem) clamp(1rem, 2.5vw, 1.25rem)',
-                  borderBottom: '1px solid rgba(15,27,61,0.07)',
-                  textDecoration: 'none',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 24px rgba(15,27,61,0.04)',
-                  transition: 'background 0.2s',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.65)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = 'transparent';
-                }}
+                className="group relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/70 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:border-[#D4A437]/40 hover:shadow-[0_12px_36px_rgba(15,27,61,0.06)] mb-3.5"
               >
                 {/* animated bottom line on hover */}
                 <div
                   data-hr="row-line"
                   style={{
-                    position: 'absolute', bottom: 0, left: '1.25rem', right: '1.25rem',
+                    position: 'absolute', bottom: 0, left: '1.5rem', right: '1.5rem',
                     height: 1,
                     background: 'linear-gradient(to right, #D4A437, rgba(212,164,55,0.1))',
                     transform: 'scaleX(0)',
@@ -304,229 +266,70 @@ export function Hiring() {
                   }}
                 />
 
-                {/* role title + tags — full width on mobile */}
-                <div className="lg:col-span-1">
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6 }}>
-                    <span style={{
-                      fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em',
-                      color: 'rgba(212,164,55,0.7)', minWidth: 24,
-                    }}>
-                      {role.id}
-                    </span>
-                    <h3 style={{
-                      fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)',
-                      fontWeight: 700,
-                      letterSpacing: '-0.025em',
-                      color: '#0f1b3d',
-                      lineHeight: 1.2,
-                    }}>
-                      {role.title}
-                    </h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2 lg:pl-8">
-                    {role.tags.map((tag) => (
-                      <span key={tag} className="text-[0.625rem] font-semibold tracking-[0.04em] text-[rgba(15,27,61,0.45)] px-2 py-0.5 rounded-full bg-[rgba(15,27,61,0.05)] border border-[rgba(15,27,61,0.08)]">
-                        {tag}
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
+                  <div className="min-w-0">
+                    {/* Header: ID + Title + Badges */}
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                      <span className="font-mono text-xs font-bold tracking-widest text-[#D4A437]">
+                        {role.id}
                       </span>
-                    ))}
+                      <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#0f1b3d] leading-snug">
+                        {role.title}
+                      </h3>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 text-[0.7rem] font-bold text-[#D4A437]">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+                        {role.type}
+                      </span>
+                      <span className="rounded-full bg-[#0f1b3d]/5 px-2.5 py-0.5 text-[0.7rem] font-semibold text-[#0f1b3d]/65">
+                        {role.category}
+                      </span>
+                      {role.location && (
+                        <span className="text-[0.72rem] font-medium text-[#0f1b3d]/55 flex items-center gap-1">
+                          📍 {role.location}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Card Blurb */}
+                    <p className="text-xs sm:text-[13.5px] leading-relaxed text-[#0f1b3d]/70 max-w-2xl mt-1">
+                      {role.cardBlurb || role.description?.replace(/<[^>]+>/g, '').slice(0, 160) + '...'}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {role.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-[#0f1b3d]/10 bg-[#F0F5FF]/80 px-2.5 py-0.5 text-[0.7rem] font-medium text-[#0f1b3d]/65"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-2 lg:hidden">
-                    <span style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 6,
-                      fontSize: '0.7rem',
-                      fontWeight: 600,
-                      color: 'rgba(15,27,61,0.55)',
-                      padding: '4px 10px',
-                      borderRadius: 999,
-                      background: 'rgba(212,164,55,0.07)',
-                      border: '1px solid rgba(212,164,55,0.2)',
-                    }}>
-                      <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#D4A437', flexShrink: 0 }} />
-                      {role.type}
-                    </span>
-                    <span style={{
-                      fontSize: '0.72rem',
-                      fontWeight: 600,
-                      color: 'rgba(15,27,61,0.5)',
-                    }}>
-                      {role.category}
-                    </span>
+                  {/* Actions */}
+                  <div className="mt-4 flex flex-wrap items-center gap-2.5 lg:mt-0 lg:flex-nowrap shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setDetailedRole(role)}
+                      className="inline-flex items-center justify-center rounded-full border border-[#0f1b3d]/15 bg-white px-4 py-2 text-xs font-bold tracking-wider text-[#0f1b3d] transition-all hover:bg-[#F0F5FF] hover:border-[#0f1b3d]/30"
+                    >
+                      View Role Details
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleApplyClick(role.title)}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#0f1b3d] px-5 py-2 text-xs font-bold tracking-wider text-white transition-all hover:bg-[#0f1b3d]/90 shadow-sm"
+                    >
+                      Apply Now
+                      <ArrowIcon />
+                    </button>
                   </div>
-
-                  <button
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleApplyClick(role.title);
-                    }}
-                    className="mt-4 inline-flex lg:hidden w-full justify-center"
-                    style={{
-                      alignItems: 'center',
-                      padding: '0.6rem 1rem',
-                      borderRadius: 999,
-                      fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.04em',
-                      color: '#0f1b3d',
-                      textDecoration: 'none',
-                      border: '1px solid rgba(15,27,61,0.18)',
-                      background: 'rgba(255,255,255,0.75)',
-                      backdropFilter: 'blur(6px)',
-                      transition: 'all 0.2s ease',
-                      whiteSpace: 'nowrap',
-                      width: '100%'
-                    }}
-                  >
-                    Apply
-                  </button>
                 </div>
-
-                {/* category */}
-                <div className="hidden lg:block">
-                  <span style={{
-                    fontSize: '0.72rem', fontWeight: 600,
-                    color: 'rgba(15,27,61,0.5)',
-                  }}>
-                    {role.category}
-                  </span>
-                </div>
-
-                {/* engagement type */}
-                <div className="hidden lg:block">
-                  <span style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    fontSize: '0.7rem', fontWeight: 600,
-                    color: 'rgba(15,27,61,0.55)',
-                    padding: '4px 10px',
-                    borderRadius: 999,
-                    background: 'rgba(212,164,55,0.07)',
-                    border: '1px solid rgba(212,164,55,0.2)',
-                  }}>
-                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#D4A437', flexShrink: 0 }} />
-                    {role.type}
-                  </span>
-                </div>
-
-                {/* Apply button */}
-                <div className="hidden lg:flex" style={{ flexShrink: 0 }}>
-                  <button
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleApplyClick(role.title);
-                    }}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center',
-                      padding: '0.45rem 1.1rem',
-                      borderRadius: 999,
-                      fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.04em',
-                      color: '#0f1b3d',
-                      textDecoration: 'none',
-                      border: '1px solid rgba(15,27,61,0.18)',
-                      background: 'rgba(255,255,255,0.75)',
-                      backdropFilter: 'blur(6px)',
-                      transition: 'all 0.2s ease',
-                      whiteSpace: 'nowrap',
-                    }}
-                    onMouseEnter={e => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = '#0f1b3d';
-                      el.style.color = '#ffffff';
-                      el.style.borderColor = '#0f1b3d';
-                    }}
-                    onMouseLeave={e => {
-                      const el = e.currentTarget as HTMLElement;
-                      el.style.background = 'rgba(255,255,255,0.75)';
-                      el.style.color = '#0f1b3d';
-                      el.style.borderColor = 'rgba(15,27,61,0.18)';
-                    }}
-                  >
-                    Apply
-                  </button>
-                </div>
-              </a>
+              </div>
             ))}
           </div>
-        </div>
-
-        {/* ── CTA banner ── */}
-        <div
-          data-hr="cta"
-          style={{
-            marginTop: '3.5rem',
-            padding: '2.5rem 3rem',
-            borderRadius: '1.5rem',
-            background: 'linear-gradient(150deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 55%, rgba(212,164,55,0.06) 100%)',
-            border: '1px solid rgba(255,255,255,0.9)',
-            backdropFilter: 'blur(12px)',
-            boxShadow: '0 22px 60px rgba(15,27,61,0.055), inset 0 1px 0 rgba(255,255,255,0.95)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '2rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div style={{ flex: 1, minWidth: 240 }}>
-            <p style={{
-              fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.2em',
-              textTransform: 'uppercase', color: '#D4A437', marginBottom: 8,
-            }}>
-              Open Application
-            </p>
-            <h3 style={{
-              fontSize: 'clamp(1.1rem, 1.8vw, 1.4rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.04em',
-              color: '#0f1b3d',
-              lineHeight: 1.2,
-              marginBottom: 10,
-            }}>
-              Role not listed? Reach out anyway.
-            </h3>
-            <p style={{
-              fontSize: '0.84rem', color: 'rgba(15,27,61,0.62)', lineHeight: 1.65, maxWidth: 480,
-            }}>
-              Deep expertise in Indian fintech, NBFC regulation, credit, AI infrastructure or
-              regulated financial services — we want to hear from you.
-            </p>
-          </div>
-
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              handleApplyClick('Open Application');
-            }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 10,
-              padding: '0.875rem 2rem',
-              borderRadius: 999,
-              background: '#0f1b3d',
-              color: '#ffffff',
-              fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.06em',
-              textDecoration: 'none',
-              boxShadow: '0 12px 32px rgba(15,27,61,0.18)',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.25s ease',
-              flexShrink: 0,
-              border: 'none',
-              cursor: 'pointer'
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 18px 40px rgba(15,27,61,0.22)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 32px rgba(15,27,61,0.18)';
-            }}
-          >
-            Send Open Application
-            <ArrowIcon />
-          </button>
         </div>
 
       </div>
@@ -557,18 +360,40 @@ export function Hiring() {
               </div>
 
               <div className="grid flex-1 min-h-0 gap-0 overflow-hidden lg:grid-cols-[minmax(18rem,0.9fr)_minmax(0,1.1fr)]">
-                <aside className="border-b border-[#0f1b3d]/10 bg-[#F0F5FF]/45 px-5 py-5 sm:px-6 sm:py-6 lg:border-b-0 lg:border-r lg:px-7 lg:py-7">
-                  <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D4A437]">Role Overview</p>
+                <aside className="border-b border-[#0f1b3d]/10 bg-[#F0F5FF]/45 px-5 py-5 sm:px-6 sm:py-6 lg:border-b-0 lg:border-r lg:px-7 lg:py-7 overflow-y-auto">
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4A437]">Role Overview</p>
                   <h4 className="mt-2 text-[1rem] font-bold tracking-tight text-[#0f1b3d] sm:text-[1.1rem]">What we are hiring for</h4>
 
-                  {roles.find(r => r.title === selectedRole)?.description && (
-                    <div className="mt-4 rounded-2xl border border-[#0f1b3d]/10 bg-white/85 p-4 shadow-[0_8px_24px_rgba(15,27,61,0.04)]">
-                      <h4 className="mb-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/65">Role Description</h4>
-                      <p className="text-[0.84rem] leading-relaxed text-[#0f1b3d]/80 whitespace-pre-wrap">
-                        {roles.find(r => r.title === selectedRole)?.description}
-                      </p>
-                    </div>
-                  )}
+                  {(() => {
+                    const current = roles.find((r) => r.title === selectedRole);
+                    if (!current) return null;
+                    return (
+                      <div className="mt-4 rounded-2xl border border-[#0f1b3d]/10 bg-white/90 p-4 sm:p-5 shadow-[0_8px_24px_rgba(15,27,61,0.04)]">
+                        {current.cardBlurb && (
+                          <p className="mb-3 text-xs font-semibold text-[#0f1b3d] border-b border-[#0f1b3d]/10 pb-2.5 leading-relaxed">
+                            {current.cardBlurb}
+                          </p>
+                        )}
+                        <h4 className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/70">Role Details</h4>
+                        <div
+                          className="prose prose-sm text-xs leading-relaxed text-[#0f1b3d]/80 space-y-2 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-headings:text-xs prose-headings:mt-3 prose-headings:mb-1 prose-ul:list-disc prose-ul:pl-4 prose-a:text-[#D4A437] prose-a:underline font-normal"
+                          dangerouslySetInnerHTML={{ __html: current.description || '' }}
+                        />
+                        {current.jdUrl && (
+                          <div className="mt-4 pt-3 border-t border-[#0f1b3d]/10">
+                            <a
+                              href={current.jdUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D4A437] underline hover:text-[#b49050]"
+                            >
+                              📄 View Full Job Description&rarr;
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </aside>
 
                 <div className="flex min-h-0 flex-col overflow-hidden">
@@ -590,28 +415,28 @@ export function Hiring() {
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70 sm:text-[0.7rem]">Full Name</label>
+                            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Full Name</label>
                             <input required type="text" name="Name" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="Jane Doe" />
                           </div>
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70 sm:text-[0.7rem]">Email</label>
+                            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Email</label>
                             <input required type="email" name="Email" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="jane@example.com" />
                           </div>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70 sm:text-[0.7rem]">LinkedIn Profile (Optional)</label>
+                            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">LinkedIn Profile (Optional)</label>
                             <input type="url" name="LinkedIn" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="https://linkedin.com/in/..." />
                           </div>
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70 sm:text-[0.7rem]">Resume Upload (Required)</label>
+                            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Resume Upload (Required)</label>
                             <input required type="file" name="Resume" accept=".pdf,.doc,.docx" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.9rem] text-[#0f1b3d] file:mr-4 file:rounded-full file:border-0 file:bg-[#0f1b3d] file:px-4 file:py-2 file:text-[0.78rem] file:font-bold file:text-white transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" />
                           </div>
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-[0.68rem] font-bold uppercase tracking-wider text-[#0f1b3d]/70 sm:text-[0.7rem]">Why Pfundit?</label>
+                          <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Why Pfundit?</label>
                           <textarea required name="Why Pfundit" rows={3} className="w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="Tell us why you are a great fit..." />
                         </div>
 
@@ -641,6 +466,119 @@ export function Hiring() {
                   )}
                 </div>
               </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ── Role Details Modal ── */}
+      {detailedRole && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#0f1b3d]/60 p-4 backdrop-blur-sm sm:p-6 md:p-8">
+          <div className="relative flex max-h-[90vh] w-full max-w-[50rem] flex-col overflow-hidden rounded-[1.75rem] bg-white shadow-2xl">
+            {/* Modal Header */}
+            <div className="shrink-0 border-b border-[#0f1b3d]/10 bg-[#F8FAFF] px-6 py-5 sm:px-8">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#D4A437] uppercase tracking-[0.2em] mb-1">
+                    <span>Role {detailedRole.id}</span>
+                    <span>·</span>
+                    <span>{detailedRole.category}</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#0f1b3d]">
+                    {detailedRole.title}
+                  </h3>
+                  <div className="mt-2.5 flex flex-wrap items-center gap-2.5 text-xs text-[#0f1b3d]/65 font-medium">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 font-bold text-[#D4A437]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+                      {detailedRole.type}
+                    </span>
+                    {detailedRole.location && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#0f1b3d]/5 px-2.5 py-0.5 text-[#0f1b3d]/70">
+                        📍 {detailedRole.location}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setDetailedRole(null)}
+                  className="rounded-full border border-[#0f1b3d]/10 bg-white p-2.5 text-[#0f1b3d]/60 transition-colors hover:bg-[#F0F5FF] hover:text-[#0f1b3d]"
+                  type="button"
+                  aria-label="Close role details"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
+              {detailedRole.cardBlurb && (
+                <div className="mb-6 rounded-2xl border border-[#D4A437]/20 bg-[#D4A437]/5 p-4 sm:p-5 text-sm font-semibold leading-relaxed text-[#0f1b3d]">
+                  {detailedRole.cardBlurb}
+                </div>
+              )}
+
+              {/* Rich Description */}
+              <div
+                className="prose prose-sm max-w-none text-[0.92rem] leading-relaxed text-[#0f1b3d]/85 space-y-3 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-h2:text-lg prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2 prose-ul:list-disc prose-ul:pl-5 prose-li:my-1.5 prose-a:text-[#D4A437] prose-a:font-semibold prose-a:underline hover:prose-a:text-[#b49050]"
+                dangerouslySetInnerHTML={{ __html: detailedRole.description || '' }}
+              />
+
+              {/* JD Document Link directly below description */}
+              {detailedRole.jdUrl && (
+                <div className="mt-4">
+                  <a
+                    href={detailedRole.jdUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#D4A437] hover:text-[#b49050] hover:underline transition-colors"
+                  >
+                    View Full Job Description Document &rarr;
+                  </a>
+                </div>
+              )}
+
+              {/* Tags moved to bottom */}
+              {detailedRole.tags && detailedRole.tags.length > 0 && (
+                <div className="mt-6 pt-4 pb-2 border-t border-[#0f1b3d]/10">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {detailedRole.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[#0f1b3d]/10 bg-[#F0F5FF] px-2.5 py-1 text-xs font-semibold text-[#0f1b3d]/70"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between border-t border-[#0f1b3d]/10 bg-[#F8FAFF] px-6 py-4 sm:px-8">
+              <button
+                type="button"
+                onClick={() => setDetailedRole(null)}
+                className="rounded-full border border-[#0f1b3d]/12 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#0f1b3d] transition-colors hover:bg-[#F0F5FF]"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const title = detailedRole.title;
+                  setDetailedRole(null);
+                  handleApplyClick(title);
+                }}
+                className="rounded-full bg-[#0f1b3d] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#0f1b3d]/90 shadow-md"
+              >
+                Apply for this Position &rarr;
+              </button>
+            </div>
           </div>
         </div>,
         document.body

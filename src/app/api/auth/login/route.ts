@@ -26,7 +26,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Admin auth environment is not configured on server' }, { status: 500 });
     }
 
-    const isValidUser = secureEqual(username, validUsername);
+    const inputUser = username.trim().toLowerCase();
+    const validUsernames = validUsername.split(',').map((u) => u.trim().toLowerCase());
+    const isValidUser = validUsernames.includes(inputUser) || secureEqual(username, validUsername);
     const isValidPassword = secureEqual(password, validPassword);
 
     if (isValidUser && isValidPassword) {

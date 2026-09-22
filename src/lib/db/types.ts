@@ -7,6 +7,9 @@ export type JobRecord = {
   category: JobCategory;
   tags: string[];
   description?: string;
+  cardBlurb?: string;
+  location?: string;
+  jdUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -36,4 +39,10 @@ export type ContactSubmissionRecord = {
   message: string;
   createdAt: string;
   status: 'new';
+};
+
+export type NotificationSettingsRecord = {
+  key: 'admin_notifications';
+  recipientEmails: string[];
+  updatedAt: string;
 };

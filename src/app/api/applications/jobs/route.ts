@@ -4,11 +4,11 @@ import path from 'path';
 import { getJobApplicationsCollection, getJobsCollection } from '@/lib/db/collections';
 import type { JobApplicationRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
-import { buildJobApplicationEmail, sendMail } from '@/lib/mail';
+import { uploadResumeToCloudinary } from '@/services/storage/cloudinary';
+import { sendJobApplicationNotificationEmail } from '@/services/mail/resend';
 
 export const runtime = 'nodejs';
 
-const resumeDirectory = path.join(process.cwd(), 'public', 'uploads', 'job-applications');
 const applicationsSeedPath = path.join(process.cwd(), 'src', 'data', 'job-applications.json');
 const allowedResumeExtensions = new Set(['pdf', 'doc', 'docx']);
 const maxResumeBytes = 10 * 1024 * 1024;
@@ -103,26 +103,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unsupported resume format' }, { status: 400 });
     }
 
-    const db = await (await import('@/lib/db/client')).getDatabase();
-    const { GridFSBucket } = await import('mongodb');
-    const bucket = new GridFSBucket(db, { bucketName: 'resumes' });
-
-    const uploadStream = bucket.openUploadStream(resume.name, {
-      metadata: {
-        contentType: resume.type || 'application/octet-stream',
-      },
-    });
-    
     const resumeBuffer = Buffer.from(await resume.arrayBuffer());
-    uploadStream.end(resumeBuffer);
+    
+    // 1. Upload resume directly to Cloudinary CDN
+    const cloudinaryUpload = await uploadResumeToCloudinary(resumeBuffer, resume.name);
 
-    await new Promise((resolve, reject) => {
-      uploadStream.on('finish', resolve);
-      uploadStream.on('error', reject);
-    });
-
-    const storedFileId = uploadStream.id;
-
+    // 2. Query matching job category / type
     const jobsCollection = await getJobsCollection();
     const matchedJob = await jobsCollection.findOne(
       { title: role },
@@ -131,6 +117,7 @@ export async function POST(request: Request) {
 
     const applicationId = createRecordId('jobapp');
 
+    // 3. Create persistent record with Cloudinary URL
     const newApplication: JobApplicationRecord = {
       role,
       category: matchedJob?.category,
@@ -139,7 +126,7 @@ export async function POST(request: Request) {
       email,
       linkedin,
       resumeName: resume.name,
-      resumeUrl: `/api/resumes/${storedFileId.toString()}`,
+      resumeUrl: cloudinaryUpload.secureUrl,
       whyPfundit,
       id: applicationId,
       createdAt: new Date().toISOString(),
@@ -149,19 +136,12 @@ export async function POST(request: Request) {
     const applicationsCollection = await getJobApplicationsCollection();
     await applicationsCollection.insertOne(newApplication);
 
-    const emailPayload = buildJobApplicationEmail(newApplication, {
-      filename: resume.name,
-      content: resumeBuffer,
-      contentType: resume.type || 'application/octet-stream',
-    });
-
-    await sendMail({
-      subject: emailPayload.subject,
-      text: emailPayload.text,
-      html: emailPayload.html,
-      replyTo: newApplication.email,
-      attachments: emailPayload.attachment ? [emailPayload.attachment] : undefined,
-    });
+    // 4. Send plain-text notification email to configured admin recipients via Resend
+    try {
+      await sendJobApplicationNotificationEmail(newApplication, cloudinaryUpload.secureUrl);
+    } catch (emailErr) {
+      console.error('Non-blocking: Failed to send application notification email:', emailErr);
+    }
 
     return NextResponse.json(newApplication, { status: 201 });
   } catch (error) {

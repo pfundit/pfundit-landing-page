@@ -11,23 +11,23 @@ const leaders = [
     id: '01',
     name: 'Sanath Shetty',
     role: 'Founder & Director',
-    focus: 'Consumer Credit Risk & Payments · 25+ Years',
+    focus: ['Consumer Credit Risk & Payments', '25+ Years'],
     image: '/founders/sanath.png',
-    bio: "Sanath is the credit and operational architect of Pfundit. Twenty-five years across HSBC India, Singapore and J.P. Morgan Singapore — running retail lending portfolios, building collections frameworks and leading corporate payments origination across Asia-Pacific — give him direct, hands-on command of everything Pfundit's lending model requires.",
+    bio: "Sanath is the credit and operational architect of Pfundit. Twenty-five years across HSBC India, Singapore and J.P. Morgan Singapore — running retail lending portfolios, building collections frameworks and leading corporate payments origination across Asia-Pacific - gives him direct, hands-on command of everything Pfundit's lending model requires.",
   },
   {
     id: '02',
     name: 'Atin Bhutani',
     role: 'Co-Founder & Director',
-    focus: 'Corporate Banker · Entrepreneur · Governance Expert',
-    image: '/founders/atin1.webp',
+    focus: ['Corporate Banker · Entrepreneur', 'Governance Expert'],
+    image: '/founders/atin.webp',
     bio: "Atin brings the rare combination of institutional banker and proven entrepreneur. A decade at HSBC India and Singapore — culminating as Country Head of International Subsidiary Banking in Singapore — was followed by co-founding and scaling In.Corp Global to a private equity exit. At Pfundit he leads governance, capital strategy and investor relations.",
   },
   {
     id: '03',
     name: 'Madhujeet Chimni',
     role: 'Co-Founder & Director',
-    focus: 'Serial Entrepreneur · Institutional Capital · Technology',
+    focus: ['Serial Entrepreneur · Institutional Capital', 'Technology'],
     image: '/founders/madhujeet.webp',
     bio: "Madhujeet has built, scaled and exited companies across Asia, Europe and Latin America over two decades — from Stone Apple (acquired by Hitachi Consulting) to In.Corp Global (PE exit) to Blue Planet Environmental Solutions, backed by IFU and Novo Holdings. At Pfundit he leads capital strategy, board governance and the regional platform build.",
   },
@@ -267,7 +267,8 @@ export function Leadership() {
                   flexDirection: 'column',
                   alignItems: 'flex-start',
                   width: '100%',
-                  padding: '0 clamp(0.75rem, 3vw, 1.5rem)',
+                  height: '100%',
+                  padding: '0 clamp(0.75rem, 2.5vw, 1.5rem)',
                   position: 'relative',
                   zIndex: 1,
                 }}
@@ -293,9 +294,20 @@ export function Leadership() {
                 </p>
 
                 {/* focus */}
-                <p data-anim="inner" className="text-[clamp(0.75rem,0.9vw,0.85rem)] text-white/40 tracking-wide mt-auto" style={{ width: '100%' }}>
-                  {leader.focus}
-                </p>
+                <div
+                  data-anim="inner"
+                  className="mt-auto w-full pt-1"
+                >
+                  <div className="min-h-[2.8rem] flex flex-col justify-start">
+                    <p className="text-[clamp(0.82rem,0.95vw,0.9rem)] text-white/60 tracking-wide leading-snug">
+                      {leader.focus.map((line, idx) => (
+                        <span key={idx} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
