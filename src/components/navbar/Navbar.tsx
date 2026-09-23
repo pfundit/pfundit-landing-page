@@ -431,9 +431,10 @@ export function Navbar() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-[linear-gradient(165deg,rgba(250,250,247,0.98),rgba(245,247,252,0.97))] p-6 sm:p-8 lg:hidden"
             >
               <button
@@ -447,12 +448,9 @@ export function Navbar() {
               </button>
 
               <div className="flex flex-col items-center gap-10">
-                {navLinks.map((link, i) => (
-                  <motion.button
+                {navLinks.map((link) => (
+                  <button
                     key={link.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
                     onClick={() => {
                       if (link.href) {
                         router.push(link.href);
@@ -464,7 +462,7 @@ export function Navbar() {
                     className="text-[clamp(1.6rem,6vw,2.5rem)] font-bold tracking-tighter text-navy transition-colors hover:text-gold"
                   >
                     {link.label}
-                  </motion.button>
+                  </button>
                 ))}
                 <TalkToUsButton onClick={() => scrollToSection('contact')} />
               </div>

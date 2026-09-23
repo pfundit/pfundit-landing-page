@@ -97,41 +97,35 @@ export function Infrastructure() {
 
       <div className="layout-shell editorial-container relative z-10">
         {/* Header + illustration side by side */}
-        <div className="header-group flex items-start justify-between gap-8">
+        <div className="flex items-start justify-between gap-8 mb-6 sm:mb-8 lg:mb-10">
           <div className="max-w-[40rem]">
             <div
               data-reveal="eyebrow"
-              className="reveal-hidden mb-6 flex items-center gap-2"
+              className="reveal-hidden mb-4 sm:mb-5 flex items-center gap-2"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
               <span className="section-label">THE STRUCTURAL ADVANTAGE</span>
             </div>
             <h2
               data-reveal="heading"
-              className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy header-heading"
+              className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy"
             >
               Why the Model is Built <br className="hidden sm:block" />
               to <span className="text-[#C9A84C]">Compound Differently</span>
             </h2>
-            <p
-              data-reveal="paragraph"
-              className="reveal-hidden typo-body text-navy/60 max-w-[44rem]"
-            >
-              A greenfield build means zero legacy cost. A technology-first credit stack means faster decisions at lower operating cost. A Hub &amp; Spoke distribution model means national reach without proportionate headcount. These design choices produce unit economics that incumbents cannot replicate without replacing their entire operating stack — and that improve as the platform scales.
-            </p>
           </div>
 
           {/* Illustration — blended with multiply */}
           <div
             data-reveal="texture"
-            className="reveal-hidden hidden lg:block flex-shrink-0 illustration-float"
-            style={{ width: 220, marginTop: "-1rem" }}
+            className="reveal-hidden hidden lg:block flex-shrink-0 illustration-float pointer-events-none"
+            style={{ width: 180, marginTop: "-1rem" }}
           >
             <Image
               src="/ChatGPT Image Jul 9, 2026, 04_58_32 PM.png"
               alt="Concentric precision circles"
-              width={220}
-              height={220}
+              width={180}
+              height={180}
               className="w-full select-none"
               style={{ mixBlendMode: "multiply", height: "auto" }}
             />
@@ -142,18 +136,12 @@ export function Infrastructure() {
         <div
           data-reveal="block"
           data-cti-panel
-          className="reveal-hidden mb-16 relative mt-8 lg:mt-12"
+          className="reveal-hidden mb-16 relative"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24 items-start">
             {/* Left Column: The Economics */}
             <div className="flex flex-col justify-between">
               <div>
-                <p className="font-mono text-xs sm:text-[13px] font-semibold tracking-[0.2em] text-[#b49050] uppercase">
-                  THE ECONOMICS
-                </p>
-                <h3 className="font-serif-display text-[2rem] sm:text-[2.4rem] lg:text-[2.65rem] font-normal leading-[1.12] tracking-[-0.02em] text-navy mt-3 mb-5">
-                  The Structural Advantage
-                </h3>
                 <p className="text-[14px] sm:text-[15px] leading-relaxed text-navy/70 mb-8 max-w-[48ch]">
                   Traditional NBFCs carry the cost of branches, manual credit files and legacy technology. Pfundit is built differently: a modern lending platform designed for lower cost-to-serve, disciplined credit and scalable growth.
                 </p>
