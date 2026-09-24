@@ -3,7 +3,10 @@ import { PremiumBackground } from '@/components/background/premium-background';
 import { Navbar } from '@/components/navbar/Navbar';
 import { Hiring, Contact } from '@/sections';
 import { getBreadcrumbSchema, getJobPostingsSchema } from '@/lib/seo/schemas';
-import jobsData from '@/data/jobs.json';
+import { getJobsCollection } from '@/lib/db/collections';
+import type { JobRecord } from '@/lib/db/types';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Careers & Founding Opportunities',
@@ -21,12 +24,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HiringPage() {
+async function getJobsFromDatabase(): Promise<JobRecord[]> {
+  try {
+    const jobsCollection = await getJobsCollection();
+    const jobs = await jobsCollection
+      .find({}, { projection: { _id: 0 } })
+      .sort({ id: 1 })
+      .toArray();
+    return jobs;
+  } catch (error) {
+    console.error('Failed to fetch jobs directly from DB in HiringPage:', error);
+    return [];
+  }
+}
+
+export default async function HiringPage() {
+  const jobs = await getJobsFromDatabase();
   const breadcrumbs = getBreadcrumbSchema([
     { name: 'Home', url: '/' },
     { name: 'Careers & Hiring', url: '/hiring' },
   ]);
-  const jobListingsSchema = getJobPostingsSchema(jobsData);
+  const jobListingsSchema = getJobPostingsSchema(jobs);
 
   return (
     <div className="relative min-h-screen text-text-primary">
@@ -43,7 +61,7 @@ export default function HiringPage() {
 
       <main className="relative z-10">
         <div className="section-cinematic">
-          <Hiring />
+          <Hiring initialRoles={jobs as any} />
         </div>
 
         <div className="section-cinematic section-cinematic-alt">

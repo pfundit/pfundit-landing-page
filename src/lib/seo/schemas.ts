@@ -99,6 +99,7 @@ export function getJobPostingsSchema(
     category: string;
     tags: string[];
     description?: string;
+    location?: string;
   }>
 ) {
   return {
@@ -120,11 +121,11 @@ export function getJobPostingsSchema(
           '@id': `${SITE_URL}/hiring/#job-${job.id}`,
           title: job.title,
           description: job.description?.replace(/<[^>]+>/g, ' ').slice(0, 500) || '',
-          datePosted: '2026-01-01',
+          datePosted: '2026-09-01',
           employmentType,
           hiringOrganization: {
             '@type': 'Organization',
-            name: 'Pfundit Pte. Ltd.',
+            name: 'Pfundit Capital Private Ltd.',
             sameAs: SITE_URL,
           },
           jobLocation: {
@@ -132,7 +133,7 @@ export function getJobPostingsSchema(
             address: {
               '@type': 'PostalAddress',
               addressCountry: 'IN',
-              addressLocality: 'Mumbai',
+              addressLocality: job.location || 'Bengaluru',
             },
           },
           industry: 'FinTech / Credit / NBFC',

@@ -64,37 +64,31 @@ async function ensureJobsSeeded() {
   const seedData = JSON.parse(raw) as JobRecord[];
   if (seedData.length === 0) return;
 
+  const validIds = seedData.map((j) => j.id);
+
+  // 1. Remove any stale jobs whose ID is not in seedData
+  await jobsCollection.deleteMany({ id: { $nin: validIds } });
+
+  // 2. Ensure each job in seedData is uniquely synced by id
   const now = new Date().toISOString();
   for (const job of seedData) {
-    const existing = await jobsCollection.findOne({ title: job.title.trim() });
-    if (!existing) {
-      await jobsCollection.insertOne({
-        ...job,
-        title: job.title.trim(),
-        type: job.type.trim(),
-        category: job.category,
-        tags: Array.isArray(job.tags) ? job.tags.map((tag) => tag.trim()).filter(Boolean) : [],
-        description: job.description?.trim(),
-        cardBlurb: job.cardBlurb?.trim() || undefined,
-        location: job.location?.trim() || undefined,
-        jdUrl: job.jdUrl?.trim() || undefined,
-        createdAt: job.createdAt || now,
-        updatedAt: now,
-      });
-    } else {
-      await jobsCollection.updateOne(
-        { _id: existing._id },
-        {
-          $set: {
-            id: job.id,
-            cardBlurb: existing.cardBlurb || job.cardBlurb?.trim(),
-            location: existing.location || job.location?.trim(),
-            description: existing.description || job.description?.trim(),
-            updatedAt: now,
-          },
-        }
-      );
-    }
+    const cleanJob: JobRecord = {
+      id: job.id,
+      title: job.title.trim(),
+      type: job.type.trim(),
+      category: job.category,
+      tags: Array.isArray(job.tags) ? job.tags.map((tag) => tag.trim()).filter(Boolean) : [],
+      description: job.description?.trim(),
+      cardBlurb: job.cardBlurb?.trim() || undefined,
+      location: job.location?.trim() || undefined,
+      jdUrl: job.jdUrl?.trim() || undefined,
+      createdAt: job.createdAt || now,
+      updatedAt: job.updatedAt || now,
+    };
+
+    // Remove any accidental duplicates for this id, then insert clean record
+    await jobsCollection.deleteMany({ id: job.id });
+    await jobsCollection.insertOne(cleanJob);
   }
 }
 

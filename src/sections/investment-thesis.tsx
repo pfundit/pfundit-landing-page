@@ -105,7 +105,7 @@ export function InvestmentThesis() {
               <h3 className="typo-h3 text-white mb-6">India NBFC</h3>
               <div className="space-y-5 max-w-[42rem]">
                 <p data-reveal="intro" className="typo-body text-white/60">Pfundit is establishing a regulated NBFC in India focused on shorter-tenor, asset-aware credit tied to real transaction flows — with every exposure underwritten and monitored at the asset level from day one.</p>
-                <p data-reveal="intro" className="typo-body text-white/60">The platform targets segments where structured, data-driven financing improves risk-adjusted returns: consumer and MSME working capital, advance against future rental income, supply-chain discounting and circular-economy supply chains where established off-takers anchor the transaction.</p>
+                <p data-reveal="intro" className="typo-body text-white/60">The platform targets segments where structured, data-driven financing improves risk-adjusted returns: consumer and MSME working capital, advance on income from assets and circular-economy supply chains where established off-takers anchor the transaction.</p>
                 <p data-reveal="intro" className="typo-body text-white/60">Bank-grade governance, explainable technology-driven underwriting and transparent portfolios — designed to meet institutional expectations on risk sharing, reporting and regulatory alignment from the outset.</p>
               </div>
             </div>

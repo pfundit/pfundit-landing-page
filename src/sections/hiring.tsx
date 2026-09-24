@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { createPortal } from 'react-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /* ─────────────────── data ─────────────────── */
 const categories = ['All Roles', 'Leadership', 'Technology', 'Business'] as const;
 type Category = typeof categories[number];
 
-type Role = {
+export type Role = {
   id: string;
   title: string;
   type: string;
@@ -30,36 +29,117 @@ function ArrowIcon() {
   );
 }
 
-/* ─────────────────── component ─────────────────── */
-export function Hiring() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [activeCategory, setActiveCategory] = useState<Category>('All Roles');
-  const listRef = useRef<HTMLDivElement | null>(null);
+export function JobCardSkeleton() {
+  return (
+    <div className="skeleton-card relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/75 p-5 sm:p-6 mb-3.5">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto] lg:items-center relative z-10">
+        <div className="min-w-0">
+          {/* Header Skeleton: ID, Title, Badges */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-3">
+            <div className="h-4 w-6 rounded bg-[#D4A437]/35" />
+            <div className="h-5 sm:h-6 w-52 sm:w-64 rounded-md bg-[#0f1b3d]/16" />
+            <div className="h-5 w-16 rounded-full bg-[#D4A437]/20" />
+            <div className="h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
+            <div className="h-4 w-20 rounded bg-[#0f1b3d]/12" />
+          </div>
 
-  const [roles, setRoles] = useState<Role[]>([]);
-  const [isLoadingRoles, setIsLoadingRoles] = useState(true);
+          {/* Blurb Skeleton */}
+          <div className="space-y-2 max-w-2xl mt-2">
+            <div className="h-3.5 w-full rounded bg-[#0f1b3d]/12" />
+            <div className="h-3.5 w-3/4 rounded bg-[#0f1b3d]/10" />
+          </div>
+
+          {/* Tags Skeleton */}
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            <div className="h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
+            <div className="h-5 w-24 rounded-full bg-[#0f1b3d]/12" />
+          </div>
+        </div>
+
+        {/* Action Buttons Skeleton */}
+        <div className="mt-4 flex flex-wrap items-center gap-2.5 lg:mt-0 lg:flex-nowrap shrink-0">
+          <div className="h-8 w-28 rounded-full bg-[#0f1b3d]/14" />
+          <div className="h-8 w-24 rounded-full bg-[#0f1b3d]/22" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function HiringNotice() {
+  return (
+    <div className="w-full mt-14 pt-8 border-t border-[#0f1b3d]/12 space-y-4 text-[13px] sm:text-[13.5px] text-[#0f1b3d]/70 leading-[1.68]">
+      <div>
+        <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Important notice</h5>
+        <p>
+          Pfundit Capital Private Ltd. (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 ,Infantry Road, M.G. Road, Bangalore – 560001, India) is a subsidiary of Pfundit Pte. Ltd., Singapore. The company is at a pre-application stage for registration with the Reserve Bank of India as a Non-Banking Financial Company. It does not hold a Certificate of Registration from the RBI and does not currently offer loans or carry on any lending or other financial business. The roles on this page are to build the company’s capabilities ahead of, and subject to, registration. Nothing on this page is an offer of credit or of any financial product or service.
+        </p>
+      </div>
+
+      <div>
+        <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">No recruitment fees</h5>
+        <p>
+          Pfundit does not charge candidates any fee at any stage of recruitment, and does not authorise any agent to do so. Please report any such request to{' '}
+          <a href="mailto:careers@pfundit.com" className="font-medium text-[#0f1b3d] underline hover:text-[#D4A437]">
+            careers@pfundit.com
+          </a>.
+        </p>
+      </div>
+
+      <div>
+        <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Your personal data</h5>
+        <p>
+          We use the information you share only to assess your application and contact you about roles at Pfundit, in line with the Digital Personal Data Protection Act, 2023. Your data may be accessed by our parent company, Pfundit Pte. Ltd., Singapore, for hiring decisions. See our{' '}
+          <Link href="/hiring/privacy" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">
+            privacy notice
+          </Link>{' '}
+          to learn how to access, correct or withdraw your data.
+        </p>
+      </div>
+
+      <div>
+        <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">No offer of employment</h5>
+        <p>
+          The roles on this page are described for information only and are not offers of employment. Pfundit may change, pause or close any role at its discretion. Please read the Important Information for Applicants in each downloadable job description before applying.
+        </p>
+      </div>
+
+      <div>
+        <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Equal opportunity</h5>
+        <p>
+          Pfundit is an equal-opportunity employer. We welcome applications from all qualified candidates, including persons with disabilities.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────── component ─────────────────── */
+export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
+  const [activeCategory, setActiveCategory] = useState<Category>('All Roles');
+  const [roles, setRoles] = useState<Role[]>(initialRoles);
+  const [isLoadingRoles, setIsLoadingRoles] = useState(initialRoles.length === 0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
   const [detailedRole, setDetailedRole] = useState<Role | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
+  // If initialRoles was empty or on client-side navigation, fetch strictly from database endpoint
   useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const res = await fetch('/api/jobs');
-        if (res.ok) {
-          const data = await res.json();
-          setRoles(data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch roles:', error);
-      } finally {
-        setIsLoadingRoles(false);
-      }
-    };
-    fetchRoles();
-  }, []);
+    if (initialRoles.length === 0) {
+      setIsLoadingRoles(true);
+      fetch('/api/jobs')
+        .then((res) => (res.ok ? res.json() : []))
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setRoles(data);
+          }
+        })
+        .catch((error) => console.error('Failed to fetch roles from database:', error))
+        .finally(() => setIsLoadingRoles(false));
+    }
+  }, [initialRoles.length]);
 
   const handleApplyClick = (roleTitle: string) => {
     setSelectedRole(roleTitle);
@@ -96,67 +176,8 @@ export function Hiring() {
     ? roles
     : roles.filter((r) => r.category === activeCategory);
 
-  /* animate list when filter changes */
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-    gsap.fromTo(el.children,
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power2.out' }
-    );
-  }, [activeCategory]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || isLoadingRoles) return;
-    gsap.registerPlugin(ScrollTrigger);
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      const st = { trigger: section, start: 'top 76%' };
-
-      const runFromTo: (selector: string, fromVars: gsap.TweenVars, toVars: gsap.TweenVars) => void = (
-        selector,
-        fromVars,
-        toVars,
-      ) => {
-        const els = Array.from(section.querySelectorAll(selector));
-        if (els.length === 0) return;
-        gsap.fromTo(els, fromVars, toVars);
-      };
-
-      runFromTo('[data-hr="filter-nav"]',
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.1, scrollTrigger: st }
-      );
-      runFromTo('[data-hr="role-row"]',
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.65, stagger: 0.08, ease: 'power2.out', delay: 0.25,
-          scrollTrigger: { trigger: '[data-hr="list"]', start: 'top 82%' } }
-      );
-
-      /* hover: role row underline reveal */
-      const rows = gsap.utils.toArray<HTMLElement>('[data-hr="role-row"]');
-      if (rows.length > 0) {
-        rows.forEach((row) => {
-          const line = row.querySelector<HTMLElement>('[data-hr="row-line"]');
-          row.addEventListener('mouseenter', () => {
-            if (line) gsap.to(line, { scaleX: 1, duration: 0.35, ease: 'power2.out' });
-          });
-          row.addEventListener('mouseleave', () => {
-            if (line) gsap.to(line, { scaleX: 0, duration: 0.3, ease: 'power2.in' });
-          });
-        });
-      }
-
-    }, section);
-
-    return () => ctx.revert();
-  }, [isLoadingRoles, filtered.length]);
-
   return (
     <section
-      ref={sectionRef}
       id="hiring"
       className="relative overflow-hidden bg-[#F0F5FF]"
     >
@@ -237,13 +258,14 @@ export function Hiring() {
         </div>
 
         {/* ── role list ── */}
-        <div data-hr="list">
-          {/* rows */}
-          <div ref={listRef} style={{ display: 'flex', flexDirection: 'column' }}>
+        <div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {isLoadingRoles ? (
-              <div className="py-12 text-center">
-                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#D4A437] border-t-transparent"></div>
-              </div>
+              <>
+                <JobCardSkeleton />
+                <JobCardSkeleton />
+                <JobCardSkeleton />
+              </>
             ) : filtered.length === 0 ? (
               <div className="py-12 text-center text-[#0f1b3d]/50">
                 No roles found in this category.
@@ -251,21 +273,8 @@ export function Hiring() {
             ) : filtered.map((role) => (
               <div
                 key={role.id}
-                data-hr="role-row"
-                className="group relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/70 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:border-[#D4A437]/40 hover:shadow-[0_12px_36px_rgba(15,27,61,0.06)] mb-3.5"
+                className="group relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/80 p-5 sm:p-6 backdrop-blur-sm hover:border-[#D4A437]/50 hover:shadow-md mb-3.5"
               >
-                {/* animated bottom line on hover */}
-                <div
-                  data-hr="row-line"
-                  style={{
-                    position: 'absolute', bottom: 0, left: '1.5rem', right: '1.5rem',
-                    height: 1,
-                    background: 'linear-gradient(to right, #D4A437, rgba(212,164,55,0.1))',
-                    transform: 'scaleX(0)',
-                    transformOrigin: 'left',
-                  }}
-                />
-
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
                   <div className="min-w-0">
                     {/* Header: ID + Title + Badges */}
@@ -331,6 +340,9 @@ export function Hiring() {
             ))}
           </div>
         </div>
+
+        {/* ── Hiring-page notice (place once, at the foot of the page) ── */}
+        <HiringNotice />
 
       </div>
 
@@ -438,6 +450,27 @@ export function Hiring() {
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Why Pfundit?</label>
                           <textarea required name="Why Pfundit" rows={3} className="w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="Tell us why you are a great fit..." />
+                        </div>
+
+                        {/* Privacy & Talent Pool Consents */}
+                        <div className="flex flex-col gap-2.5 pt-1">
+                          <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[#0f1b3d]/80 leading-relaxed select-none">
+                            <input required type="checkbox" name="privacyConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D4A437] accent-[#0f1b3d]" />
+                            <span>
+                              I have read the{' '}
+                              <Link href="/hiring/privacy" target="_blank" className="font-semibold text-[#0f1b3d] underline hover:text-[#D4A437]">
+                                Applicant Privacy Notice
+                              </Link>{' '}
+                              and consent to Pfundit processing my personal data as described. <span className="text-red-500">*</span>
+                            </span>
+                          </label>
+
+                          <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[#0f1b3d]/70 leading-relaxed select-none">
+                            <input type="checkbox" name="talentPoolConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D4A437] accent-[#0f1b3d]" />
+                            <span>
+                              Keep my application on file for up to 24 months to consider me for future opportunities.
+                            </span>
+                          </label>
                         </div>
 
                         {formStatus === 'error' && (

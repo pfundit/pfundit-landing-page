@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function Footer() {
   return (
@@ -51,9 +52,9 @@ export function Footer() {
             <div>
               <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Legal & Policies</h4>
               <div className="space-y-2 text-[0.84rem] text-white/65">
-                <p>Privacy Policy</p>
+                <p><Link href="/hiring/privacy" className="hover:text-white transition-colors">Applicant Privacy Notice</Link></p>
                 <p>Terms of Use</p>
-                <p>Cookie Notice</p>
+                <p><Link href="/cookies" className="hover:text-white transition-colors">Cookie Notice</Link></p>
                 <p>Responsible Disclosure</p>
                 <p>Code of Conduct</p>
               </div>
@@ -65,7 +66,7 @@ export function Footer() {
           <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white/45">Regulatory Disclosure</h4>
           <div className="grid gap-3 text-[0.82rem] leading-[1.65] text-white/55">
             <p>
-              Pfundit Pte. Ltd. (&quot;Pfundit&quot;, &quot;we&quot;) is a private limited company incorporated in Singapore in 2025 and registered with ACRA. Pfundit is in the process of incorporating a wholly-owned subsidiary in India, which intends to register with the Reserve Bank of India (RBI) as an NBFC-ND-ICC. NBFC application is in pre-application stage as of the date of this website no RBI registration has been granted, and no lending activity will commence until it is. Nothing on this website constitutes an offer or solicitation to buy or sell any security, an offer of credit, or investment, legal, tax or financial advice.
+              Pfundit Pte. Ltd. (&quot;Pfundit&quot;, &quot;we&quot;) is a private limited company incorporated in Singapore in 2025 and registered with ACRA. Pfundit Capital Pvt. Ltd has been incorporated as a wholly-owned subsidiary in India, which intends to register with the Reserve Bank of India (RBI) as a Type II NBFC. The NBFC application is in pre-application stage as of the date of this website, no RBI registration has been granted, and no lending activity will commence until it is. Nothing on this website constitutes an offer or solicitation to buy or sell any security, an offer of credit, or investment, legal, tax or financial advice.
             </p>
           </div>
           <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-xs text-white/50 lg:flex-row lg:items-center lg:justify-between">
