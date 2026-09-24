@@ -31,35 +31,38 @@ function ArrowIcon() {
 
 export function JobCardSkeleton() {
   return (
-    <div className="skeleton-card relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/75 p-5 sm:p-6 mb-3.5">
+    <div
+      className="skeleton-card relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/80 p-5 sm:p-6 mb-3.5 shadow-none overflow-hidden"
+      style={{ boxShadow: 'none' }}
+    >
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto] lg:items-center relative z-10">
         <div className="min-w-0">
           {/* Header Skeleton: ID, Title, Badges */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-3">
-            <div className="h-4 w-6 rounded bg-[#D4A437]/35" />
-            <div className="h-5 sm:h-6 w-52 sm:w-64 rounded-md bg-[#0f1b3d]/16" />
-            <div className="h-5 w-16 rounded-full bg-[#D4A437]/20" />
-            <div className="h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
-            <div className="h-4 w-20 rounded bg-[#0f1b3d]/12" />
+            <div className="skeleton-bone-gold h-4 w-6 rounded bg-[#D4A437]/35" />
+            <div className="skeleton-bone h-5 sm:h-6 w-52 sm:w-64 rounded-md bg-[#0f1b3d]/16" />
+            <div className="skeleton-bone-gold h-5 w-16 rounded-full bg-[#D4A437]/20" />
+            <div className="skeleton-bone h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
+            <div className="skeleton-bone h-4 w-20 rounded bg-[#0f1b3d]/12" />
           </div>
 
           {/* Blurb Skeleton */}
           <div className="space-y-2 max-w-2xl mt-2">
-            <div className="h-3.5 w-full rounded bg-[#0f1b3d]/12" />
-            <div className="h-3.5 w-3/4 rounded bg-[#0f1b3d]/10" />
+            <div className="skeleton-bone h-3.5 w-full rounded bg-[#0f1b3d]/12" />
+            <div className="skeleton-bone h-3.5 w-3/4 rounded bg-[#0f1b3d]/10" />
           </div>
 
           {/* Tags Skeleton */}
           <div className="mt-4 flex flex-wrap gap-1.5">
-            <div className="h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
-            <div className="h-5 w-24 rounded-full bg-[#0f1b3d]/12" />
+            <div className="skeleton-bone h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
+            <div className="skeleton-bone h-5 w-24 rounded-full bg-[#0f1b3d]/12" />
           </div>
         </div>
 
         {/* Action Buttons Skeleton */}
         <div className="mt-4 flex flex-wrap items-center gap-2.5 lg:mt-0 lg:flex-nowrap shrink-0">
-          <div className="h-8 w-28 rounded-full bg-[#0f1b3d]/14" />
-          <div className="h-8 w-24 rounded-full bg-[#0f1b3d]/22" />
+          <div className="skeleton-bone h-8 w-28 rounded-full bg-[#0f1b3d]/14" />
+          <div className="skeleton-bone h-8 w-24 rounded-full bg-[#0f1b3d]/22" />
         </div>
       </div>
     </div>

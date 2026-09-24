@@ -51,8 +51,7 @@ export function AdminLogin() {
             className="h-7 w-auto aspect-[2378/699] object-contain mb-4"
             priority
           />
-          <p className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D4A437]">Admin Access</p>
-          <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#0f1b3d]">Pfundit Admin</h1>
+          <h1 className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D4A437]">Admin Access</h1>
           <p className="mt-2 text-sm leading-relaxed text-[#0f1b3d]/60">Sign in to manage jobs, applications, and contact submissions.</p>
         </div>
 

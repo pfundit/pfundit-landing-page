@@ -15,13 +15,13 @@ export default function HiringLoading() {
             <div className="w-full mb-8">
               <div className="grid w-full gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3">
-                  <div className="h-10 rounded-full bg-[#0f1b3d]/10 animate-pulse" />
-                  <div className="h-10 rounded-full bg-white/60 animate-pulse" />
-                  <div className="h-10 rounded-full bg-white/60 animate-pulse" />
-                  <div className="h-10 rounded-full bg-white/60 animate-pulse" />
+                  <div className="skeleton-bone h-10 rounded-full bg-[#0f1b3d]/10" />
+                  <div className="skeleton-bone h-10 rounded-full bg-white/70" />
+                  <div className="skeleton-bone h-10 rounded-full bg-white/70" />
+                  <div className="skeleton-bone h-10 rounded-full bg-white/70" />
                 </div>
                 <div className="justify-self-start lg:justify-self-end">
-                  <div className="h-8 w-20 rounded-full bg-[#D4A437]/15 animate-pulse" />
+                  <div className="skeleton-bone-gold h-8 w-20 rounded-full bg-[#D4A437]/20" />
                 </div>
               </div>
             </div>

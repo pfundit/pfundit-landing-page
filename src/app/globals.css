@@ -65,7 +65,17 @@
   }
 }
 
-@keyframes skeleton-shimmer {
+/* ── Skeleton Loading Shimmer System ────────────────────────── */
+@keyframes skeleton-bone-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes skeleton-card-sweep {
   0% {
     transform: translateX(-100%);
   }
@@ -77,27 +87,62 @@
 .skeleton-card {
   position: relative;
   overflow: hidden;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  filter: none !important;
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .skeleton-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   transform: translateX(-100%);
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.3) 25%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.3) 75%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.1) 80%,
     transparent 100%
   );
-  animation: skeleton-shimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: skeleton-card-sweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   pointer-events: none;
   z-index: 20;
+}
+
+.skeleton-bone,
+.skeleton-bone-gold {
+  position: relative;
+  overflow: hidden;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.skeleton-bone::after,
+.skeleton-bone-gold::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0) 90%,
+    transparent 100%
+  );
+  animation: skeleton-bone-shine 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 5;
 }
 
 .bg-border-beam {

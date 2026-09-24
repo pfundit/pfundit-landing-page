@@ -4,7 +4,7 @@ import { Navbar } from '@/components/navbar/Navbar';
 import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'Cookie Notice | Pfundit',
+  title: 'Cookie Notice',
   description:
     'Learn how Pfundit Capital Private Ltd. and Pfundit Pte. Ltd. use cookies and similar technologies on pfundit.com in compliance with DPDP Act 2023 and Singapore PDPA.',
   alternates: {

@@ -4,7 +4,7 @@ import { Navbar } from '@/components/navbar/Navbar';
 import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'Applicant Privacy Notice | Pfundit',
+  title: 'Applicant Privacy Notice',
   description:
     'Learn how Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) collect, use, store and protect your personal data during recruitment, in compliance with the DPDP Act 2023 and Singapore PDPA.',
   alternates: {
