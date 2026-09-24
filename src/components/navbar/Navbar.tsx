@@ -220,6 +220,14 @@ export function Navbar() {
           <div className="layout-shell editorial-container">
             <Link
               href="/hiring"
+              scroll={true}
+              onClick={() => {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+                const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { immediate: boolean }) => void } }).__lenis;
+                if (lenis?.scrollTo) {
+                  lenis.scrollTo(0, { immediate: true });
+                }
+              }}
               className="group relative flex w-full max-w-full items-center justify-center gap-2 py-2 px-4 overflow-hidden"
             >
               <div className="flex items-center justify-center gap-2 overflow-hidden w-full max-w-4xl">
@@ -376,7 +384,15 @@ export function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 onClick={() => {
                   if (link.href) {
-                    router.push(link.href);
+                    if (pathname === link.href) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { immediate: boolean }) => void } }).__lenis;
+                      if (lenis?.scrollTo) {
+                        lenis.scrollTo(0, { immediate: false });
+                      }
+                    } else {
+                      router.push(link.href);
+                    }
                   } else {
                     scrollToSection(link.id);
                   }
@@ -453,8 +469,17 @@ export function Navbar() {
                     key={link.id}
                     onClick={() => {
                       if (link.href) {
-                        router.push(link.href);
-                        setMobileMenuOpen(false);
+                        if (pathname === link.href) {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { immediate: boolean }) => void } }).__lenis;
+                          if (lenis?.scrollTo) {
+                            lenis.scrollTo(0, { immediate: false });
+                          }
+                          setMobileMenuOpen(false);
+                        } else {
+                          router.push(link.href);
+                          setMobileMenuOpen(false);
+                        }
                       } else {
                         scrollToSection(link.id);
                       }

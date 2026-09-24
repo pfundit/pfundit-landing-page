@@ -35,6 +35,10 @@ export const useLenisScroll = () => {
     lenis.on('scroll', ScrollTrigger.update);
     (window as any).__lenis = lenis;
 
+    if (!window.location.hash) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+
     // Use gsap ticker for optimal performance
     const updateTicker = (time: number) => {
       lenis.raf(time * 1000);

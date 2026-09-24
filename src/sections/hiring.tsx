@@ -125,6 +125,14 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
   const [detailedRole, setDetailedRole] = useState<Role | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo(0, 0);
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    }
+  }, []);
+
   // If initialRoles was empty or on client-side navigation, fetch strictly from database endpoint
   useEffect(() => {
     if (initialRoles.length === 0) {

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist } from 'next/font/google';
 import './globals.css';
 import { getOrganizationSchema, getWebsiteSchema } from '@/lib/seo/schemas';
+import { ScrollToTop } from '@/components/scroll-to-top';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -121,6 +122,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col selection:bg-[#0f1b3d] selection:text-white">
+        <ScrollToTop />
         {children}
       </body>
     </html>
