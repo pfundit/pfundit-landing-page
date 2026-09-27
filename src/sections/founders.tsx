@@ -48,7 +48,7 @@ function ProfileCircle({ leader, index }: { leader: typeof leaders[0]; index: nu
           data-anim="ring"
           className="absolute inset-0 rounded-full"
           style={{
-            border: '1px dashed rgba(212,164,55,0.25)',
+            border: '1px dashed rgba(211, 163, 55,0.25)',
             borderRadius: '50%',
           }}
         />
@@ -58,7 +58,7 @@ function ProfileCircle({ leader, index }: { leader: typeof leaders[0]; index: nu
           className="absolute rounded-full"
           style={{
             inset: 14,
-            border: '1px solid rgba(212,164,55,0.18)',
+            border: '1px solid rgba(211, 163, 55,0.18)',
             borderRadius: '50%',
           }}
         />
@@ -82,7 +82,7 @@ function ProfileCircle({ leader, index }: { leader: typeof leaders[0]; index: nu
         style={{
           width: 'clamp(114px, 48vw, 162px)',
           height: 'clamp(114px, 48vw, 162px)',
-          border: '2px solid rgba(212,164,55,0.55)',
+          border: '2px solid rgba(211, 163, 55,0.55)',
           background: 'linear-gradient(180deg, #0d1a36 0%, #1a2840 40%, #2a1c08 100%)',
           boxShadow: '0 0 50px rgba(180,120,20,0.35), inset 0 -20px 40px rgba(180,120,20,0.2)',
         }}
@@ -106,7 +106,7 @@ function ProfileCircle({ leader, index }: { leader: typeof leaders[0]; index: nu
           height: 10,
           bottom: 18,
           right: 'calc(14px + clamp(13px, 2.5vw, 19px))',
-          boxShadow: '0 0 10px rgba(212,164,55,0.9)',
+          boxShadow: '0 0 10px rgba(211, 163, 55,0.9)',
         }}
       />
     </div>
@@ -210,9 +210,9 @@ export function Leadership() {
     >
       {/* ambient blobs */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div style={{ position: 'absolute', left: '-10%', top: '-5%', width: 'min(78vw, 520px)', height: 'min(78vw, 520px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,164,55,0.12) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-        <div style={{ position: 'absolute', right: '-8%', bottom: '-5%', width: 'min(82vw, 560px)', height: 'min(82vw, 560px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(212,164,55,0.16) 0%, transparent 70%)', filter: 'blur(50px)' }} />
-        <div style={{ position: 'absolute', left: '50%', bottom: '0', transform: 'translateX(-50%)', width: 'min(72vw, 60rem)', height: 'min(28vw, 200px)', background: 'radial-gradient(ellipse, rgba(212,164,55,0.07) 0%, transparent 70%)', filter: 'blur(30px)' }} />
+        <div style={{ position: 'absolute', left: '-10%', top: '-5%', width: 'min(78vw, 520px)', height: 'min(78vw, 520px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(211, 163, 55,0.12) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div style={{ position: 'absolute', right: '-8%', bottom: '-5%', width: 'min(82vw, 560px)', height: 'min(82vw, 560px)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(211, 163, 55,0.16) 0%, transparent 70%)', filter: 'blur(50px)' }} />
+        <div style={{ position: 'absolute', left: '50%', bottom: '0', transform: 'translateX(-50%)', width: 'min(72vw, 60rem)', height: 'min(28vw, 200px)', background: 'radial-gradient(ellipse, rgba(211, 163, 55,0.07) 0%, transparent 70%)', filter: 'blur(30px)' }} />
       </div>
 
       <div className="layout-shell editorial-container relative z-10">
@@ -228,10 +228,10 @@ export function Leadership() {
             className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-white"
             style={{ margin: 0 }}
           >
-            Three founders. Three exits.<br className="hidden sm:block" />
-            <span className="text-[#D4A437]">60+ years across HSBC and J.P. Morgan.</span>
+            Underwritten by <span className="text-[#D3A337]">experience.</span><br className="hidden sm:block" />
+            {/* <span className="text-[#D3A337]">60+ years across HSBC and J.P. Morgan.</span> */}
           </h2>
-          <p data-anim="headline" className="mt-4 text-[1.1rem] text-white/60">Bankers who have built. Founders who have exited.</p>
+          <p data-anim="headline" className="mt-4 text-[1.1rem] text-white/60">Credit and banking in India and Singapore, at HSBC and J.P. Morgan. Two founder exits.</p>
         </div>
 
         {/* ─── founders grid ─── */}
@@ -247,7 +247,7 @@ export function Leadership() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to right, transparent 2%, rgba(212,164,55,0.35) 20%, rgba(212,164,55,0.35) 80%, transparent 98%)',
+                background: 'linear-gradient(to right, transparent 2%, rgba(211, 163, 55,0.35) 20%, rgba(211, 163, 55,0.35) 80%, transparent 98%)',
                 transformOrigin: 'center',
               }}
             />
@@ -284,7 +284,7 @@ export function Leadership() {
                 </h3>
 
                 {/* role */}
-                <p data-anim="inner" className="text-[clamp(0.85rem,1.1vw,0.95rem)] font-medium text-[#D4A437]" style={{ marginBottom: 18, width: '100%' }}>
+                <p data-anim="inner" className="text-[clamp(0.85rem,1.1vw,0.95rem)] font-medium text-[#D3A337]" style={{ marginBottom: 18, width: '100%' }}>
                   {leader.role}
                 </p>
 

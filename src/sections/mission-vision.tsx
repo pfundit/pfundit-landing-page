@@ -37,7 +37,7 @@ export function MissionVision() {
         {/* ── INTRO HEADER ─────────────────────────────────────────────── */}
         <div className="mb-8 md:mb-12">
           <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy">
-            Mission & <span style={{ color: '#C9A84C' }}>Vision</span>
+            Mission & <span style={{ color: '#D3A337' }}>Vision</span>
           </h2>
         </div>
 
@@ -50,7 +50,7 @@ export function MissionVision() {
             className="reveal-hidden"
           >
             <div className="mb-6 inline-flex items-center gap-3">
-              <div className="h-1.5 w-1.5 rounded-full bg-[#C9A84C]" />
+              <div className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">MISSION</span>
             </div>
 
@@ -58,7 +58,7 @@ export function MissionVision() {
             <div
               data-reveal="underline"
               ref={mRuleRef}
-              style={{ width: 24, height: 1, background: "#C9A84C", marginBottom: 28, transition: "width 0.35s ease" }}
+              style={{ width: 24, height: 1, background: "#D3A337", marginBottom: 28, transition: "width 0.35s ease" }}
             />
 
             {/* Heading */}
@@ -84,7 +84,7 @@ export function MissionVision() {
             className="reveal-hidden"
           >
             <div className="mb-6 inline-flex items-center gap-3">
-              <div className="h-1.5 w-1.5 rounded-full bg-[#C9A84C]" />
+              <div className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">VISION</span>
             </div>
 
@@ -92,7 +92,7 @@ export function MissionVision() {
             <div
               data-reveal="underline"
               ref={vRuleRef}
-              style={{ width: 24, height: 1, background: "#C9A84C", marginBottom: 28, transition: "width 0.35s ease" }}
+              style={{ width: 24, height: 1, background: "#D3A337", marginBottom: 28, transition: "width 0.35s ease" }}
             />
 
             {/* Heading */}

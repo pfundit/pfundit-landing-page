@@ -23,7 +23,7 @@ export default function ApplicantPrivacyNoticePage() {
           <div className="mb-8">
             <Link
               href="/hiring"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D4A437] hover:underline"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D3A337] hover:underline"
             >
               &larr; Back to Open Opportunities
             </Link>
@@ -31,7 +31,7 @@ export default function ApplicantPrivacyNoticePage() {
 
           {/* Document Header */}
           <div className="border-b border-[#0f1b3d]/10 pb-8 mb-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#D4A437]/10 px-3 py-1 text-xs font-bold text-[#D4A437] mb-4">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#D3A337]/10 px-3 py-1 text-xs font-bold text-[#D3A337] mb-4">
               <span>Recruitment & Hiring Disclosures</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0f1b3d]">
@@ -117,7 +117,7 @@ export default function ApplicantPrivacyNoticePage() {
                   <strong>Accessibility information (optional):</strong> details you choose to share so that we can make reasonable adjustments to the recruitment process.
                 </li>
                 <li>
-                  <strong>Technical data:</strong> IP address, device and browser information and cookies when you use our application form. See our <Link href="/cookies" className="text-[#D4A437] font-semibold underline hover:text-[#b49050]">Cookie Notice</Link>.
+                  <strong>Technical data:</strong> IP address, device and browser information and cookies when you use our application form. See our <Link href="/cookies" className="text-[#D3A337] font-semibold underline hover:text-[#b49050]">Cookie Notice</Link>.
                 </li>
               </ul>
               <div className="rounded-xl bg-[#0f1b3d]/5 p-4 border border-[#0f1b3d]/10 mt-3 text-xs leading-relaxed">
@@ -258,7 +258,7 @@ export default function ApplicantPrivacyNoticePage() {
                 <div className="rounded-xl bg-white p-4 border border-[#0f1b3d]/10 mt-3 text-sm">
                   <h4 className="font-bold text-[#0f1b3d] mb-1">How to make a request</h4>
                   <p>
-                    Email <a href="mailto:privacy@pfundit.com?subject=Applicant%20data%20request" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">privacy@pfundit.com</a> with the subject line <strong>“Applicant data request”</strong> and tell us which right you want to exercise. We may ask you to verify your identity before we act on your request.
+                    Email <a href="mailto:privacy@pfundit.com?subject=Applicant%20data%20request" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">privacy@pfundit.com</a> with the subject line <strong>“Applicant data request”</strong> and tell us which right you want to exercise. We may ask you to verify your identity before we act on your request.
                   </p>
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function ApplicantPrivacyNoticePage() {
                 10. Withdrawing your consent
               </h2>
               <p>
-                You can withdraw consent at any time by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">privacy@pfundit.com</a> or <a href="mailto:careers@pfundit.com" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">careers@pfundit.com</a>. Once you do, we will stop processing your data and erase it (and ask our service providers to do the same), unless the law requires us to keep it.
+                You can withdraw consent at any time by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">privacy@pfundit.com</a> or <a href="mailto:careers@pfundit.com" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">careers@pfundit.com</a>. Once you do, we will stop processing your data and erase it (and ask our service providers to do the same), unless the law requires us to keep it.
               </p>
               <p>
                 Withdrawal does not affect processing before you withdrew. If you withdraw consent while your application is under review, we will not be able to continue considering you for the role.
@@ -299,7 +299,7 @@ export default function ApplicantPrivacyNoticePage() {
                     Pfundit Capital Private Ltd.<br />
                     Prestige Central, 36 Infantry Road, M.G. Road,<br />
                     Bengaluru 560001, India<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D4A437] underline">privacy@pfundit.com</a><br />
+                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a><br />
                     Hours: Monday to Friday, 10:00–18:00 IST
                   </p>
                 </div>
@@ -309,7 +309,7 @@ export default function ApplicantPrivacyNoticePage() {
                     Pfundit Pte. Ltd.<br />
                     14B, Stanley Street,<br />
                     Singapore 068733<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D4A437] underline">privacy@pfundit.com</a>
+                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a>
                   </p>
                 </div>
               </div>
@@ -324,7 +324,7 @@ export default function ApplicantPrivacyNoticePage() {
                 13. Language and changes to this notice
               </h2>
               <p>
-                You can ask for this notice in English or in any language listed in the Eighth Schedule to the Constitution of India by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">privacy@pfundit.com</a>.
+                You can ask for this notice in English or in any language listed in the Eighth Schedule to the Constitution of India by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">privacy@pfundit.com</a>.
               </p>
               <p>
                 We may update this notice from time to time. We will post the updated version on pfundit.com/hiring with a new effective date and, if the changes are significant, tell applicants whose applications are under review.

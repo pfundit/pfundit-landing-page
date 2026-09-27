@@ -12,7 +12,7 @@ const config: Config = {
     extend: {
       colors: {
         navy: '#0f1b3d',
-        gold: '#D4A437',
+        gold: '#D3A337',
         background: '#F8F8F5',
         'text-primary': '#0f1b3d',
         'text-secondary': '#5f6472',

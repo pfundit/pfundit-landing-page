@@ -49,7 +49,7 @@ function ArchitecturalObject() {
         {[...Array(4)].map((_, i) => (
           <mesh key={i} rotation={[0, (i * Math.PI) / 2, 0]} position={[0, 0, 0.9]}>
             <boxGeometry args={[1.9, 0.02, 0.02]} />
-            <meshStandardMaterial color="#D4A437" metalness={1} roughness={0.2} />
+            <meshStandardMaterial color="#D3A337" metalness={1} roughness={0.2} />
           </mesh>
         ))}
       </group>
@@ -58,7 +58,7 @@ function ArchitecturalObject() {
       <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
         <mesh position={[2, 1, 0]}>
           <octahedronGeometry args={[0.2]} />
-          <meshStandardMaterial color="#D4A437" metalness={1} roughness={0.1} />
+          <meshStandardMaterial color="#D3A337" metalness={1} roughness={0.1} />
         </mesh>
       </Float>
     </group>
@@ -88,7 +88,7 @@ export function ThreeHero() {
         <PerspectiveCamera makeDefault position={[0, 0, 6]} fov={35} />
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#D4A437" />
+        <pointLight position={[-10, -10, -10]} intensity={1} color="#D3A337" />
         
         <PresentationControls
           global

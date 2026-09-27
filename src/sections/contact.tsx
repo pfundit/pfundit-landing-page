@@ -57,9 +57,9 @@ export function Contact() {
           {/* Arc illustration as background decor */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[2.5rem]">
             <svg className="absolute inset-0 h-full w-full opacity-40" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <circle cx="600" cy="300" r="380" fill="none" stroke="#d4a437" strokeWidth="1.5" opacity="0.18" />
-              <circle cx="600" cy="300" r="300" fill="none" stroke="#d4a437" strokeWidth="1.5" opacity="0.12" />
-              <circle cx="600" cy="300" r="220" fill="none" stroke="#d4a437" strokeWidth="1.5" opacity="0.08" />
+              <circle cx="600" cy="300" r="380" fill="none" stroke="#d3a337" strokeWidth="1.5" opacity="0.18" />
+              <circle cx="600" cy="300" r="300" fill="none" stroke="#d3a337" strokeWidth="1.5" opacity="0.12" />
+              <circle cx="600" cy="300" r="220" fill="none" stroke="#d3a337" strokeWidth="1.5" opacity="0.08" />
             </svg>
           </div>
 
@@ -67,7 +67,7 @@ export function Contact() {
           <div className="relative z-10 text-center">
             <div data-contact-reveal className="header-group">
               <div className="mb-6 flex items-center justify-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
                 <span className="section-label">LET'S HAVE A CONVERSATION</span>
               </div>
               <h2
@@ -229,7 +229,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
                 placeholder="Jane Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className={`w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437] ${errors.name ? "ring-1 ring-red-400" : ""}`}
+                className={`w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337] ${errors.name ? "ring-1 ring-red-400" : ""}`}
               />
               {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
             </div>
@@ -243,7 +243,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437] ${errors.email ? "ring-1 ring-red-400" : ""}`}
+                className={`w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337] ${errors.email ? "ring-1 ring-red-400" : ""}`}
               />
               {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
             </div>
@@ -258,7 +258,7 @@ function ContactForm({ onClose }: { onClose?: () => void }) {
               placeholder="Tell us what's on your mind..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className={`w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437] ${errors.message ? "ring-1 ring-red-400" : ""}`}
+              className={`w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F4F3EF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337] ${errors.message ? "ring-1 ring-red-400" : ""}`}
             />
             {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
           </div>

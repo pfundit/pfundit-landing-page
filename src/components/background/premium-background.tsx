@@ -9,13 +9,13 @@ export function PremiumBackground() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(circle at 10% 4%, rgba(212,164,55,0.1), transparent 34%), radial-gradient(circle at 94% 12%, rgba(15,27,61,0.08), transparent 32%), radial-gradient(circle at 78% 84%, rgba(25,42,79,0.06), transparent 36%), linear-gradient(180deg, #fbfaf8 0%, #f6f7fb 44%, #f6f6f2 100%)',
+            'radial-gradient(circle at 10% 4%, rgba(211, 163, 55,0.1), transparent 34%), radial-gradient(circle at 94% 12%, rgba(15,27,61,0.08), transparent 32%), radial-gradient(circle at 78% 84%, rgba(25,42,79,0.06), transparent 36%), linear-gradient(180deg, #fbfaf8 0%, #f6f7fb 44%, #f6f6f2 100%)',
         }}
       />
 
       <motion.div
         className="absolute -left-40 -top-28 h-[min(78vw,34rem)] w-[min(78vw,34rem)] rounded-full"
-        style={{ background: 'radial-gradient(circle at center, rgba(212,164,55,0.14), transparent 72%)' }}
+        style={{ background: 'radial-gradient(circle at center, rgba(211, 163, 55,0.14), transparent 72%)' }}
         animate={{ x: [0, 14, 0], y: [0, 10, 0] }}
         transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
       />
@@ -38,7 +38,7 @@ export function PremiumBackground() {
         className="absolute inset-0 opacity-55"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 18% 16%, rgba(212,164,55,0.12), transparent 22%), radial-gradient(circle at 84% 72%, rgba(15,27,61,0.09), transparent 24%)',
+            'radial-gradient(circle at 18% 16%, rgba(211, 163, 55,0.12), transparent 22%), radial-gradient(circle at 84% 72%, rgba(15,27,61,0.09), transparent 24%)',
           filter: 'blur(36px)',
         }}
       />

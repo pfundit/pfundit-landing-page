@@ -51,7 +51,7 @@ export function AdminLogin() {
             className="h-7 w-auto aspect-[2378/699] object-contain mb-4"
             priority
           />
-          <h1 className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D4A437]">Admin Access</h1>
+          <h1 className="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[#D3A337]">Admin Access</h1>
           <p className="mt-2 text-sm leading-relaxed text-[#0f1b3d]/60">Sign in to manage jobs, applications, and contact submissions.</p>
         </div>
 
@@ -71,7 +71,7 @@ export function AdminLogin() {
               required
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-3 text-sm text-[#0f1b3d] outline-none transition-colors placeholder:text-[#0f1b3d]/30 focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+              className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-3 text-sm text-[#0f1b3d] outline-none transition-colors placeholder:text-[#0f1b3d]/30 focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
               placeholder="admin"
             />
           </div>
@@ -86,7 +86,7 @@ export function AdminLogin() {
                 required
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 pl-4 pr-11 py-3 text-sm text-[#0f1b3d] outline-none transition-colors placeholder:text-[#0f1b3d]/30 focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 pl-4 pr-11 py-3 text-sm text-[#0f1b3d] outline-none transition-colors placeholder:text-[#0f1b3d]/30 focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                 placeholder="••••••••"
               />
               <button

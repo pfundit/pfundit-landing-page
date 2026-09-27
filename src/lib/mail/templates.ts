@@ -24,7 +24,7 @@ function baseSubmissionHtml(title: string, rows: Array<[string, string | undefin
   return `
     <div style="font-family:Arial,sans-serif;background:#f6f8ff;padding:24px;">
       <div style="max-width:720px;margin:0 auto;background:#fff;border:1px solid rgba(15,27,61,0.08);border-radius:20px;padding:28px;">
-        <p style="margin:0 0 10px;color:#D4A437;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;">Pfundit Submission</p>
+        <p style="margin:0 0 10px;color:#D3A337;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;">Pfundit Submission</p>
         <h2 style="margin:0 0 20px;color:#0f1b3d;font-size:24px;line-height:1.2;">${title}</h2>
         <table style="width:100%;border-collapse:collapse;">${safeRows}</table>
         ${extra || ''}

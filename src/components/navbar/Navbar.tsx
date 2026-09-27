@@ -215,7 +215,7 @@ export function Navbar() {
       {!isHiringPage && (
         <div
           ref={hiringStripRef}
-          className="relative flex min-h-[42px] w-full items-center border-b border-[#d4a437]/25 bg-[#d4a437] text-navy shadow-[0_4px_16px_rgba(212,164,55,0.15)]"
+          className="relative flex min-h-[42px] w-full items-center border-b border-[#d3a337]/25 bg-[#d3a337] text-navy shadow-[0_4px_16px_rgba(211, 163, 55,0.15)]"
         >
           <div className="layout-shell editorial-container">
             <Link
@@ -276,7 +276,7 @@ export function Navbar() {
 
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center"
+            className="flex flex-col items-start text-left"
             aria-label="Pfundit Home"
           >
             <Image
@@ -287,6 +287,9 @@ export function Navbar() {
               className="h-6 sm:h-[26px] w-auto object-contain"
               priority
             />
+            <span className="mt-1 text-[0.52rem] sm:text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#D3A337] leading-none whitespace-nowrap">
+              CREDIT, WITH DISCIPLINE.
+            </span>
           </motion.button>
 
           <div
@@ -346,7 +349,7 @@ export function Navbar() {
                                   key={item.id}
                                   type="button"
                                   onClick={() => scrollToSection(item.id)}
-                                  className="group flex w-full items-center justify-between gap-4 rounded-[1rem] border border-[rgba(15,27,61,0.08)] bg-white px-4 py-3.5 text-left shadow-[0_6px_18px_rgba(15,27,61,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(212,164,55,0.28)] hover:shadow-[0_12px_28px_rgba(15,27,61,0.09)]"
+                                  className="group flex w-full items-center justify-between gap-4 rounded-[1rem] border border-[rgba(15,27,61,0.08)] bg-white px-4 py-3.5 text-left shadow-[0_6px_18px_rgba(15,27,61,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[rgba(211, 163, 55,0.28)] hover:shadow-[0_12px_28px_rgba(15,27,61,0.09)]"
                                 >
                                   <span className="min-w-0">
                                     <span className="block text-[0.96rem] font-semibold tracking-[-0.02em] text-navy transition-colors duration-300 group-hover:text-gold">

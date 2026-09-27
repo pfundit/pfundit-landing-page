@@ -32,19 +32,19 @@ export function Stakeholders() {
     >
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(15,27,61,0.08)] to-transparent" />
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-6%] top-16 h-72 w-72 rounded-full bg-[#D4A437]/5 blur-[120px]" />
+        <div className="absolute left-[-6%] top-16 h-72 w-72 rounded-full bg-[#D3A337]/5 blur-[120px]" />
       </div>
 
       <div className="layout-shell editorial-container relative z-10">
 
         <header className="max-w-[42rem] mb-16">
           <div data-reveal="eyebrow" className="reveal-hidden mb-6 flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
             <span className="section-label">FOR OUR STAKEHOLDERS</span>
           </div>
 
           <h2 data-reveal="heading" className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy header-heading">
-            One institution, built for the <span className="text-[#C9A84C]">people who back it.</span>
+            One institution, built for the <span className="text-[#D3A337]">people who back it.</span>
           </h2>
         </header>
 
@@ -61,7 +61,7 @@ export function Stakeholders() {
 
                 {/* Icon & Animated Gold Line */}
                 <div className="mb-8 flex items-center justify-between">
-                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border border-[rgba(212,164,55,0.3)] bg-[rgba(212,164,55,0.05)] text-[#D4A437] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(212,164,55,0.1)]">
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border border-[rgba(211, 163, 55,0.3)] bg-[rgba(211, 163, 55,0.05)] text-[#D3A337] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(211, 163, 55,0.1)]">
                     {i === 0 && (
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     )}
@@ -74,7 +74,7 @@ export function Stakeholders() {
                   </div>
                   {/* Animated Gold Line */}
                   <div className="h-px flex-1 ml-6 bg-navy/[0.04] relative overflow-hidden">
-                    <div className="absolute top-0 left-0 h-full w-full origin-left scale-x-0 bg-gradient-to-r from-[#D4A437] to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100" />
+                    <div className="absolute top-0 left-0 h-full w-full origin-left scale-x-0 bg-gradient-to-r from-[#D3A337] to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100" />
                   </div>
                 </div>
 
@@ -86,7 +86,7 @@ export function Stakeholders() {
                 </p>
 
                 {/* Subtle hover background glow behind column */}
-                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_left,rgba(212,164,55,0.04),transparent_60%)] pointer-events-none" />
+                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_left,rgba(211, 163, 55,0.04),transparent_60%)] pointer-events-none" />
               </div>
             ))}
           </div>

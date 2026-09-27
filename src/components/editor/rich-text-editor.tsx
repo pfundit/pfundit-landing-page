@@ -35,7 +35,7 @@ export function RichTextEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-[#D4A437] underline font-semibold hover:text-[#b49050]',
+          class: 'text-[#D3A337] underline font-semibold hover:text-[#b49050]',
           target: '_blank',
           rel: 'noopener noreferrer',
         },
@@ -116,7 +116,7 @@ export function RichTextEditor({
     }`;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#0f1b3d]/15 bg-white shadow-sm transition-colors focus-within:border-[#D4A437]">
+    <div className="overflow-hidden rounded-xl border border-[#0f1b3d]/15 bg-white shadow-sm transition-colors focus-within:border-[#D3A337]">
       {/* Editor Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-1 border-b border-[#0f1b3d]/10 bg-[#F8FAFF] p-2">
         <div className="flex flex-wrap items-center gap-1">

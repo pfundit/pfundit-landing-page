@@ -23,7 +23,7 @@ export default function CookieNoticePage() {
           <div className="mb-8">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D4A437] hover:underline"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D3A337] hover:underline"
             >
               &larr; Back to Home
             </Link>
@@ -31,7 +31,7 @@ export default function CookieNoticePage() {
 
           {/* Document Header */}
           <div className="border-b border-[#0f1b3d]/10 pb-8 mb-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#D4A437]/10 px-3 py-1 text-xs font-bold text-[#D4A437] mb-4">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#D3A337]/10 px-3 py-1 text-xs font-bold text-[#D3A337] mb-4">
               <span>Website Legal Policies</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0f1b3d]">
@@ -57,7 +57,7 @@ export default function CookieNoticePage() {
                 A1. What this notice covers
               </h2>
               <p>
-                This notice explains how Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) (“Pfundit”, “we” and “us”) use cookies and similar technologies, such as pixels, tags, local storage and software development kits (together, “cookies”), on pfundit.com and its sub-pages (the “Site”). It forms part of, and should be read with, our privacy notices, including the <Link href="/hiring/privacy" className="text-[#D4A437] font-semibold underline hover:text-[#b49050]">Applicant Privacy Notice</Link>.
+                This notice explains how Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) (“Pfundit”, “we” and “us”) use cookies and similar technologies, such as pixels, tags, local storage and software development kits (together, “cookies”), on pfundit.com and its sub-pages (the “Site”). It forms part of, and should be read with, our privacy notices, including the <Link href="/hiring/privacy" className="text-[#D3A337] font-semibold underline hover:text-[#b49050]">Applicant Privacy Notice</Link>.
               </p>
               <p>
                 Where information collected through cookies identifies you, or can identify you when combined with other information, we treat it as personal data under India’s Digital Personal Data Protection Act, 2023, the Information Technology Act, 2000 and the rules made under them, and Singapore’s Personal Data Protection Act 2012 (PDPA).
@@ -188,7 +188,7 @@ export default function CookieNoticePage() {
                     Pfundit Capital Private Ltd.<br />
                     Prestige Central, 36 Infantry Road, M.G. Road,<br />
                     Bengaluru 560001, India<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D4A437] underline">privacy@pfundit.com</a>
+                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a>
                   </p>
                 </div>
                 <div className="rounded-xl bg-white p-5 border border-[#0f1b3d]/10">
@@ -197,7 +197,7 @@ export default function CookieNoticePage() {
                     Pfundit Pte. Ltd.<br />
                     14B, Stanley Street,<br />
                     Singapore 068733<br />
-                    Email: <a href="mailto:dpo@pfundit.com" className="font-medium text-[#D4A437] underline">dpo@pfundit.com</a>
+                    Email: <a href="mailto:dpo@pfundit.com" className="font-medium text-[#D3A337] underline">dpo@pfundit.com</a>
                   </p>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default function CookieNoticePage() {
                 A9. Changes and language
               </h2>
               <p>
-                We may update this notice from time to time. We will post the updated version on the Site with a new effective date and, if the changes are material, ask for your cookie choices again. You can ask for this notice in English or in any language listed in the Eighth Schedule to the Constitution of India by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">privacy@pfundit.com</a>.
+                We may update this notice from time to time. We will post the updated version on the Site with a new effective date and, if the changes are material, ask for your cookie choices again. You can ask for this notice in English or in any language listed in the Eighth Schedule to the Constitution of India by emailing <a href="mailto:privacy@pfundit.com" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">privacy@pfundit.com</a>.
               </p>
             </section>
           </article>

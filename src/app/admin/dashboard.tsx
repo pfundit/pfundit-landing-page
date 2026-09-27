@@ -103,7 +103,7 @@ function formatDate(value: string) {
 function SectionHeader({ title, description }: { title: string; description: string }) {
   return (
     <div className="mb-5">
-      <p className="text-[0.66rem] font-bold uppercase tracking-[0.22em] text-[#D4A437]">Pfundit Admin</p>
+      <p className="text-[0.66rem] font-bold uppercase tracking-[0.22em] text-[#D3A337]">Pfundit Admin</p>
       <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#0f1b3d] sm:text-3xl">{title}</h1>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[#0f1b3d]/60">{description}</p>
     </div>
@@ -197,7 +197,7 @@ function DateRangeFilter({
       {isOpen && (
         <div className="absolute right-0 top-full z-20 mt-2 w-[18rem] rounded-2xl border border-[#0f1b3d]/10 bg-white p-3 shadow-[0_16px_40px_rgba(15,27,61,0.12)] sm:w-[22rem]">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#D4A437]">{title}</p>
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#D3A337]">{title}</p>
             <button type="button" onClick={() => setIsOpen(false)} className="rounded-full p-1 text-[#0f1b3d]/45 hover:text-[#0f1b3d]">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -215,7 +215,7 @@ function DateRangeFilter({
             <button type="button" onClick={() => setPreset('30d')} className={`${filterChipBaseClass} ${filter.preset === '30d' ? 'bg-[#0f1b3d] text-white' : 'bg-[#F6F8FF] text-[#0f1b3d]/70 hover:bg-[#EEF3FF]'}`}>
               30d
             </button>
-            <button type="button" onClick={() => setPreset('custom')} className={`${filterChipBaseClass} ${filter.preset === 'custom' ? 'bg-[#D4A437] text-white' : 'bg-[#F6F8FF] text-[#0f1b3d]/70 hover:bg-[#EEF3FF]'}`}>
+            <button type="button" onClick={() => setPreset('custom')} className={`${filterChipBaseClass} ${filter.preset === 'custom' ? 'bg-[#D3A337] text-white' : 'bg-[#F6F8FF] text-[#0f1b3d]/70 hover:bg-[#EEF3FF]'}`}>
               Range
             </button>
           </div>
@@ -614,7 +614,7 @@ export function AdminDashboard() {
                     <tbody className="divide-y divide-[#0f1b3d]/5">
                       {jobs.map((job) => (
                         <tr key={job.id} className="transition-colors hover:bg-[#F6F8FF]">
-                          <td className="px-5 py-4 font-mono font-bold text-[#D4A437]">{job.id}</td>
+                          <td className="px-5 py-4 font-mono font-bold text-[#D3A337]">{job.id}</td>
                           <td className="px-5 py-4">
                             <div className="font-semibold text-[#0f1b3d]">{job.title}</div>
                             {job.cardBlurb && (
@@ -635,7 +635,7 @@ export function AdminDashboard() {
                             )}
                           </td>
                           <td className="px-5 py-4 text-right">
-                            <button onClick={() => openEditModal(job)} className="mr-3 rounded-full bg-[#D4A437]/10 px-3 py-1.5 text-xs font-bold text-[#D4A437] transition-colors hover:bg-[#D4A437]/15">
+                            <button onClick={() => openEditModal(job)} className="mr-3 rounded-full bg-[#D3A337]/10 px-3 py-1.5 text-xs font-bold text-[#D3A337] transition-colors hover:bg-[#D3A337]/15">
                               Edit
                             </button>
                             <button onClick={() => handleDelete(job.id)} className="rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-red-500 transition-colors hover:bg-red-100">
@@ -687,7 +687,7 @@ export function AdminDashboard() {
                       key={application.id}
                       type="button"
                       onClick={() => setSelectedJobApplication(application)}
-                      className="group grid w-full gap-4 border-l-2 border-transparent px-5 py-4 text-left transition-colors hover:border-l-[#D4A437] hover:bg-[#F6F8FF] focus-visible:border-l-[#D4A437] focus-visible:bg-[#F6F8FF] focus-visible:outline-none sm:px-6 lg:grid-cols-[minmax(14rem,1.1fr)_minmax(0,1fr)_10rem_10rem_2rem] lg:items-start lg:gap-4"
+                      className="group grid w-full gap-4 border-l-2 border-transparent px-5 py-4 text-left transition-colors hover:border-l-[#D3A337] hover:bg-[#F6F8FF] focus-visible:border-l-[#D3A337] focus-visible:bg-[#F6F8FF] focus-visible:outline-none sm:px-6 lg:grid-cols-[minmax(14rem,1.1fr)_minmax(0,1fr)_10rem_10rem_2rem] lg:items-start lg:gap-4"
                     >
                       <div className="min-w-0">
                         <h3 className="text-[1rem] font-bold tracking-tight text-[#0f1b3d]">{application.name}</h3>
@@ -695,7 +695,7 @@ export function AdminDashboard() {
 
                       <div className="min-w-0 text-sm text-[#0f1b3d]/70">{application.email}</div>
 
-                      <div className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#D4A437] lg:pt-0.5">{application.role}</div>
+                      <div className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#D3A337] lg:pt-0.5">{application.role}</div>
 
                       <div className="text-sm text-[#0f1b3d] lg:pt-0.5">{formatDate(application.createdAt)}</div>
 
@@ -740,7 +740,7 @@ export function AdminDashboard() {
                         key={submission.id}
                         type="button"
                         onClick={() => setSelectedContactSubmission(submission)}
-                        className="group grid w-full gap-4 border-l-2 border-transparent px-5 py-4 text-left transition-colors hover:border-l-[#D4A437] hover:bg-[#F6F8FF] focus-visible:border-l-[#D4A437] focus-visible:bg-[#F6F8FF] focus-visible:outline-none sm:px-6 lg:grid-cols-[minmax(14rem,1.1fr)_10rem_10rem_2rem] lg:items-start lg:gap-4"
+                        className="group grid w-full gap-4 border-l-2 border-transparent px-5 py-4 text-left transition-colors hover:border-l-[#D3A337] hover:bg-[#F6F8FF] focus-visible:border-l-[#D3A337] focus-visible:bg-[#F6F8FF] focus-visible:outline-none sm:px-6 lg:grid-cols-[minmax(14rem,1.1fr)_10rem_10rem_2rem] lg:items-start lg:gap-4"
                       >
                         <div className="min-w-0">
                           <h3 className="text-[1rem] font-bold tracking-tight text-[#0f1b3d]">{submission.name}</h3>
@@ -782,7 +782,7 @@ export function AdminDashboard() {
                       Active Recipients ({recipientEmails.length})
                     </label>
                     {isSettingsDirty && (
-                      <span className="text-[0.68rem] font-semibold uppercase tracking-wider text-[#D4A437]">
+                      <span className="text-[0.68rem] font-semibold uppercase tracking-wider text-[#D3A337]">
                         • Unsaved Changes
                       </span>
                     )}
@@ -797,7 +797,7 @@ export function AdminDashboard() {
                       {recipientEmails.map((email) => (
                         <span
                           key={email}
-                          className="inline-flex items-center gap-2 rounded-full border border-[#0f1b3d]/15 bg-[#F0F5FF] px-3.5 py-1.5 text-xs font-semibold text-[#0f1b3d] shadow-sm transition-all hover:border-[#D4A437]/40"
+                          className="inline-flex items-center gap-2 rounded-full border border-[#0f1b3d]/15 bg-[#F0F5FF] px-3.5 py-1.5 text-xs font-semibold text-[#0f1b3d] shadow-sm transition-all hover:border-[#D3A337]/40"
                         >
                           <span>{email}</span>
                           <button
@@ -836,7 +836,7 @@ export function AdminDashboard() {
                         }
                       }}
                       placeholder="e.g. founder@pfundit.com or comma-separated emails"
-                      className="flex-1 rounded-xl border border-[#0f1b3d]/15 bg-white px-4 py-2.5 text-sm text-[#0f1b3d] placeholder:text-[#0f1b3d]/40 focus:border-[#D4A437] focus:outline-none focus:ring-1 focus:ring-[#D4A437]"
+                      className="flex-1 rounded-xl border border-[#0f1b3d]/15 bg-white px-4 py-2.5 text-sm text-[#0f1b3d] placeholder:text-[#0f1b3d]/40 focus:border-[#D3A337] focus:outline-none focus:ring-1 focus:ring-[#D3A337]"
                     />
                     <button
                       type="button"
@@ -954,7 +954,7 @@ export function AdminDashboard() {
                         placeholder="e.g. Head of Credit / Credit Manager"
                         value={currentJob.title || ''}
                         onChange={(event) => setCurrentJob({ ...currentJob, title: event.target.value })}
-                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                       />
                     </div>
                     <div>
@@ -963,7 +963,7 @@ export function AdminDashboard() {
                         required
                         value={currentJob.category || 'Leadership'}
                         onChange={(event) => setCurrentJob({ ...currentJob, category: event.target.value })}
-                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                       >
                         <option value="Leadership">Leadership</option>
                         <option value="Technology">Technology</option>
@@ -981,7 +981,7 @@ export function AdminDashboard() {
                         placeholder="Full-time, Advisory, etc."
                         value={currentJob.type || ''}
                         onChange={(event) => setCurrentJob({ ...currentJob, type: event.target.value })}
-                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                       />
                     </div>
                     <div>
@@ -991,7 +991,7 @@ export function AdminDashboard() {
                         placeholder="e.g. Mumbai, India · Hybrid"
                         value={currentJob.location || ''}
                         onChange={(event) => setCurrentJob({ ...currentJob, location: event.target.value })}
-                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                       />
                     </div>
                     <div>
@@ -1002,7 +1002,7 @@ export function AdminDashboard() {
                         placeholder="Credit & Risk, Underwriting"
                         value={tagInput}
                         onChange={(event) => setTagInput(event.target.value)}
-                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                       />
                     </div>
                   </div>
@@ -1016,7 +1016,7 @@ export function AdminDashboard() {
                       placeholder="e.g. Build the credit engine of a new-generation, AI-native NBFC, from the first policy to the first disbursement."
                       value={currentJob.cardBlurb || ''}
                       onChange={(event) => setCurrentJob({ ...currentJob, cardBlurb: event.target.value })}
-                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                     />
                   </div>
 
@@ -1029,7 +1029,7 @@ export function AdminDashboard() {
                       placeholder="https://..."
                       value={currentJob.jdUrl || ''}
                       onChange={(event) => setCurrentJob({ ...currentJob, jdUrl: event.target.value })}
-                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D4A437] focus:bg-white focus:ring-1 focus:ring-[#D4A437]"
+                      className="w-full rounded-xl border border-[#0f1b3d]/15 bg-[#F0F5FF]/60 px-4 py-2.5 text-sm outline-none transition-colors focus:border-[#D3A337] focus:bg-white focus:ring-1 focus:ring-[#D3A337]"
                     />
                   </div>
 
@@ -1051,14 +1051,14 @@ export function AdminDashboard() {
                 <div className="space-y-6">
                   {/* Card Preview */}
                   <div>
-                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D4A437]">Card Version Preview</p>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D3A337]">Card Version Preview</p>
                     <div className="rounded-2xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/40 p-5">
                       <div className="flex items-baseline justify-between gap-4">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-bold text-[#D4A437]">{currentJob.id || 'NEW'}</span>
+                          <span className="font-mono text-xs font-bold text-[#D3A337]">{currentJob.id || 'NEW'}</span>
                           <h3 className="text-base font-bold text-[#0f1b3d]">{currentJob.title || 'Untitled Role'}</h3>
                         </div>
-                        <span className="rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 text-xs font-bold text-[#D4A437]">
+                        <span className="rounded-full bg-[#D3A337]/10 px-2.5 py-0.5 text-xs font-bold text-[#D3A337]">
                           {currentJob.type || 'Full-time'}
                         </span>
                       </div>
@@ -1077,7 +1077,7 @@ export function AdminDashboard() {
 
                   {/* Page Description Preview */}
                   <div>
-                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D4A437]">Page Version / Detailed View Preview</p>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[#D3A337]">Page Version / Detailed View Preview</p>
                     <div className="rounded-2xl border border-[#0f1b3d]/10 bg-white p-6 shadow-sm">
                       <h2 className="text-xl font-bold text-[#0f1b3d] mb-1">{currentJob.title || 'Untitled Role'}</h2>
                       <div className="flex items-center gap-3 text-xs text-[#0f1b3d]/60 mb-4">
@@ -1128,7 +1128,7 @@ export function AdminDashboard() {
           <div className="w-full max-w-2xl rounded-[1.5rem] bg-white shadow-2xl">
             <div className={detailModalHeaderClassName}>
               <div>
-                <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D4A437]">Contact message</p>
+                <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D3A337]">Contact message</p>
                 <h2 className="mt-1 text-xl font-bold tracking-tight text-[#0f1b3d]">{selectedContactSubmission.name}</h2>
                 <p className="mt-1 text-sm text-[#0f1b3d]/60">{selectedContactSubmission.email}</p>
               </div>
@@ -1169,7 +1169,7 @@ export function AdminDashboard() {
           <div className="w-full max-w-2xl rounded-[1.5rem] bg-white shadow-2xl">
             <div className={detailModalHeaderClassName}>
               <div>
-                <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D4A437]">Job application</p>
+                <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D3A337]">Job application</p>
                 <h2 className="mt-1 text-xl font-bold tracking-tight text-[#0f1b3d]">{selectedJobApplication.name}</h2>
                 <p className="mt-1 text-sm text-[#0f1b3d]/60">{selectedJobApplication.email}</p>
               </div>

@@ -86,11 +86,11 @@ export function InvestmentThesis() {
           {/* Section Header */}
           <div className="mb-8 md:mb-12">
             <div className="mb-6 flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">INVESTMENT THESIS</span>
             </div>
             <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-white">
-              What We Are <span style={{ color: '#C9A84C' }}>Building</span>
+              What We Are <span style={{ color: '#D3A337' }}>Building</span>
             </h2>
           </div>
 
@@ -100,7 +100,7 @@ export function InvestmentThesis() {
             {/* Left: India NBFC */}
             <div id="thesis-intro" className="header-group max-w-[42rem] !mb-0">
               <div data-reveal="intro" className="flex items-center gap-4 flex-wrap mb-6">
-                <span className="section-label rounded-full border border-[rgba(212,164,55,0.28)] bg-[rgba(212,164,55,0.08)] px-3 py-1.5 text-[#D4A437]">INDIA · GREENFIELD</span>
+                <span className="section-label rounded-full border border-[rgba(211, 163, 55,0.28)] bg-[rgba(211, 163, 55,0.08)] px-3 py-1.5 text-[#D3A337]">INDIA · GREENFIELD</span>
               </div>
               <h3 className="typo-h3 text-white mb-6">India NBFC</h3>
               <div className="space-y-5 max-w-[42rem]">
@@ -113,7 +113,7 @@ export function InvestmentThesis() {
             {/* Right: SEA & GCC */}
             <div id="thesis-sea" className="header-group max-w-[42rem] !mb-0 lg:pl-10">
               <div data-reveal="intro" className="flex items-center gap-4 flex-wrap mb-6">
-                <span className="section-label rounded-full border border-[rgba(212,164,55,0.28)] bg-[rgba(212,164,55,0.08)] px-3 py-1.5 text-[#D4A437]">REGIONAL STRATEGY</span>
+                <span className="section-label rounded-full border border-[rgba(211, 163, 55,0.28)] bg-[rgba(211, 163, 55,0.08)] px-3 py-1.5 text-[#D3A337]">REGIONAL STRATEGY</span>
               </div>
               <h3 className="typo-h3 text-white mb-6">SEA &amp; GCC</h3>
               <div className="space-y-5 max-w-[42rem]">
@@ -131,7 +131,7 @@ export function InvestmentThesis() {
           <div id="thesis-caps">
             <div data-reveal="cap-label" className="mb-10">
               <span className="section-label">KEY CAPABILITIES</span>
-              <div data-reveal="cap-line" className="mt-3 h-px w-8 bg-[#D4A437]" />
+              <div data-reveal="cap-line" className="mt-3 h-px w-8 bg-[#D3A337]" />
             </div>
 
             <div className="grid gap-px overflow-hidden rounded-[1.25rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.12)] sm:grid-cols-2 xl:grid-cols-4">
@@ -139,13 +139,13 @@ export function InvestmentThesis() {
                 <div
                   key={cap.title}
                   data-reveal="cap-item"
-                  className="group relative min-h-[260px] overflow-hidden bg-[rgba(10,24,57,0.84)] p-7 transition-colors duration-500 hover:bg-[rgba(212,164,55,0.16)] sm:p-8"
+                  className="group relative min-h-[260px] overflow-hidden bg-[rgba(10,24,57,0.84)] p-7 transition-colors duration-500 hover:bg-[rgba(211, 163, 55,0.16)] sm:p-8"
                 >
-                  <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full border border-[rgba(212,164,55,0.13)] transition-transform duration-700 group-hover:scale-125" />
+                  <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full border border-[rgba(211, 163, 55,0.13)] transition-transform duration-700 group-hover:scale-125" />
                   <div className="relative flex h-full flex-col gap-7">
                     <div>
                       <div className="mb-7 flex items-center justify-between">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(212,164,55,0.36)] bg-[rgba(212,164,55,0.10)] text-[#D4A437]">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(211, 163, 55,0.36)] bg-[rgba(211, 163, 55,0.10)] text-[#D3A337]">
                           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             {cap.title === 'Hub & Spoke Model' && <path d="M12 12 5.5 6.5M12 12l6.5-5.5M12 12l-6.5 5.5M12 12l6.5 5.5M4 5h3v3H4zM17 5h3v3h-3zM4 16h3v3H4zM17 16h3v3h-3z" />}
                             {cap.title === 'Regulation-First Architecture' && <path d="M12 4v16M7 8l5-4 5 4M5 12h14M7 16l5 4 5-4" />}
@@ -153,7 +153,7 @@ export function InvestmentThesis() {
                             {cap.title === 'Technology-Driven Underwriting' && <><circle cx="12" cy="12" r="7" /><path d="M12 8v4l3 2M5 4l2 2M19 4l-2 2M5 20l2-2M19 20l-2-2" /></>}
                           </svg>
                         </div>
-                        <div className="h-px w-10 bg-[#D4A437]/60" />
+                        <div className="h-px w-10 bg-[#D3A337]/60" />
                       </div>
                       <h3 className="font-serif-editorial text-[1.6rem] font-medium leading-tight tracking-[-0.03em] text-white">
                         {cap.title}
@@ -181,11 +181,11 @@ export function InvestmentThesis() {
         <div className="layout-shell editorial-container relative z-10">
           <div className="header-group max-w-[38rem]">
             <div data-reveal="eyebrow" className="reveal-hidden mb-6 flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">ESG &amp; IMPACT</span>
             </div>
             <h2 data-reveal="heading" className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy header-heading">
-              Financing <span className="text-[#C9A84C]">India's Circular Economy</span>
+              Financing <span className="text-[#D3A337]">India's Circular Economy</span>
             </h2>
             <p data-reveal="paragraph" className="reveal-hidden typo-body text-navy/60 mt-3">
               India's waste and materials-recovery sector is scaling rapidly — and the working capital to build it out remains structurally scarce. Pfundit is designing asset-backed credit for the operators closing the loop: waste-to-energy converters, refurbishment and e-waste recovery businesses, and second-life battery operators. These are established businesses with observable off-take relationships and verifiable cash flows — exactly the transaction-anchored structures our credit model is designed to serve.
@@ -216,7 +216,7 @@ export function InvestmentThesis() {
                 <div data-reveal="block" className="reveal-hidden relative">
                   {/* Icon & Animated Gold Line */}
                   <div className="mb-6 flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(212,164,55,0.3)] bg-[rgba(212,164,55,0.05)] text-[#D4A437] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(212,164,55,0.1)]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(211, 163, 55,0.3)] bg-[rgba(211, 163, 55,0.05)] text-[#D3A337] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(211, 163, 55,0.1)]">
                       {i === 0 && (
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                       )}
@@ -229,7 +229,7 @@ export function InvestmentThesis() {
                     </div>
                     {/* Animated Gold Line connecting to the edge */}
                     <div className="h-px flex-1 ml-5 bg-navy/[0.04] relative overflow-hidden">
-                      <div className="absolute top-0 left-0 h-full w-full origin-left scale-x-0 bg-gradient-to-r from-[#D4A437] to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100" />
+                      <div className="absolute top-0 left-0 h-full w-full origin-left scale-x-0 bg-gradient-to-r from-[#D3A337] to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100" />
                     </div>
                   </div>
 
@@ -242,7 +242,7 @@ export function InvestmentThesis() {
                 </div>
 
                 {/* Subtle hover background glow behind entire column */}
-                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_left,rgba(212,164,55,0.03),transparent_70%)] pointer-events-none" />
+                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_left,rgba(211, 163, 55,0.03),transparent_70%)] pointer-events-none" />
               </div>
             ))}
           </div>

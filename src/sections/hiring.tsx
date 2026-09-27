@@ -39,9 +39,9 @@ export function JobCardSkeleton() {
         <div className="min-w-0">
           {/* Header Skeleton: ID, Title, Badges */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-3">
-            <div className="skeleton-bone-gold h-4 w-6 rounded bg-[#D4A437]/35" />
+            <div className="skeleton-bone-gold h-4 w-6 rounded bg-[#D3A337]/35" />
             <div className="skeleton-bone h-5 sm:h-6 w-52 sm:w-64 rounded-md bg-[#0f1b3d]/16" />
-            <div className="skeleton-bone-gold h-5 w-16 rounded-full bg-[#D4A437]/20" />
+            <div className="skeleton-bone-gold h-5 w-16 rounded-full bg-[#D3A337]/20" />
             <div className="skeleton-bone h-5 w-20 rounded-full bg-[#0f1b3d]/12" />
             <div className="skeleton-bone h-4 w-20 rounded bg-[#0f1b3d]/12" />
           </div>
@@ -83,7 +83,7 @@ export function HiringNotice() {
         <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">No recruitment fees</h5>
         <p>
           Pfundit does not charge candidates any fee at any stage of recruitment, and does not authorise any agent to do so. Please report any such request to{' '}
-          <a href="mailto:careers@pfundit.com" className="font-medium text-[#0f1b3d] underline hover:text-[#D4A437]">
+          <a href="mailto:careers@pfundit.com" className="font-medium text-[#0f1b3d] underline hover:text-[#D3A337]">
             careers@pfundit.com
           </a>.
         </p>
@@ -93,7 +93,7 @@ export function HiringNotice() {
         <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Your personal data</h5>
         <p>
           We use the information you share only to assess your application and contact you about roles at Pfundit, in line with the Digital Personal Data Protection Act, 2023. Your data may be accessed by our parent company, Pfundit Pte. Ltd., Singapore, for hiring decisions. See our{' '}
-          <Link href="/hiring/privacy" className="font-semibold text-[#D4A437] underline hover:text-[#b49050]">
+          <Link href="/hiring/privacy" className="font-semibold text-[#D3A337] underline hover:text-[#b49050]">
             privacy notice
           </Link>{' '}
           to learn how to access, correct or withdraw your data.
@@ -254,11 +254,11 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
               <div style={{
                 padding: '0.4rem 1rem',
                 borderRadius: 999,
-                background: 'rgba(212,164,55,0.1)',
-                border: '1px solid rgba(212,164,55,0.25)',
+                background: 'rgba(211, 163, 55,0.1)',
+                border: '1px solid rgba(211, 163, 55,0.25)',
                 fontSize: '0.78rem',
                 fontWeight: 700,
-                color: '#D4A437',
+                color: '#D3A337',
                 letterSpacing: '0.06em',
                 whiteSpace: 'nowrap',
               }}>
@@ -284,20 +284,20 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
             ) : filtered.map((role) => (
               <div
                 key={role.id}
-                className="group relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/80 p-5 sm:p-6 backdrop-blur-sm hover:border-[#D4A437]/50 hover:shadow-md mb-3.5"
+                className="group relative rounded-[1.25rem] border border-[#0f1b3d]/10 bg-white/80 p-5 sm:p-6 backdrop-blur-sm hover:border-[#D3A337]/50 hover:shadow-md mb-3.5"
               >
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
                   <div className="min-w-0">
                     {/* Header: ID + Title + Badges */}
                     <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
-                      <span className="font-mono text-xs font-bold tracking-widest text-[#D4A437]">
+                      <span className="font-mono text-xs font-bold tracking-widest text-[#D3A337]">
                         {role.id}
                       </span>
                       <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#0f1b3d] leading-snug">
                         {role.title}
                       </h3>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 text-[0.7rem] font-bold text-[#D4A437]">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D3A337]/10 px-2.5 py-0.5 text-[0.7rem] font-bold text-[#D3A337]">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
                         {role.type}
                       </span>
                       <span className="rounded-full bg-[#0f1b3d]/5 px-2.5 py-0.5 text-[0.7rem] font-semibold text-[#0f1b3d]/65">
@@ -365,7 +365,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                   <div>
                     <h3 className="pr-4 text-[1.35rem] font-bold tracking-tight text-[#0f1b3d] sm:text-[1.6rem] md:text-[1.8rem]">Application Form</h3>
                     <p className="mt-1 text-[0.9rem] text-[#0f1b3d]/60 sm:text-[0.95rem]">
-                      Applying for: <span className="font-bold text-[#D4A437]">{selectedRole}</span>
+                      Applying for: <span className="font-bold text-[#D3A337]">{selectedRole}</span>
                     </p>
                   </div>
 
@@ -384,7 +384,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
 
               <div className="grid flex-1 min-h-0 gap-0 overflow-hidden lg:grid-cols-[minmax(18rem,0.9fr)_minmax(0,1.1fr)]">
                 <aside className="border-b border-[#0f1b3d]/10 bg-[#F0F5FF]/45 px-5 py-5 sm:px-6 sm:py-6 lg:border-b-0 lg:border-r lg:px-7 lg:py-7 overflow-y-auto">
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4A437]">Role Overview</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#D3A337]">Role Overview</p>
                   <h4 className="mt-2 text-[1rem] font-bold tracking-tight text-[#0f1b3d] sm:text-[1.1rem]">What we are hiring for</h4>
 
                   {(() => {
@@ -399,7 +399,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                         )}
                         <h4 className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/70">Role Details</h4>
                         <div
-                          className="prose prose-sm text-xs leading-relaxed text-[#0f1b3d]/80 space-y-2 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-headings:text-xs prose-headings:mt-3 prose-headings:mb-1 prose-ul:list-disc prose-ul:pl-4 prose-a:text-[#D4A437] prose-a:underline font-normal"
+                          className="prose prose-sm text-xs leading-relaxed text-[#0f1b3d]/80 space-y-2 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-headings:text-xs prose-headings:mt-3 prose-headings:mb-1 prose-ul:list-disc prose-ul:pl-4 prose-a:text-[#D3A337] prose-a:underline font-normal"
                           dangerouslySetInnerHTML={{ __html: current.description || '' }}
                         />
                         {current.jdUrl && (
@@ -408,7 +408,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                               href={current.jdUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D4A437] underline hover:text-[#b49050]"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D3A337] underline hover:text-[#b49050]"
                             >
                               📄 View Full Job Description&rarr;
                             </a>
@@ -439,37 +439,37 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Full Name</label>
-                            <input required type="text" name="Name" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="Jane Doe" />
+                            <input required type="text" name="Name" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" placeholder="Jane Doe" />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Email</label>
-                            <input required type="email" name="Email" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="jane@example.com" />
+                            <input required type="email" name="Email" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" placeholder="jane@example.com" />
                           </div>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">LinkedIn Profile (Optional)</label>
-                            <input type="url" name="LinkedIn" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="https://linkedin.com/in/..." />
+                            <input type="url" name="LinkedIn" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" placeholder="https://linkedin.com/in/..." />
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Resume Upload (Required)</label>
-                            <input required type="file" name="Resume" accept=".pdf,.doc,.docx" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.9rem] text-[#0f1b3d] file:mr-4 file:rounded-full file:border-0 file:bg-[#0f1b3d] file:px-4 file:py-2 file:text-[0.78rem] file:font-bold file:text-white transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" />
+                            <input required type="file" name="Resume" accept=".pdf,.doc,.docx" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.9rem] text-[#0f1b3d] file:mr-4 file:rounded-full file:border-0 file:bg-[#0f1b3d] file:px-4 file:py-2 file:text-[0.78rem] file:font-bold file:text-white transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" />
                           </div>
                         </div>
 
                         <div className="flex flex-col gap-1.5">
                           <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Why Pfundit?</label>
-                          <textarea required name="Why Pfundit" rows={3} className="w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D4A437] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4A437]" placeholder="Tell us why you are a great fit..." />
+                          <textarea required name="Why Pfundit" rows={3} className="w-full resize-none rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" placeholder="Tell us why you are a great fit..." />
                         </div>
 
                         {/* Privacy & Talent Pool Consents */}
                         <div className="flex flex-col gap-2.5 pt-1">
                           <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[#0f1b3d]/80 leading-relaxed select-none">
-                            <input required type="checkbox" name="privacyConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D4A437] accent-[#0f1b3d]" />
+                            <input required type="checkbox" name="privacyConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D3A337] accent-[#0f1b3d]" />
                             <span>
                               I have read the{' '}
-                              <Link href="/hiring/privacy" target="_blank" className="font-semibold text-[#0f1b3d] underline hover:text-[#D4A437]">
+                              <Link href="/hiring/privacy" target="_blank" className="font-semibold text-[#0f1b3d] underline hover:text-[#D3A337]">
                                 Applicant Privacy Notice
                               </Link>{' '}
                               and consent to Pfundit processing my personal data as described. <span className="text-red-500">*</span>
@@ -477,7 +477,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                           </label>
 
                           <label className="flex items-start gap-2.5 cursor-pointer text-xs text-[#0f1b3d]/70 leading-relaxed select-none">
-                            <input type="checkbox" name="talentPoolConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D4A437] accent-[#0f1b3d]" />
+                            <input type="checkbox" name="talentPoolConsent" className="mt-0.5 h-4 w-4 rounded border-[#0f1b3d]/25 text-[#0f1b3d] focus:ring-[#D3A337] accent-[#0f1b3d]" />
                             <span>
                               Keep my application on file for up to 24 months to consider me for future opportunities.
                             </span>
@@ -523,7 +523,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
             <div className="shrink-0 border-b border-[#0f1b3d]/10 bg-[#F8FAFF] px-6 py-5 sm:px-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#D4A437] uppercase tracking-[0.2em] mb-1">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#D3A337] uppercase tracking-[0.2em] mb-1">
                     <span>Role {detailedRole.id}</span>
                     <span>·</span>
                     <span>{detailedRole.category}</span>
@@ -532,8 +532,8 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                     {detailedRole.title}
                   </h3>
                   <div className="mt-2.5 flex flex-wrap items-center gap-2.5 text-xs text-[#0f1b3d]/65 font-medium">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D4A437]/10 px-2.5 py-0.5 font-bold text-[#D4A437]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D3A337]/10 px-2.5 py-0.5 font-bold text-[#D3A337]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
                       {detailedRole.type}
                     </span>
                     {detailedRole.location && (
@@ -560,14 +560,14 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
             {/* Modal Body */}
             <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
               {detailedRole.cardBlurb && (
-                <div className="mb-6 rounded-2xl border border-[#D4A437]/20 bg-[#D4A437]/5 p-4 sm:p-5 text-sm font-semibold leading-relaxed text-[#0f1b3d]">
+                <div className="mb-6 rounded-2xl border border-[#D3A337]/20 bg-[#D3A337]/5 p-4 sm:p-5 text-sm font-semibold leading-relaxed text-[#0f1b3d]">
                   {detailedRole.cardBlurb}
                 </div>
               )}
 
               {/* Rich Description */}
               <div
-                className="prose prose-sm max-w-none text-[0.92rem] leading-relaxed text-[#0f1b3d]/85 space-y-3 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-h2:text-lg prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2 prose-ul:list-disc prose-ul:pl-5 prose-li:my-1.5 prose-a:text-[#D4A437] prose-a:font-semibold prose-a:underline hover:prose-a:text-[#b49050]"
+                className="prose prose-sm max-w-none text-[0.92rem] leading-relaxed text-[#0f1b3d]/85 space-y-3 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-h2:text-lg prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2 prose-ul:list-disc prose-ul:pl-5 prose-li:my-1.5 prose-a:text-[#D3A337] prose-a:font-semibold prose-a:underline hover:prose-a:text-[#b49050]"
                 dangerouslySetInnerHTML={{ __html: detailedRole.description || '' }}
               />
 
@@ -578,7 +578,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                     href={detailedRole.jdUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#D4A437] hover:text-[#b49050] hover:underline transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#D3A337] hover:text-[#b49050] hover:underline transition-colors"
                   >
                     View Full Job Description Document &rarr;
                   </a>

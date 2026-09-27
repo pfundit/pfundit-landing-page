@@ -90,7 +90,7 @@ export function Governance() {
       // Continuous pulsing animation for timeline dots
       gsap.utils.toArray<HTMLElement>('[data-reveal="timeline-dot"]').forEach((el, i) => {
         gsap.to(el, { 
-          boxShadow: '0 0 16px 5px rgba(212,164,55,0.65)',
+          boxShadow: '0 0 16px 5px rgba(211, 163, 55,0.65)',
           scale: 1.25,
           duration: 1.2, 
           ease: 'sine.inOut', 
@@ -108,7 +108,7 @@ export function Governance() {
     <section ref={sectionRef} id="governance" className="relative overflow-hidden section-padding" style={{ background: 'var(--bg-base)' }}>
       {/* Background ambient lighting */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[radial-gradient(ellipse_at_top,rgba(212,164,55,0.06),transparent_70%)]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[radial-gradient(ellipse_at_top,rgba(211, 163, 55,0.06),transparent_70%)]" />
       </div>
 
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(15,27,61,0.08)] to-transparent" />
@@ -118,11 +118,11 @@ export function Governance() {
         {/* Header Section */}
         <header data-reveal="header" className="max-w-[48rem] mb-12">
           <div className="header-eyebrow mb-6">
-            <div className="header-eyebrow-dot shadow-[0_0_8px_rgba(212,164,55,0.6)]" />
-            <span className="typo-eyebrow text-[#D4A437]">Governance &amp; Trust</span>
+            <div className="header-eyebrow-dot shadow-[0_0_8px_rgba(211, 163, 55,0.6)]" />
+            <span className="typo-eyebrow text-[#D3A337]">Governance &amp; Trust</span>
           </div>
           <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy mb-6">
-            Built on <span className="text-[#C9A84C]">Regulated Rails</span>
+            Built on <span className="text-[#D3A337]">Regulated Rails</span>
           </h2>
           <p className="typo-body text-navy/60">
             Institutional standards from day one — designed for the scrutiny of regulators, investors and partners.
@@ -135,13 +135,13 @@ export function Governance() {
             <div 
               key={pillar.id}
               data-reveal="card"
-              className="group relative flex flex-col p-6 sm:p-8 rounded-[1.25rem] bg-[rgba(15,27,61,0.02)] border border-[rgba(15,27,61,0.06)] hover:bg-[rgba(15,27,61,0.035)] hover:border-[rgba(212,164,55,0.25)] transition-all duration-500 overflow-hidden"
+              className="group relative flex flex-col p-6 sm:p-8 rounded-[1.25rem] bg-[rgba(15,27,61,0.02)] border border-[rgba(15,27,61,0.06)] hover:bg-[rgba(15,27,61,0.035)] hover:border-[rgba(211, 163, 55,0.25)] transition-all duration-500 overflow-hidden"
             >
               {/* Subtle hover glow */}
-              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,rgba(212,164,55,0.04),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_left,rgba(211, 163, 55,0.04),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
               <div className="mb-6">
-                <span className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-[rgba(212,164,55,0.25)] bg-[rgba(212,164,55,0.05)] text-[#D4A437] font-mono text-xs tracking-widest">
+                <span className="inline-flex items-center justify-center px-3 py-1 rounded-full border border-[rgba(211, 163, 55,0.25)] bg-[rgba(211, 163, 55,0.05)] text-[#D3A337] font-mono text-xs tracking-widest">
                   {pillar.id}
                 </span>
               </div>
@@ -153,7 +153,7 @@ export function Governance() {
               <ul className="space-y-3 mt-auto">
                 {pillar.points.map((point, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <div className="w-[4px] h-[4px] rounded-full bg-[#D4A437] mt-[0.55rem] shadow-[0_0_6px_rgba(212,164,55,0.4)] flex-shrink-0" />
+                    <div className="w-[4px] h-[4px] rounded-full bg-[#D3A337] mt-[0.55rem] shadow-[0_0_6px_rgba(211, 163, 55,0.4)] flex-shrink-0" />
                     <span className="typo-body-sm text-navy/65 leading-relaxed text-[0.9rem]">
                       {point}
                     </span>
@@ -173,13 +173,13 @@ export function Governance() {
              <div className="absolute top-[3px] left-0 w-full h-px bg-[rgba(15,27,61,0.08)]" />
              
              {/* Animated golden line */}
-             <div data-reveal="timeline-line" className="absolute top-[3px] left-0 h-px w-full bg-gradient-to-r from-[#D4A437] via-[#D4A437] to-transparent opacity-40 origin-left" />
+             <div data-reveal="timeline-line" className="absolute top-[3px] left-0 h-px w-full bg-gradient-to-r from-[#D3A337] via-[#D3A337] to-transparent opacity-40 origin-left" />
              
              {/* The Dots Container */}
              <div className="absolute top-0 left-0 w-full h-full grid grid-cols-4 gap-x-8">
                {timeline.map((_, idx) => (
                  <div key={`dot-${idx}`} className="relative h-full flex items-center">
-                   <div data-reveal="timeline-dot" className="w-[7px] h-[7px] rounded-full bg-[#D4A437] shadow-[0_0_8px_rgba(212,164,55,0.6)]" />
+                   <div data-reveal="timeline-dot" className="w-[7px] h-[7px] rounded-full bg-[#D3A337] shadow-[0_0_8px_rgba(211, 163, 55,0.6)]" />
                  </div>
                ))}
              </div>
@@ -190,9 +190,9 @@ export function Governance() {
             {timeline.map((item, idx) => (
               <div key={idx} data-reveal="timeline-item" className="flex flex-col relative">
                 {/* Mobile/Tablet dot */}
-                <div data-reveal="timeline-dot" className="lg:hidden w-[6px] h-[6px] rounded-full bg-[#D4A437] shadow-[0_0_8px_rgba(212,164,55,0.6)] mb-3" />
+                <div data-reveal="timeline-dot" className="lg:hidden w-[6px] h-[6px] rounded-full bg-[#D3A337] shadow-[0_0_8px_rgba(211, 163, 55,0.6)] mb-3" />
                 
-                <h4 className="font-serif-editorial text-[1.6rem] text-[#D4A437] mb-2 transition-colors duration-300">
+                <h4 className="font-serif-editorial text-[1.6rem] text-[#D3A337] mb-2 transition-colors duration-300">
                   {item.year}
                 </h4>
                 <p className="typo-body-sm text-navy/70 max-w-[24ch] leading-relaxed">

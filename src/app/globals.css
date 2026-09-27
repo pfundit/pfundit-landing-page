@@ -2,10 +2,10 @@
 
 @theme {
   --color-navy: #0f1b3d;
-  --color-gold: #D4A437;
+  --color-gold: #D3A337;
   --color-bg: #FCFBF8;
   --color-surface: #ffffff;
-  --color-text-primary: #0D1B3E;
+  --color-text-primary: #0f1b3d;
   --color-text-secondary: #5f6472;
   --color-text-muted: #8e94a3;
 
@@ -156,7 +156,7 @@
 @layer base {
   :root {
     --navy: #0f1b3d;
-    --gold: #D4A437;
+    --gold: #D3A337;
 
     /* ── 3-Tier Section Background Rhythm ─────────────────────────
        Base: Primary content sections (ivory)
@@ -193,7 +193,7 @@
 
   body {
     background-color: #FCFBF8;
-    color: #0D1B3E;
+    color: #0f1b3d;
     font-family: var(--font-geist), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -298,7 +298,7 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-style: normal;
-    color: #D4AF37;
+    color: #D3A337;
   }
 
   .typo-eyebrow {
@@ -364,7 +364,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: #C9A84C;
+    background-color: #D3A337;
     flex-shrink: 0;
   }
 
@@ -422,7 +422,7 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 12% 12%, rgba(212, 164, 55, 0.06), transparent 32%),
+      radial-gradient(circle at 12% 12%, rgba(211, 163, 55, 0.06), transparent 32%),
       radial-gradient(circle at 90% 72%, rgba(15, 27, 61, 0.04), transparent 34%);
     z-index: 0;
   }
@@ -447,7 +447,7 @@
   }
 
   .surface-premium {
-    background: linear-gradient(150deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78) 58%, rgba(212, 164, 55, 0.05) 100%);
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78) 58%, rgba(211, 163, 55, 0.05) 100%);
     border: 1px solid rgba(255, 255, 255, 0.84);
     box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(10px);

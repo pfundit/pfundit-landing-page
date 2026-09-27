@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-[rgba(15,27,61,0.1)] bg-[#0f1b3d] text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 left-[-8%] h-[22rem] w-[22rem] rounded-full bg-[#D4A437]/15 blur-[130px]" />
+        <div className="absolute -top-24 left-[-8%] h-[22rem] w-[22rem] rounded-full bg-[#D3A337]/15 blur-[130px]" />
         <div className="absolute right-[-8%] top-1/4 h-[28rem] w-[28rem] rounded-full bg-[#22396e]/40 blur-[150px]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       </div>
@@ -25,7 +25,7 @@ export function Footer() {
               A Singapore-incorporated holding company building regulated, technology-enabled credit infrastructure for Asia's real economy.
             </p>
             <div className="mt-4 flex items-center gap-2.5">
-              <div className="h-1.5 w-1.5 rounded-full bg-[#D4A437] shadow-[0_0_6px_rgba(212,164,55,0.7)]" />
+              <div className="h-1.5 w-1.5 rounded-full bg-[#D3A337] shadow-[0_0_6px_rgba(211, 163, 55,0.7)]" />
               <span className="text-xs text-white/55">Singapore · ACRA Registered</span>
             </div>
           </div>
@@ -35,7 +35,7 @@ export function Footer() {
               <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Navigate</h4>
               <div className="space-y-2 text-[0.875rem] text-white/65">
                 {[['#mission', 'Mission & Vision'], ['#thesis', 'What We Are Building'], ['#ai-edge', 'AI Edge'], ['#leadership', 'Founders'], ['#stakeholders', 'Stakeholders'], ['#governance', 'Governance'], ['#contact', 'Contact']].map(([href, label]) => (
-                  <p key={label}><a href={href} className="transition-colors hover:text-[#D4A437]">{label}</a></p>
+                  <p key={label}><a href={href} className="transition-colors hover:text-[#D3A337]">{label}</a></p>
                 ))}
               </div>
             </div>

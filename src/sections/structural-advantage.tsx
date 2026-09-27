@@ -92,18 +92,18 @@ export function Infrastructure() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(15,27,61,0.08)] to-transparent" />
       {/* Very subtle ambient radial */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4A437]/8 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D3A337]/8 blur-[120px]" />
       </div>
 
       <div className="layout-shell editorial-container relative z-10">
         {/* Header + illustration side by side */}
-        <div className="flex items-start justify-between gap-8 mb-6 sm:mb-8 lg:mb-10">
-          <div className="max-w-[40rem]">
+        <div className="flex items-start justify-between gap-8 mb-6 sm:mb-8 lg:mb-10 w-full">
+          <div className="flex-1 max-w-[54rem]">
             <div
               data-reveal="eyebrow"
               className="reveal-hidden mb-4 sm:mb-5 flex items-center gap-2"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">THE STRUCTURAL ADVANTAGE</span>
             </div>
             <h2
@@ -111,7 +111,7 @@ export function Infrastructure() {
               className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy"
             >
               Why the Model is Built <br className="hidden sm:block" />
-              to <span className="text-[#C9A84C]">Compound Differently</span>
+              to <span className="text-[#D3A337]">Compound Differently</span>
             </h2>
           </div>
 
@@ -132,103 +132,96 @@ export function Infrastructure() {
           </div>
         </div>
 
-        {/* ── The Economics & CTI Comparison ── */}
+        {/* ── The Economics & CTI Comparison (Vertical Flow - Full Width) ── */}
         <div
           data-reveal="block"
-          data-cti-panel
-          className="reveal-hidden mb-16 relative"
+          className="reveal-hidden relative w-full space-y-10 sm:space-y-12"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-24 items-start">
-            {/* Left Column: The Economics */}
-            <div className="flex flex-col justify-between">
-              <div>
-                <p className="text-[14px] sm:text-[15px] leading-relaxed text-navy/70 mb-8 max-w-[48ch]">
-                  Traditional NBFCs carry the cost of branches, manual credit files and legacy technology. Pfundit is built differently: a modern lending platform designed for lower cost-to-serve, disciplined credit and scalable growth.
-                </p>
+          {/* Introductory Paragraph */}
+          <p className="text-[14px] sm:text-[15.5px] leading-relaxed text-navy/70 w-full">
+            Traditional NBFCs carry the cost of branches, manual credit files and legacy technology. Pfundit is built differently: a modern lending platform designed for lower cost-to-serve, disciplined credit and scalable growth.
+          </p>
 
-                <div className="space-y-6 sm:space-y-7">
-                  {advantagePoints.map((item) => (
-                    <div key={item.num} className="group">
-                      <div className="flex items-baseline gap-3.5">
-                        <span className="font-mono text-xs sm:text-[13px] font-medium text-[#b49050] shrink-0 tracking-wider">
-                          {item.num}
-                        </span>
-                        <h4 className="font-semibold text-navy text-[15px] sm:text-[16px] leading-snug">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <p className="text-[13.5px] sm:text-[14px] leading-relaxed text-navy/70 mt-1.5 pl-8 sm:pl-9 max-w-[50ch]">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
+          {/* The 4 Advantage Points */}
+          <div className="space-y-6 sm:space-y-7 w-full">
+            {advantagePoints.map((item) => (
+              <div key={item.num} className="group w-full">
+                <div className="flex items-baseline gap-3.5">
+                  <span className="font-mono text-xs sm:text-[13px] font-medium text-[#b49050] shrink-0 tracking-wider">
+                    {item.num}
+                  </span>
+                  <h4 className="font-semibold text-navy text-[15px] sm:text-[16px] leading-snug">
+                    {item.title}
+                  </h4>
                 </div>
+                <p className="text-[13.5px] sm:text-[14px] leading-relaxed text-navy/70 mt-1.5 pl-8 sm:pl-9 w-full">
+                  {item.desc}
+                </p>
               </div>
+            ))}
+          </div>
 
-              <p className="text-sm font-medium text-navy pt-2">
-                That gap is the business. Everything else is execution.
-              </p>
-            </div>
-
-            {/* Right Column: Cost-to-Income Comparison */}
-            <div className="flex flex-col justify-start lg:pt-2">
-              <div className="space-y-7 sm:space-y-8">
-                {ctiRows.map((row, i) => (
-                  <div key={row.label} className="group">
-                    <div className="mb-2.5 flex items-baseline justify-between gap-4">
-                      <span
-                        className={`text-[14px] sm:text-[15px] "font-medium text-navy/90"`}
-                      >
-                        {row.label}
-                      </span>
-                      <span
-                        className={`text-[14px] sm:text-[15px] font-bold "text-navy"`}
-                      >
-                        {row.value}
-                      </span>
-                    </div>
-                    <div className="h-3 sm:h-3.5 w-full bg-[#ece8df] overflow-hidden">
-                      {row.isHighlight ? (
-                        <div
-                          ref={(el) => {
-                            barRefs.current[i] = el;
-                          }}
-                          data-width={row.width}
-                          className="h-full flex overflow-hidden"
-                          style={{ width: 0 }}
-                        >
-                          <div
-                            className="h-full bg-[#b49050]"
-                            style={{ width: "83.333%" }}
-                          />
-                          <div
-                            className="h-full"
-                            style={{
-                              width: "16.667%",
-                              backgroundImage:
-                                "repeating-linear-gradient(45deg, #b49050, #b49050 2.5px, #dfcaa0 2.5px, #dfcaa0 6.5px)",
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          ref={(el) => {
-                            barRefs.current[i] = el;
-                          }}
-                          data-width={row.width}
-                          className="h-full bg-[#1b2b4d]"
-                          style={{ width: 0 }}
-                        />
-                      )}
-                    </div>
+          {/* Cost-to-Income Comparison */}
+          <div
+            data-cti-panel
+            className="pt-10 sm:pt-12 border-t border-[rgba(15,27,61,0.08)] w-full"
+          >
+            <div className="space-y-7 sm:space-y-8 w-full">
+              {ctiRows.map((row, i) => (
+                <div key={row.label} className="group w-full">
+                  <div className="mb-2.5 flex items-baseline justify-between gap-4">
+                    <span className="text-[14px] sm:text-[15px] font-medium text-navy/90">
+                      {row.label}
+                    </span>
+                    <span className="text-[14px] sm:text-[15px] font-bold text-navy">
+                      {row.value}
+                    </span>
                   </div>
-                ))}
-              </div>
-
-              <p className="mt-10 lg:mt-12 text-xs sm:text-[12.5px] leading-relaxed text-navy/60 max-w-[500px]">
-                Target of 25–30% is projected as achievable within 24–36 months of launch in India, based on a technology-led cost architecture, Hub &amp; Spoke design and digital-first origination. Benchmarks are management estimates. Subject to regulatory approval and market conditions. Not a financial guarantee.
-              </p>
+                  <div className="h-3 sm:h-3.5 w-full bg-[#ece8df] overflow-hidden">
+                    {row.isHighlight ? (
+                      <div
+                        ref={(el) => {
+                          barRefs.current[i] = el;
+                        }}
+                        data-width={row.width}
+                        className="h-full flex overflow-hidden"
+                        style={{ width: 0 }}
+                      >
+                        <div
+                          className="h-full bg-[#b49050]"
+                          style={{ width: "83.333%" }}
+                        />
+                        <div
+                          className="h-full"
+                          style={{
+                            width: "16.667%",
+                            backgroundImage:
+                              "repeating-linear-gradient(45deg, #b49050, #b49050 2.5px, #dfcaa0 2.5px, #dfcaa0 6.5px)",
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        ref={(el) => {
+                          barRefs.current[i] = el;
+                        }}
+                        data-width={row.width}
+                        className="h-full bg-[#1b2b4d]"
+                        style={{ width: 0 }}
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
+
+            <p className="mt-8 text-sm font-semibold text-navy">
+              That gap is the business. Everything else is execution.
+            </p>
+
+            <p className="mt-6 text-xs sm:text-[12.5px] leading-relaxed text-navy/60 w-full">
+              Target of 25–30% is projected as achievable within 24–36 months of launch in India, based on a technology-led cost architecture, Hub &amp; Spoke design and digital-first origination. Benchmarks are management estimates. Subject to regulatory approval and market conditions. Not a financial guarantee.
+            </p>
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export default function HiringLoading() {
                   <div className="skeleton-bone h-10 rounded-full bg-white/70" />
                 </div>
                 <div className="justify-self-start lg:justify-self-end">
-                  <div className="skeleton-bone-gold h-8 w-20 rounded-full bg-[#D4A437]/20" />
+                  <div className="skeleton-bone-gold h-8 w-20 rounded-full bg-[#D3A337]/20" />
                 </div>
               </div>
             </div>

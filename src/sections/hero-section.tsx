@@ -63,7 +63,7 @@ export function HeroSection() {
         }}
       />
       {/* Subtle radial gold glow */}
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_28%_55%,rgba(212,164,55,0.07),transparent_52%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_28%_55%,rgba(211, 163, 55,0.07),transparent_52%)]" />
 
       {/* ── Small Animated Graphic Elements ── */}
 
@@ -84,8 +84,8 @@ export function HeroSection() {
         className="pointer-events-none absolute left-[7%] top-[29%] hidden lg:block illustration-float-fast"
         style={{ width: 34, height: 34 }}>
         <svg viewBox="0 0 34 34" className="h-full w-full" fill="none">
-          <circle cx="17" cy="17" r="12" stroke="rgba(212,164,55,0.36)" strokeWidth="1" strokeDasharray="2 5" />
-          <circle cx="17" cy="17" r="3" fill="#D4A437" />
+          <circle cx="17" cy="17" r="12" stroke="rgba(211, 163, 55,0.36)" strokeWidth="1" strokeDasharray="2 5" />
+          <circle cx="17" cy="17" r="3" fill="#D3A337" />
           <circle cx="9" cy="11" r="1.4" fill="rgba(15,27,61,0.22)" />
         </svg>
       </div>
@@ -95,8 +95,8 @@ export function HeroSection() {
         className="pointer-events-none absolute right-[8%] top-[30%] hidden lg:block illustration-float"
         style={{ width: 26, height: 26, animationDelay: '0.7s' }}>
         <svg viewBox="0 0 26 26" className="h-full w-full" fill="none">
-          <circle cx="13" cy="13" r="9.5" stroke="rgba(212,164,55,0.40)" strokeWidth="1.2" />
-          <circle cx="13" cy="13" r="2.5" fill="#D4A437" fillOpacity="0.85" />
+          <circle cx="13" cy="13" r="9.5" stroke="rgba(211, 163, 55,0.40)" strokeWidth="1.2" />
+          <circle cx="13" cy="13" r="2.5" fill="#D3A337" fillOpacity="0.85" />
         </svg>
       </div>
 
@@ -106,7 +106,7 @@ export function HeroSection() {
         style={{ width: 17, height: 17, animationDelay: '1.1s' }}>
         <svg viewBox="0 0 17 17" className="h-full w-full" fill="none">
           <rect x="8.5" y="1" width="10" height="10" rx="1.2" transform="rotate(45 8.5 8.5)"
-            stroke="rgba(212,164,55,0.42)" strokeWidth="1.2" />
+            stroke="rgba(211, 163, 55,0.42)" strokeWidth="1.2" />
         </svg>
       </div>
 
@@ -115,7 +115,7 @@ export function HeroSection() {
         className="pointer-events-none absolute right-[6%] top-[54%] hidden lg:block illustration-float-fast"
         style={{ width: 14, height: 14, animationDelay: '0.35s' }}>
         <svg viewBox="0 0 14 14" className="h-full w-full" fill="none">
-          <path d="M7 1v12M1 7h12" stroke="rgba(212,164,55,0.48)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M7 1v12M1 7h12" stroke="rgba(211, 163, 55,0.48)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </div>
 
@@ -124,21 +124,21 @@ export function HeroSection() {
         className="pointer-events-none absolute bottom-[18%] right-[13%] hidden lg:block illustration-float"
         style={{ width: 68, height: 44, animationDelay: '0.55s' }}>
         <svg viewBox="0 0 68 44" className="h-full w-full" fill="none">
-          <path d="M5 36 C20 14 44 38 63 16" stroke="rgba(212,164,55,0.30)" strokeWidth="1.2" strokeDasharray="3 6" />
-          <circle cx="5" cy="36" r="2.5" fill="#D4A437" fillOpacity="0.70" />
-          <circle cx="63" cy="16" r="2.5" fill="#D4A437" fillOpacity="0.70" />
+          <path d="M5 36 C20 14 44 38 63 16" stroke="rgba(211, 163, 55,0.30)" strokeWidth="1.2" strokeDasharray="3 6" />
+          <circle cx="5" cy="36" r="2.5" fill="#D3A337" fillOpacity="0.70" />
+          <circle cx="63" cy="16" r="2.5" fill="#D3A337" fillOpacity="0.70" />
         </svg>
       </div>
 
       {/* Scattered micro-dots */}
       <div data-hero-graphic aria-hidden className="pointer-events-none absolute left-[19%] top-[19%] hidden lg:block" style={{ width: 5, height: 5 }}>
-        <svg viewBox="0 0 5 5" className="h-full w-full" fill="none"><circle cx="2.5" cy="2.5" r="2.2" fill="rgba(212,164,55,0.52)" /></svg>
+        <svg viewBox="0 0 5 5" className="h-full w-full" fill="none"><circle cx="2.5" cy="2.5" r="2.2" fill="rgba(211, 163, 55,0.52)" /></svg>
       </div>
       <div data-hero-graphic aria-hidden className="pointer-events-none absolute right-[21%] top-[66%] hidden lg:block" style={{ width: 5, height: 5 }}>
         <svg viewBox="0 0 5 5" className="h-full w-full" fill="none"><circle cx="2.5" cy="2.5" r="1.8" fill="rgba(15,27,61,0.18)" /></svg>
       </div>
       <div data-hero-graphic aria-hidden className="pointer-events-none absolute left-[13%] top-[73%] hidden lg:block" style={{ width: 4, height: 4 }}>
-        <svg viewBox="0 0 4 4" className="h-full w-full" fill="none"><circle cx="2" cy="2" r="1.6" fill="rgba(212,164,55,0.44)" /></svg>
+        <svg viewBox="0 0 4 4" className="h-full w-full" fill="none"><circle cx="2" cy="2" r="1.6" fill="rgba(211, 163, 55,0.44)" /></svg>
       </div>
 
       {/* ── Main content ── */}
@@ -147,14 +147,14 @@ export function HeroSection() {
 
           {/* Eyebrow — sits comfortably below navbar */}
           <div data-hero-reveal className="mb-6 flex items-center gap-2.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D4A437]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
             <span className="section-label">REGULATED CREDIT · BUILT FOR ASIA</span>
           </div>
 
           {/* Headline */}
           <h1 className="font-serif-display text-[clamp(2.8rem,5.5vw,4.8rem)] font-medium leading-[0.92] tracking-[-0.05em] text-[#0f1b3d]">
             <span data-hero-reveal className="block">Disciplined Credit</span>
-            <span data-hero-reveal className="block">for the <span className="text-[#C9A84C]">Real Economy.</span></span>
+            <span data-hero-reveal className="block">for the <span className="text-[#D3A337]">Real Economy.</span></span>
           </h1>
 
           {/* Body */}
@@ -183,7 +183,7 @@ export function HeroSection() {
               { label: null, detail: 'Incorporated in Singapore · ACRA Registered' },
             ].map((item, i) => (
               <div key={i} data-hero-check className="flex items-center gap-2.5 text-[0.85rem] sm:text-[0.875rem] leading-[1.45] text-navy/60">
-                <svg className="h-4 w-4 shrink-0 text-[#D4A437]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg className="h-4 w-4 shrink-0 text-[#D3A337]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <circle cx="8" cy="8" r="7" fill="currentColor" />
                   <path d="m4.8 8 2 2 4.3-4.3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
