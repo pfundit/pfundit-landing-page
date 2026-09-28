@@ -10,7 +10,7 @@ export function getOrganizationSchema() {
     url: SITE_URL,
     logo: `${SITE_URL}/logo-main.svg`,
     description:
-      'Pfundit is a Singapore holding company building a regulated, technology-enabled lending platform for Asia — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
+      'Pfundit is a Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
     foundingDate: '2025',
     identifier: {
       '@type': 'PropertyValue',
@@ -125,7 +125,7 @@ export function getJobPostingsSchema(
           employmentType,
           hiringOrganization: {
             '@type': 'Organization',
-            name: 'Pfundit Capital Private Ltd.',
+            name: 'Pfundit Capital Private Limited',
             sameAs: SITE_URL,
           },
           jobLocation: {

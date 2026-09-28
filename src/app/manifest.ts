@@ -2,10 +2,10 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Pfundit — Regulated Credit for the Real Economy',
+    name: 'Pfundit — Disciplined Credit for the Real Economy',
     short_name: 'Pfundit',
     description:
-      'Singapore holding company building a regulated, technology-enabled lending platform for Asia.',
+      'Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.',
     start_url: '/',
     display: 'standalone',
     background_color: '#0f1b3d',

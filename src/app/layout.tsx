@@ -3,6 +3,7 @@ import { Geist } from 'next/font/google';
 import './globals.css';
 import { getOrganizationSchema, getWebsiteSchema } from '@/lib/seo/schemas';
 import { ScrollToTop } from '@/components/scroll-to-top';
+import { CookieBanner } from '@/components/cookie-banner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -14,16 +15,17 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://pfundit.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Pfundit — Regulated Credit for the Real Economy | Singapore',
+    default: 'Pfundit — Disciplined Credit for the Real Economy',
     template: '%s | Pfundit',
   },
   description:
-    'Pfundit is a Singapore holding company building a regulated, technology-enabled lending platform for Asia — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
+    'Pfundit is a Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
   applicationName: 'Pfundit',
   keywords: [
     'Pfundit',
     'Asset-Backed Lending',
-    'Regulated Credit',
+    'Disciplined Credit',
+    'Credit Infrastructure',
     'Private Credit Asia',
     'Singapore Holding Company',
     'India NBFC',
@@ -41,9 +43,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Pfundit — Regulated Credit for the Real Economy | Singapore',
+    title: 'Pfundit — Disciplined Credit for the Real Economy',
     description:
-      'Singapore holding company building a regulated, technology-enabled lending platform for Asia — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
+      'Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
     url: siteUrl,
     siteName: 'Pfundit',
     locale: 'en_SG',
@@ -53,15 +55,15 @@ export const metadata: Metadata = {
         url: '/hero4.png',
         width: 1200,
         height: 630,
-        alt: 'Pfundit — Regulated Credit for the Real Economy',
+        alt: 'Pfundit — Disciplined Credit for the Real Economy',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pfundit — Regulated Credit for the Real Economy | Singapore',
+    title: 'Pfundit — Disciplined Credit for the Real Economy',
     description:
-      'Singapore holding company building a regulated, technology-enabled lending platform for Asia.',
+      'Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.',
     images: ['/hero4.png'],
   },
   icons: {
@@ -123,6 +125,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col selection:bg-[#0f1b3d] selection:text-white">
         <ScrollToTop />
+        <CookieBanner />
         {children}
       </body>
     </html>

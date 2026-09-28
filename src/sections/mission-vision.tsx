@@ -108,7 +108,7 @@ export function MissionVision() {
               className="typo-body text-navy/60"
               style={{ margin: 0, marginBottom: 48 }}
             >
-              We are not building a fintech app. We are building a regulated financial institution that holds a licence, manages a loan book, stands behind every credit outcome and deepens its operating advantage with every loan made. Across India first, and across Asia by design — not by extension.
+              We are not building a fintech app. We are building a financial institution that, once licensed, will manage its own loan book, stand behind every credit outcome and deepens its operating advantage with every loan made. Across India first, and across Asia by design — not by extension.
             </p>
 
           </div>

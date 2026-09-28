@@ -75,7 +75,7 @@ export function HiringNotice() {
       <div>
         <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Important notice</h5>
         <p>
-          Pfundit Capital Private Ltd. (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 ,Infantry Road, M.G. Road, Bangalore – 560001, India) is a subsidiary of Pfundit Pte. Ltd., Singapore. The company is at a pre-application stage for registration with the Reserve Bank of India as a Non-Banking Financial Company. It does not hold a Certificate of Registration from the RBI and does not currently offer loans or carry on any lending or other financial business. The roles on this page are to build the company’s capabilities ahead of, and subject to, registration. Nothing on this page is an offer of credit or of any financial product or service.
+          Pfundit Capital Private Limited (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 Infantry Road, M.G. Road, Bengaluru 560001, India) is a subsidiary of Pfundit Pte. Ltd., Singapore. The company is at a pre-application stage for registration with the Reserve Bank of India as a Non-Banking Financial Company. It does not hold a Certificate of Registration from the RBI and does not currently offer loans or carry on any lending or other financial business. The roles on this page are to build the company’s capabilities ahead of, and subject to, registration. Nothing on this page is an offer of credit or of any financial product or service.
         </p>
       </div>
 

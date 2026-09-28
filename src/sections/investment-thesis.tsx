@@ -104,9 +104,9 @@ export function InvestmentThesis() {
               </div>
               <h3 className="typo-h3 text-white mb-6">India NBFC</h3>
               <div className="space-y-5 max-w-[42rem]">
-                <p data-reveal="intro" className="typo-body text-white/60">Pfundit is establishing a regulated NBFC in India focused on shorter-tenor, asset-aware credit tied to real transaction flows — with every exposure underwritten and monitored at the asset level from day one.</p>
+                <p data-reveal="intro" className="typo-body text-white/60">Pfundit is establishing an NBFC in India, subject to registration with the RBI, focused on shorter-tenor, asset-aware credit tied to real transaction flows — with every exposure underwritten and monitored at the asset level from day one.</p>
                 <p data-reveal="intro" className="typo-body text-white/60">The platform targets segments where structured, data-driven financing improves risk-adjusted returns: consumer and MSME working capital, advance on income from assets and circular-economy supply chains where established off-takers anchor the transaction.</p>
-                <p data-reveal="intro" className="typo-body text-white/60">Bank-grade governance, explainable technology-driven underwriting and transparent portfolios — designed to meet institutional expectations on risk sharing, reporting and regulatory alignment from the outset.</p>
+                <p data-reveal="intro" className="typo-body text-white/60">Institutional-grade governance, explainable technology-driven underwriting and transparent portfolios — designed to meet institutional expectations on risk sharing, reporting and regulatory alignment from the outset.</p>
               </div>
             </div>
 
@@ -118,7 +118,7 @@ export function InvestmentThesis() {
               <h3 className="typo-h3 text-white mb-6">SEA &amp; GCC</h3>
               <div className="space-y-5 max-w-[42rem]">
                 <p data-reveal="intro" className="typo-body text-white/60">
-                  Pfundit was incorporated in Singapore because the founders' operating experience is regional. Once the India platform is established and operational, the same model — transaction-backed credit, asset-level monitoring, institutional governance — is designed to extend into Southeast Asia and the GCC.
+                  Pfundit was incorporated in Singapore because the founders&apos; operating experience is regional. Once the India platform is established and operational, the same model — transaction-backed credit, asset-level monitoring, institutional governance — is designed to extend into Southeast Asia and the GCC, subject to obtaining the licences required in each jurisdiction.
                 </p>
                 <p data-reveal="intro" className="typo-body text-white/60">
                   Southeast Asia carries an MSME financing shortfall exceeding $300 billion (ADB). The GCC and MENA region carries a further gap of approximately $260 billion (IFC), with SMEs securing just 12% of the credit they require. These are not parallel tracks. They are a deliberate second chapter — enabled by the same infrastructure, governance standards and team that builds India first.

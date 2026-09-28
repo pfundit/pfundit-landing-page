@@ -6,7 +6,7 @@ import { Footer } from '@/components/footer';
 export const metadata: Metadata = {
   title: 'Cookie Notice',
   description:
-    'Learn how Pfundit Capital Private Ltd. and Pfundit Pte. Ltd. use cookies and similar technologies on pfundit.com in compliance with DPDP Act 2023 and Singapore PDPA.',
+    'Learn how Pfundit Capital Private Limited and Pfundit Pte. Ltd. use cookies and similar technologies on pfundit.com in compliance with DPDP Act 2023 and Singapore PDPA.',
   alternates: {
     canonical: '/cookies',
   },
@@ -38,7 +38,7 @@ export default function CookieNoticePage() {
               Cookie Notice
             </h1>
             <p className="mt-3 text-sm sm:text-base text-[#0f1b3d]/70 font-medium">
-              Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore)
+              Pfundit Capital Private Limited (India) and Pfundit Pte. Ltd. (Singapore)
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-[#0f1b3d]/55">
               <span>Effective date: <strong>25 September 2026</strong></span>
@@ -57,7 +57,7 @@ export default function CookieNoticePage() {
                 A1. What this notice covers
               </h2>
               <p>
-                This notice explains how Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) (“Pfundit”, “we” and “us”) use cookies and similar technologies, such as pixels, tags, local storage and software development kits (together, “cookies”), on pfundit.com and its sub-pages (the “Site”). It forms part of, and should be read with, our privacy notices, including the <Link href="/hiring/privacy" className="text-[#D3A337] font-semibold underline hover:text-[#b49050]">Applicant Privacy Notice</Link>.
+                This notice explains how Pfundit Capital Private Limited (India) and Pfundit Pte. Ltd. (Singapore) (“Pfundit”, “we” and “us”) use cookies and similar technologies, such as pixels, tags, local storage and software development kits (together, “cookies”), on pfundit.com and its sub-pages (the “Site”). It forms part of, and should be read with, our privacy notices, including our <Link href="/privacy" className="text-[#D3A337] font-semibold underline hover:text-[#b49050]">Website Privacy Notice</Link> and <Link href="/hiring/privacy" className="text-[#D3A337] font-semibold underline hover:text-[#b49050]">Applicant Privacy Notice</Link>.
               </p>
               <p>
                 Where information collected through cookies identifies you, or can identify you when combined with other information, we treat it as personal data under India’s Digital Personal Data Protection Act, 2023, the Information Technology Act, 2000 and the rules made under them, and Singapore’s Personal Data Protection Act 2012 (PDPA).
@@ -122,7 +122,7 @@ export default function CookieNoticePage() {
                     </tr>
                     <tr>
                       <td className="px-4 py-3 font-mono font-medium">_va_id</td>
-                      <td className="px-4 py-3">Analytics Provider</td>
+                      <td className="px-4 py-3">Vercel (Vercel Inc.)</td>
                       <td className="px-4 py-3">Aggregated anonymous usage metrics</td>
                       <td className="px-4 py-3"><span className="inline-block rounded bg-blue-100 px-2 py-0.5 text-[0.7rem] font-bold text-blue-700">Analytics</span></td>
                       <td className="px-4 py-3">Session</td>
@@ -185,17 +185,20 @@ export default function CookieNoticePage() {
                 <div className="rounded-xl bg-white p-5 border border-[#0f1b3d]/10">
                   <h4 className="font-bold text-[#0f1b3d] mb-1">India – Grievance Officer</h4>
                   <p className="text-xs leading-relaxed text-[#0f1b3d]/70">
-                    Pfundit Capital Private Ltd.<br />
+                    [Name], Grievance Officer<br />
+                    Pfundit Capital Private Limited<br />
                     Prestige Central, 36 Infantry Road, M.G. Road,<br />
                     Bengaluru 560001, India<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a>
+                    Email: <a href="mailto:grievance@pfundit.com" className="font-medium text-[#D3A337] underline">grievance@pfundit.com</a> · <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a><br />
+                    Hours: Monday to Friday, 10:00–18:00 IST
                   </p>
                 </div>
                 <div className="rounded-xl bg-white p-5 border border-[#0f1b3d]/10">
                   <h4 className="font-bold text-[#0f1b3d] mb-1">Singapore – Data Protection Officer</h4>
                   <p className="text-xs leading-relaxed text-[#0f1b3d]/70">
+                    [Name or designation], Data Protection Officer<br />
                     Pfundit Pte. Ltd.<br />
-                    14B, Stanley Street,<br />
+                    14B Stanley Street,<br />
                     Singapore 068733<br />
                     Email: <a href="mailto:dpo@pfundit.com" className="font-medium text-[#D3A337] underline">dpo@pfundit.com</a>
                   </p>

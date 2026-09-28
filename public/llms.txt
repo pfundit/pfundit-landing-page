@@ -1,22 +1,28 @@
 # Pfundit
 
-> Regulated Credit for the Real Economy | Singapore Holding Company
+> Disciplined Credit for the Real Economy | Singapore Holding Company
 
-Pfundit is a Singapore holding company (Pfundit Pte. Ltd., ACRA UEN: 202544131H) building a regulated, technology-enabled lending platform for Asia. Pfundit focuses on short-tenor, asset-backed financing in the real economy across India, Southeast Asia (SEA), and the GCC.
+Pfundit is a Singapore holding company (Pfundit Pte. Ltd., ACRA UEN: 202544131H) building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India. Pfundit focuses on short-tenor, asset-backed financing in the real economy across India, Southeast Asia (SEA), and the GCC.
 
 ## Core Navigation & Resources
 
 - [Home](https://pfundit.com/): Overview of Pfundit's mission, thesis, leadership, governance, and contact.
 - [Platform](https://pfundit.com/platform): Architecture of the AI-native, API-first lending stack and collateral underwriting engine.
 - [Hiring & Careers](https://pfundit.com/hiring): Open founding team and leadership opportunities across Risk, Compliance, Finance, Technology, and Credit.
+- [Website Privacy Notice](https://pfundit.com/privacy): Privacy policy for website visitors, enquiries, and investors.
+- [Terms of Use](https://pfundit.com/terms): Terms governing website access and use.
+- [Cookie Notice](https://pfundit.com/cookies): Cookie policy under DPDP Act and Singapore PDPA.
+- [Responsible Disclosure Policy](https://pfundit.com/responsible-disclosure): Security vulnerability disclosure guidelines.
+- [Applicant Privacy Notice](https://pfundit.com/hiring/privacy): Recruitment privacy disclosures.
 - [Full LLM Knowledge Base](https://pfundit.com/llms-full.txt): Comprehensive documentation for generative AI engines and research assistants.
 
 ## Key Facts
 
-- **Entity**: Pfundit Pte. Ltd. (Incorporated in Singapore, 2025)
-- **ACRA UEN**: 202544131H
-- **Headquarters**: Singapore
-- **India Entity**: Wholly-owned subsidiary in formation, preparing for RBI NBFC-ND-ICC license application
+- **Entity**: Pfundit Pte. Ltd. (Incorporated in Singapore, 2025, UEN: 202544131H, 14B Stanley Street, Singapore 068733)
+- **Indian Subsidiary**: Pfundit Capital Private Limited (CIN: U64910KA2026FTC227353, Prestige Central, 36 Infantry Road, Bengaluru 560001)
+- **Regulatory Status**: Singapore HoldCo is an investment holding company (unregulated/not lending). Indian subsidiary proposes to apply to RBI for NBFC-ICC (non-deposit taking, Type II, Base Layer); pre-application stage, not currently registered with RBI, no lending until CoR is granted.
 - **Target Geography**: India, Southeast Asia, GCC
-- **Lending Focus**: Short-tenor, collateralized real-economy credit (Real Estate, Clean-tech supply chain, Mid-market enterprises)
+- **Lending Focus**: Short-tenor, collateralized real-economy credit (MSME working capital, supply chain assets, mid-market enterprises)
 - **Contact**: info@pfundit.com
+- **Privacy & DPO**: privacy@pfundit.com · dpo@pfundit.com · security@pfundit.com
+

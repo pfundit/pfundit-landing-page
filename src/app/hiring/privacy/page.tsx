@@ -6,7 +6,7 @@ import { Footer } from '@/components/footer';
 export const metadata: Metadata = {
   title: 'Applicant Privacy Notice',
   description:
-    'Learn how Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) collect, use, store and protect your personal data during recruitment, in compliance with the DPDP Act 2023 and Singapore PDPA.',
+    'Learn how Pfundit Capital Private Limited (India) and Pfundit Pte. Ltd. (Singapore) collect, use, store and protect your personal data during recruitment, in compliance with the DPDP Act 2023 and Singapore PDPA.',
   alternates: {
     canonical: '/hiring/privacy',
   },
@@ -38,7 +38,7 @@ export default function ApplicantPrivacyNoticePage() {
               Applicant Privacy Notice
             </h1>
             <p className="mt-3 text-sm sm:text-base text-[#0f1b3d]/70 font-medium">
-              Pfundit Capital Private Ltd. (India) and Pfundit Pte. Ltd. (Singapore) · Recruitment and hiring
+              Pfundit Capital Private Limited (India) and Pfundit Pte. Ltd. (Singapore) · Recruitment and hiring
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-[#0f1b3d]/55">
               <span>Effective date: <strong>25 September 2026</strong></span>
@@ -66,7 +66,7 @@ export default function ApplicantPrivacyNoticePage() {
                 Most obligations under the DPDP Act and DPDP Rules come into force on 13 May 2027. Until then, the SPDI Rules continue to apply in India. We already follow the DPDP standards set out in this notice, in addition to the SPDI Rules.
               </p>
               <p>
-                This notice relates only to recruitment. Pfundit Capital Private Ltd. does not hold a Certificate of Registration from the Reserve Bank of India and does not offer loans or any other financial product or service.
+                This notice relates only to recruitment. Pfundit Capital Private Limited does not hold a Certificate of Registration from the Reserve Bank of India and does not offer loans or any other financial product or service.
               </p>
             </section>
 
@@ -77,7 +77,7 @@ export default function ApplicantPrivacyNoticePage() {
               </h2>
               <ul className="list-disc pl-5 space-y-2">
                 <li>
-                  <strong>Pfundit Capital Private Ltd.</strong> (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 Infantry Road, M.G. Road, Bengaluru 560001, India) decides why and how your data is processed for roles in India. It is the “Data Fiduciary” under the DPDP Act and the “body corporate” under the SPDI Rules.
+                  <strong>Pfundit Capital Private Limited</strong> (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 Infantry Road, M.G. Road, Bengaluru 560001, India) decides why and how your data is processed for roles in India. It is the “Data Fiduciary” under the DPDP Act and the “body corporate” under the SPDI Rules.
                 </li>
                 <li>
                   <strong>Pfundit Pte. Ltd.</strong> (UEN: 202544131H; registered address: 14B, Stanley Street, Singapore 068733) is our parent company. It reviews applications and takes part in hiring decisions, and is an “organisation” responsible for your data under the PDPA.
@@ -162,7 +162,7 @@ export default function ApplicantPrivacyNoticePage() {
               </h2>
               <p>We share your personal data only as needed for the purposes above, with:</p>
               <ul className="list-disc pl-5 space-y-1.5">
-                <li>each other (Pfundit Capital Private Ltd. and Pfundit Pte. Ltd.) for hiring decisions;</li>
+                <li>each other (Pfundit Capital Private Limited and Pfundit Pte. Ltd.) for hiring decisions;</li>
                 <li>service providers who process data on our behalf, such as applicant-tracking, cloud-hosting, email, video-interview, assessment and background-verification providers, under written contracts that require them to protect your data and use it only on our instructions;</li>
                 <li>our managed technology-services partner, for Build–Operate–Transfer roles;</li>
                 <li>the recruitment agency or person who referred you, limited to the status of your application;</li>
@@ -294,22 +294,24 @@ export default function ApplicantPrivacyNoticePage() {
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 mt-2">
                 <div className="rounded-xl bg-white p-5 border border-[#0f1b3d]/10">
-                  <h4 className="font-bold text-[#0f1b3d] mb-1">India</h4>
+                  <h4 className="font-bold text-[#0f1b3d] mb-1">India – Grievance Officer</h4>
                   <p className="text-xs leading-relaxed text-[#0f1b3d]/70">
-                    Pfundit Capital Private Ltd.<br />
+                    [Name], Grievance Officer<br />
+                    Pfundit Capital Private Limited<br />
                     Prestige Central, 36 Infantry Road, M.G. Road,<br />
                     Bengaluru 560001, India<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a><br />
+                    Email: <a href="mailto:grievance@pfundit.com" className="font-medium text-[#D3A337] underline">grievance@pfundit.com</a> · <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a><br />
                     Hours: Monday to Friday, 10:00–18:00 IST
                   </p>
                 </div>
                 <div className="rounded-xl bg-white p-5 border border-[#0f1b3d]/10">
-                  <h4 className="font-bold text-[#0f1b3d] mb-1">Singapore</h4>
+                  <h4 className="font-bold text-[#0f1b3d] mb-1">Singapore – Data Protection Officer</h4>
                   <p className="text-xs leading-relaxed text-[#0f1b3d]/70">
+                    [Name or designation], Data Protection Officer<br />
                     Pfundit Pte. Ltd.<br />
-                    14B, Stanley Street,<br />
+                    14B Stanley Street,<br />
                     Singapore 068733<br />
-                    Email: <a href="mailto:privacy@pfundit.com" className="font-medium text-[#D3A337] underline">privacy@pfundit.com</a>
+                    Email: <a href="mailto:dpo@pfundit.com" className="font-medium text-[#D3A337] underline">dpo@pfundit.com</a>
                   </p>
                 </div>
               </div>

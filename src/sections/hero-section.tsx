@@ -6,7 +6,7 @@ import { TalkToUsButton } from '@/components/button';
 
 const stats = [
   { value: 'US$1Tn+', label: 'Unaddressed credit demand across Asia', subLabel: 'India · Southeast Asia · GCC†' },
-  { value: '60+ yrs', label: 'Institutional banking, credit and entrepreneurship.', subLabel: 'HSBC · J.P. Morgan · Proven exits' },
+  { value: '60+ yrs', label: 'Institutional banking, credit and entrepreneurship.', subLabel: 'Institutional banking · Entrepreneurial exits' },
   { value: '25\u201330%*', label: 'Target cost-to-income', subLabel: 'Projected within 24–36 months of India launch. Subject to regulatory approval and market conditions.' },
 ];
 
@@ -148,7 +148,7 @@ export function HeroSection() {
           {/* Eyebrow — sits comfortably below navbar */}
           <div data-hero-reveal className="mb-6 flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
-            <span className="section-label">REGULATED CREDIT · BUILT FOR ASIA</span>
+            <span className="section-label">CREDIT INFRASTRUCTURE · BUILT FOR ASIA</span>
           </div>
 
           {/* Headline */}
@@ -159,7 +159,7 @@ export function HeroSection() {
 
           {/* Body */}
           <p data-hero-reveal className="mt-6 max-w-[52ch] typo-body text-[clamp(1rem,1.35vw,1.25rem)] leading-[1.7] text-navy/60">
-            Pfundit is a Singapore-incorporated holding company building a regulated, technology-enabled lending platform for Asia.
+            Pfundit is a Singapore-incorporated holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.
           </p>
 
           {/* CTAs */}
@@ -178,7 +178,7 @@ export function HeroSection() {
           {/* Credential check items */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3.5 w-full max-w-[940px]">
             {[
-              { label: 'India', detail: 'Regulated NBFC · Pre-application stage' },
+              { label: 'India', detail: 'Proposed NBFC (RBI) · Pre-application stage' },
               { label: 'SEA & GCC', detail: 'Opportunistic expansion' },
               { label: null, detail: 'Incorporated in Singapore · ACRA Registered' },
             ].map((item, i) => (

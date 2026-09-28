@@ -40,23 +40,30 @@ export function Footer() {
               </div>
             </div>
             <div>
-              <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Registered Entity</h4>
-              <div className="space-y-1.5 text-[0.84rem] text-white/65">
-                <p>Pfundit Pte. Ltd.</p>
-                <p>Singapore (ACRA) · Incorporated 2025</p>
-                <p>UEN: 202544131H</p>
-                <p>Registered office: Singapore</p>
-                <p>info@pfundit.com</p>
+              <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Registered Entities</h4>
+              <div className="space-y-2 text-[0.82rem] leading-relaxed text-white/65">
+                <p>
+                  <strong className="text-white font-medium">Singapore HoldCo</strong><br />
+                  Pfundit Pte. Ltd. (UEN: 202544131H)<br />
+                  14B Stanley Street, Singapore 068733
+                </p>
+                <p>
+                  <strong className="text-white font-medium">India NBFC (proposed)</strong><br />
+                  Pfundit Capital Private Limited<br />
+                  CIN: U64910KA2026FTC227353<br />
+                  Prestige Central, 36 Infantry Road, Bengaluru 560001
+                </p>
+                <p><a href="mailto:info@pfundit.com" className="hover:text-[#D3A337] transition-colors">info@pfundit.com</a></p>
               </div>
             </div>
             <div>
-              <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Legal & Policies</h4>
+              <h4 className="mb-3.5 text-xs font-bold uppercase tracking-[0.18em] text-white/50">Legal &amp; Policies</h4>
               <div className="space-y-2 text-[0.84rem] text-white/65">
+                <p><Link href="/privacy" className="hover:text-white transition-colors">Website Privacy Notice</Link></p>
                 <p><Link href="/hiring/privacy" className="hover:text-white transition-colors">Applicant Privacy Notice</Link></p>
-                <p>Terms of Use</p>
+                <p><Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link></p>
                 <p><Link href="/cookies" className="hover:text-white transition-colors">Cookie Notice</Link></p>
-                <p>Responsible Disclosure</p>
-                <p>Code of Conduct</p>
+                <p><Link href="/responsible-disclosure" className="hover:text-white transition-colors">Responsible Disclosure</Link></p>
               </div>
             </div>
           </div>
@@ -66,12 +73,12 @@ export function Footer() {
           <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-white/45">Regulatory Disclosure</h4>
           <div className="grid gap-3 text-[0.82rem] leading-[1.65] text-white/55">
             <p>
-              Pfundit Pte. Ltd. (&quot;Pfundit&quot;, &quot;we&quot;) is a private limited company incorporated in Singapore in 2025 and registered with ACRA. Pfundit Capital Pvt. Ltd has been incorporated as a wholly-owned subsidiary in India, which intends to register with the Reserve Bank of India (RBI) as a Type II NBFC. The NBFC application is in pre-application stage as of the date of this website, no RBI registration has been granted, and no lending activity will commence until it is. Nothing on this website constitutes an offer or solicitation to buy or sell any security, an offer of credit, or investment, legal, tax or financial advice.
+              Pfundit Pte. Ltd. (&quot;Pfundit&quot;) (UEN: 202544131H) is a private company incorporated in Singapore in 2025. It is an investment holding company: it does not lend money, extend credit or provide any financial product or service in Singapore or elsewhere, and it is not licensed or regulated by the Monetary Authority of Singapore or the Registry of Moneylenders. Its wholly-owned Indian subsidiary, Pfundit Capital Private Limited (CIN: U64910KA2026FTC227353), proposes to apply to the Reserve Bank of India (RBI) for registration as a non-deposit taking NBFC-ICC (Type II, Base Layer). It is not currently registered with the RBI and will not undertake any lending or other non-banking financial activity unless and until it receives an RBI Certificate of Registration. Nothing on this website is an offer of credit or securities, or investment, legal, tax or financial advice, in any jurisdiction.
             </p>
           </div>
           <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-xs text-white/50 lg:flex-row lg:items-center lg:justify-between">
             <p>© 2026 Pfundit Pte. Ltd. · All Rights Reserved.</p>
-            <p>Singapore HQ · India NBFC (in formation) · Pan-Asia Lending Platform</p>
+            <p>Singapore HoldCo · India NBFC (proposed) · Pan-Asia Lending Platform</p>
           </div>
         </div>
       </div>

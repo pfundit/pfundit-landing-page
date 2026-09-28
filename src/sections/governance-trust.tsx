@@ -19,9 +19,9 @@ const pillars = [
     id: '02',
     headline: 'Risk & compliance',
     points: [
-      'RBI NBFC-ND-ICC at pre-application stage',
+      'RBI registration as NBFC-ICC (non-deposit taking, Type II, Base Layer): pre-application stage',
       'No lending commences in India until registration is granted',
-      'Mandatory human sign-off at every decision gate',
+      'Designed to include: mandatory human sign-off at every decision gate',
       'Model validation, drift monitoring, override tracking',
     ],
   },
@@ -40,8 +40,8 @@ const pillars = [
 const timeline = [
   { year: '2025', label: 'Singapore HoldCo incorporated (ACRA)' },
   { year: '2026', label: 'Pfundit Capital Private Limited has been incorporated in India, and its board has been constituted.' },
-  { year: '2026', label: 'RBI NBFC-ND-ICC application (Pre-application stage)' },
-  { year: 'Target: 2026–27', label: 'Regulatory approvals & first-loan operations' },
+  { year: '2026', label: 'RBI NBFC-ICC application (pre-application stage)' },
+  { year: 'Target 2026–27', label: 'Subject to RBI registration: first-loan operations' },
 ];
 
 export function Governance() {
@@ -122,7 +122,7 @@ export function Governance() {
             <span className="typo-eyebrow text-[#D3A337]">Governance &amp; Trust</span>
           </div>
           <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy mb-6">
-            Built on <span className="text-[#D3A337]">Regulated Rails</span>
+            Built for <span className="text-[#D3A337]">Regulated Rails</span>
           </h2>
           <p className="typo-body text-navy/60">
             Institutional standards from day one — designed for the scrutiny of regulators, investors and partners.

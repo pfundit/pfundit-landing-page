@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: '/hiring',
         permanent: false,
       },
+      {
+        source: '/responsibledisclosure',
+        destination: '/responsible-disclosure',
+        permanent: true,
+      },
     ];
   },
 };
