@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { RichTextEditor } from '@/components/editor/rich-text-editor';
 
-type TabKey = 'jobs' | 'applications' | 'contacts' | 'settings';
+type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings';
 
 type Job = {
   id: string;
@@ -39,9 +39,24 @@ type ContactSubmission = {
   id: string;
   name: string;
   email: string;
+  company?: string;
+  subject?: string;
   message: string;
   createdAt: string;
   status: string;
+};
+
+type InvestorEnquiry = {
+  id: string;
+  name: string;
+  organisation: string;
+  role: string;
+  email: string;
+  country: string;
+  investorType: string;
+  confirmed: boolean;
+  createdAt: string;
+  status?: string;
 };
 
 type DateFilterPreset = 'all' | '7d' | '30d' | 'custom';
@@ -55,8 +70,9 @@ type DateRangeFilterState = {
 const tabs: Array<{ key: TabKey; label: string; description: string }> = [
   { key: 'jobs', label: 'Job Posting', description: 'Create, update, or remove live roles.' },
   { key: 'applications', label: 'Job Applications', description: 'Review applications submitted through hiring.' },
+  { key: 'investors', label: 'Investor Enquiries', description: 'Review prospective institutional & accredited investor access requests.' },
   { key: 'contacts', label: 'Contact Forms', description: 'Review inbound contact submissions.' },
-  { key: 'settings', label: 'Email Notifications', description: 'Configure recipient emails for new job applications.' },
+  { key: 'settings', label: 'Email Notifications', description: 'Configure recipient emails for jobs, contacts, and investor enquiries.' },
 ];
 
 function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
@@ -74,6 +90,14 @@ function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
     return (
       <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 6h8M8 10h8M8 14h5m4 4H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10l3 3v9a2 2 0 0 1-2 2Z" />
+      </svg>
+    );
+  }
+
+  if (tabKey === 'investors') {
+    return (
+      <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
     );
   }
@@ -250,10 +274,13 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabKey>('jobs');
   const [jobs, setJobs] = useState<Job[]>([]);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
+  const [investorEnquiries, setInvestorEnquiries] = useState<InvestorEnquiry[]>([]);
   const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [applicationDateFilter, setApplicationDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
+  const [investorDateFilter, setInvestorDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [contactDateFilter, setContactDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication | null>(null);
+  const [selectedInvestorEnquiry, setSelectedInvestorEnquiry] = useState<InvestorEnquiry | null>(null);
   const [selectedContactSubmission, setSelectedContactSubmission] = useState<ContactSubmission | null>(null);
   const [recipientEmails, setRecipientEmails] = useState<string[]>([]);
   const [savedRecipientEmails, setSavedRecipientEmails] = useState<string[]>([]);
@@ -274,6 +301,12 @@ export function AdminDashboard() {
     return submittedAt >= fromTime && submittedAt <= toTime;
   });
 
+  const filteredInvestorEnquiries = investorEnquiries.filter((enquiry) => {
+    const submittedAt = new Date(enquiry.createdAt).getTime();
+    const { fromTime, toTime } = getDateRangeBounds(investorDateFilter);
+    return submittedAt >= fromTime && submittedAt <= toTime;
+  });
+
   const filteredContactSubmissions = contactSubmissions.filter((submission) => {
     const submittedAt = new Date(submission.createdAt).getTime();
     const { fromTime, toTime } = getDateRangeBounds(contactDateFilter);
@@ -281,9 +314,10 @@ export function AdminDashboard() {
   });
 
   const loadDashboardData = async () => {
-    const [jobsResponse, jobApplicationsResponse, contactResponse, settingsResponse] = await Promise.all([
+    const [jobsResponse, jobApplicationsResponse, investorResponse, contactResponse, settingsResponse] = await Promise.all([
       fetch('/api/jobs'),
       fetch('/api/applications/jobs'),
+      fetch('/api/applications/investor'),
       fetch('/api/applications/contact'),
       fetch('/api/admin/settings'),
     ]);
@@ -294,6 +328,10 @@ export function AdminDashboard() {
 
     if (jobApplicationsResponse.ok) {
       setJobApplications(await jobApplicationsResponse.json());
+    }
+
+    if (investorResponse && investorResponse.ok) {
+      setInvestorEnquiries(await investorResponse.json());
     }
 
     if (contactResponse.ok) {
@@ -530,6 +568,8 @@ export function AdminDashboard() {
                 ? jobs.length
                 : tab.key === 'applications'
                 ? jobApplications.length
+                : tab.key === 'investors'
+                ? investorEnquiries.length
                 : tab.key === 'contacts'
                 ? contactSubmissions.length
                 : recipientEmails.length;
@@ -712,6 +752,69 @@ export function AdminDashboard() {
             </div>
           )}
 
+          {activeTab === 'investors' && (
+            <div>
+              <div className="mb-4 flex justify-end">
+                <DateRangeFilter title="Investor enquiries" filter={investorDateFilter} onChange={setInvestorDateFilter} />
+              </div>
+
+              <div className="overflow-hidden rounded-[1.5rem] border border-[#0f1b3d]/10 bg-white shadow-[0_18px_60px_rgba(15,27,61,0.06)]">
+                <div className="hidden border-b border-[#0f1b3d]/5 bg-[#F6F8FF] px-5 py-3 sm:px-6 lg:grid lg:grid-cols-[minmax(14rem,1.1fr)_minmax(0,1fr)_12rem_10rem_2rem] lg:gap-4">
+                  <div className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#0f1b3d]/45">Organisation &amp; Investor</div>
+                  <div className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#0f1b3d]/45">Email &amp; Role</div>
+                  <div className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#0f1b3d]/45">Classification</div>
+                  <div className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#0f1b3d]/45">Submitted</div>
+                  <div className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#0f1b3d]/45" />
+                </div>
+
+                {filteredInvestorEnquiries.length === 0 ? (
+                  <div className="p-6">
+                    <EmptyState
+                      title="No investor enquiries yet"
+                      description="Inbound enquiries from institutional and accredited investors will appear here with organization details and regulatory confirmation."
+                    />
+                  </div>
+                ) : (
+                  <div className="divide-y divide-[#0f1b3d]/5">
+                    {filteredInvestorEnquiries.map((enquiry) => (
+                      <button
+                        key={enquiry.id}
+                        type="button"
+                        onClick={() => setSelectedInvestorEnquiry(enquiry)}
+                        className="group grid w-full gap-4 border-l-2 border-transparent px-5 py-4 text-left transition-colors hover:border-l-[#D3A337] hover:bg-[#F6F8FF] focus-visible:border-l-[#D3A337] focus-visible:bg-[#F6F8FF] focus-visible:outline-none sm:px-6 lg:grid-cols-[minmax(14rem,1.1fr)_minmax(0,1fr)_12rem_10rem_2rem] lg:items-start lg:gap-4 cursor-pointer"
+                      >
+                        <div className="min-w-0">
+                          <h3 className="text-[1rem] font-bold tracking-tight text-[#0f1b3d]">{enquiry.organisation}</h3>
+                          <p className="mt-0.5 text-xs text-[#0f1b3d]/65 font-medium">{enquiry.name}</p>
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-sm text-[#0f1b3d]/80">{enquiry.email}</p>
+                          <p className="mt-0.5 text-xs text-[#0f1b3d]/60">{enquiry.role} · {enquiry.country}</p>
+                        </div>
+
+                        <div className="lg:pt-0.5">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#D3A337]/10 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#D3A337]">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
+                            {enquiry.investorType}
+                          </span>
+                        </div>
+
+                        <div className="text-sm text-[#0f1b3d] lg:pt-0.5">{formatDate(enquiry.createdAt)}</div>
+
+                        <div className="flex items-center justify-start lg:justify-end">
+                          <svg className="h-4 w-4 text-[#0f1b3d]/35 transition-colors group-hover:text-[#0f1b3d]" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {activeTab === 'contacts' && (
             <div>
               <div className="mb-4 flex justify-end">
@@ -768,10 +871,10 @@ export function AdminDashboard() {
               <div className="rounded-[1.5rem] border border-[#0f1b3d]/10 bg-white p-6 sm:p-8 shadow-[0_18px_60px_rgba(15,27,61,0.06)]">
                 <div className="border-b border-[#0f1b3d]/10 pb-5">
                   <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d] sm:text-xl">
-                    Application Notification Recipients
+                    Admin Notification Recipients
                   </h2>
                   <p className="mt-1 text-xs text-[#0f1b3d]/65 sm:text-sm">
-                    Configure which email addresses receive notification alerts whenever a candidate submits a job application.
+                    Configure which email addresses receive notification alerts whenever a job application, contact message, or investor enquiry is submitted.
                   </p>
                 </div>
 
@@ -1118,6 +1221,78 @@ export function AdminDashboard() {
               >
                 {formLoading ? 'Saving...' : 'Save Job Posting'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedInvestorEnquiry && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0f1b3d]/45 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-2xl rounded-[1.5rem] bg-white shadow-2xl overflow-hidden border border-[#0f1b3d]/10">
+            <div className={detailModalHeaderClassName}>
+              <div>
+                <p className="text-[0.625rem] font-bold uppercase tracking-[0.22em] text-[#D3A337]">Investor Enquiry</p>
+                <h2 className="mt-1 text-xl font-bold tracking-tight text-[#0f1b3d]">{selectedInvestorEnquiry.organisation}</h2>
+                <p className="mt-1 text-sm text-[#0f1b3d]/60">{selectedInvestorEnquiry.name} · {selectedInvestorEnquiry.role}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedInvestorEnquiry(null)}
+                className={detailModalCloseButtonClassName}
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="px-6 py-5">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl bg-[#F6F8FF] p-4">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/45">Email</p>
+                  <p className="mt-1 text-sm font-semibold text-[#0f1b3d] break-all">{selectedInvestorEnquiry.email}</p>
+                </div>
+                <div className="rounded-2xl bg-[#F6F8FF] p-4">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/45">Submitted</p>
+                  <p className="mt-1 text-sm font-semibold text-[#0f1b3d]">{formatDate(selectedInvestorEnquiry.createdAt)}</p>
+                </div>
+                <div className="rounded-2xl bg-[#F6F8FF] p-4">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/45">Country / Jurisdiction</p>
+                  <p className="mt-1 text-sm font-semibold text-[#0f1b3d]">{selectedInvestorEnquiry.country}</p>
+                </div>
+                <div className="rounded-2xl bg-[#F6F8FF] p-4">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/45">Investor Classification</p>
+                  <p className="mt-1 text-sm font-semibold text-[#D3A337]">{selectedInvestorEnquiry.investorType}</p>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-2xl bg-[#FBF9F4] border border-[#D3A337]/35 p-4">
+                <div className="flex items-center gap-2">
+                  <svg className="h-4 w-4 text-[#D3A337]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]">
+                    Accredited / Institutional Status
+                  </p>
+                </div>
+                <p className="mt-2 text-xs leading-relaxed text-slate-700">
+                  {selectedInvestorEnquiry.confirmed
+                    ? 'Confirmed: Self-certified as an institutional or accredited investor (Securities and Futures Act 2001 of Singapore or equivalent). Investor materials shared only under confidentiality agreement.'
+                    : 'Unconfirmed'}
+                </p>
+              </div>
+
+              <div className="mt-5 flex items-center justify-end gap-3 pt-3 border-t border-[#0f1b3d]/10">
+                <a
+                  href={`mailto:${selectedInvestorEnquiry.email}?subject=Pfundit%20Investor%20Enquiry%20-%20${encodeURIComponent(selectedInvestorEnquiry.organisation)}`}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#0f1b3d] px-5 py-2.5 text-xs font-bold text-white shadow transition-all hover:bg-[#162752] cursor-pointer"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  Reply to Investor
+                </a>
+              </div>
             </div>
           </div>
         </div>

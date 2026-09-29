@@ -1,11 +1,18 @@
 import type { Collection } from 'mongodb';
 import { getDatabase } from '@/lib/db/client';
-import type { ContactSubmissionRecord, JobApplicationRecord, JobRecord, NotificationSettingsRecord } from '@/lib/db/types';
+import type {
+  ContactSubmissionRecord,
+  InvestorEnquiryRecord,
+  JobApplicationRecord,
+  JobRecord,
+  NotificationSettingsRecord,
+} from '@/lib/db/types';
 
 const COLLECTIONS = {
   jobs: 'jobs',
   jobApplications: 'jobApplications',
   contactSubmissions: 'contactSubmissions',
+  investorEnquiries: 'investorEnquiries',
   settings: 'settings',
 } as const;
 
@@ -22,6 +29,11 @@ export async function getJobApplicationsCollection(): Promise<Collection<JobAppl
 export async function getContactSubmissionsCollection(): Promise<Collection<ContactSubmissionRecord>> {
   const db = await getDatabase();
   return db.collection<ContactSubmissionRecord>(COLLECTIONS.contactSubmissions);
+}
+
+export async function getInvestorEnquiriesCollection(): Promise<Collection<InvestorEnquiryRecord>> {
+  const db = await getDatabase();
+  return db.collection<InvestorEnquiryRecord>(COLLECTIONS.investorEnquiries);
 }
 
 export async function getSettingsCollection(): Promise<Collection<NotificationSettingsRecord>> {

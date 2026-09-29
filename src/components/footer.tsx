@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -63,6 +65,19 @@ export function Footer() {
                 <p><Link href="/hiring/privacy" className="hover:text-white transition-colors">Applicant Privacy Notice</Link></p>
                 <p><Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link></p>
                 <p><Link href="/cookies" className="hover:text-white transition-colors">Cookie Notice</Link></p>
+                <p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.dispatchEvent(new CustomEvent('open-cookie-settings'));
+                      }
+                    }}
+                    className="text-left text-white/65 hover:text-[#D3A337] transition-colors cursor-pointer"
+                  >
+                    Cookie Settings
+                  </button>
+                </p>
                 <p><Link href="/responsible-disclosure" className="hover:text-white transition-colors">Responsible Disclosure</Link></p>
               </div>
             </div>

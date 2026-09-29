@@ -1,0 +1,15 @@
+[
+  {
+    "id": "investor-muml5nvn-7bw53j",
+    "name": "Alex Tan",
+    "organisation": "Temasek Horizon Capital",
+    "role": "Managing Director",
+    "email": "alex.tan@horizoncap.sg",
+    "country": "Singapore",
+    "investorType": "Institutional investor",
+    "confirmed": true,
+    "createdAt": "2026-09-29T11:21:12.227Z",
+    "status": "new",
+    "_id": "6abb9f286bc4d35b3fc6ee4d"
+  }
+]

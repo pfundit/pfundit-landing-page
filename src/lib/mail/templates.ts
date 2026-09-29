@@ -1,4 +1,4 @@
-import type { JobApplicationRecord, ContactSubmissionRecord } from '@/lib/db/types';
+import type { JobApplicationRecord, ContactSubmissionRecord, InvestorEnquiryRecord } from '@/lib/db/types';
 
 type Attachment = {
   filename: string;
@@ -91,4 +91,33 @@ export function buildJobApplicationEmail(
   ], attachment ? `<p style="margin:18px 0 0;color:#0f1b3d;font-size:13px;">Resume attached to this email.</p>` : undefined);
 
   return { subject, text, html, attachment };
+}
+
+export function buildInvestorEnquiryEmail(submission: InvestorEnquiryRecord) {
+  const subject = `New Investor Enquiry - ${submission.name} (${submission.organisation})`;
+  const text = [
+    `Name: ${submission.name}`,
+    `Organisation: ${submission.organisation}`,
+    `Role: ${submission.role}`,
+    `Email: ${submission.email}`,
+    `Country: ${submission.country}`,
+    `Investor Type: ${submission.investorType}`,
+    `Accredited/Institutional Confirmation: ${submission.confirmed ? 'Yes, confirmed' : 'No'}`,
+    `Submitted At: ${submission.createdAt}`,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const html = baseSubmissionHtml('New Investor Enquiry', [
+    ['Name', submission.name],
+    ['Organisation', submission.organisation],
+    ['Role', submission.role],
+    ['Email', submission.email],
+    ['Country', submission.country],
+    ['Investor Type', submission.investorType],
+    ['Accredited / Institutional Confirmation', submission.confirmed ? 'Confirmed (Self-certified)' : 'Not confirmed'],
+    ['Submitted At', submission.createdAt],
+  ]);
+
+  return { subject, text, html };
 }

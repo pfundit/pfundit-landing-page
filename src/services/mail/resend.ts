@@ -102,10 +102,10 @@ export async function sendJobApplicationNotificationEmail(
 
 export async function sendTestNotificationEmail(recipientEmails: string[]) {
   const resend = getResendClient();
-  const subject = '[Pfundit Careers] Admin Notification Test';
+  const subject = '[Pfundit Notifications] Admin Notification Test';
   const text = [
     '=================================================================',
-    'PFUNDIT CAREERS - NOTIFICATION TEST EMAIL',
+    'PFUNDIT NOTIFICATIONS - TEST EMAIL',
     '=================================================================',
     '',
     'This is a verification email from the Pfundit Admin System.',
@@ -115,7 +115,7 @@ export async function sendTestNotificationEmail(recipientEmails: string[]) {
     `Sender Address: ${envConfig.emailFrom}`,
     `Timestamp: ${new Date().toISOString()}`,
     '',
-    'You will receive plain-text candidate notifications on these addresses whenever someone applies for an open position at Pfundit.',
+    'You will receive notifications on these addresses whenever someone applies for an open position, submits an investor enquiry, or sends a contact message.',
     '',
     '=================================================================',
   ].join('\n');
@@ -127,3 +127,166 @@ export async function sendTestNotificationEmail(recipientEmails: string[]) {
     text,
   });
 }
+
+export function buildInvestorEnquiryPlainText(enquiry: {
+  name: string;
+  organisation: string;
+  role: string;
+  email: string;
+  country: string;
+  investorType: string;
+  confirmed: boolean;
+  createdAt: string;
+}): string {
+  const lines = [
+    '=================================================================',
+    'NEW INVESTOR ENQUIRY RECEIVED - PFUNDIT',
+    '=================================================================',
+    '',
+    `ORGANISATION: ${enquiry.organisation}`,
+    `FULL NAME: ${enquiry.name}`,
+    `ROLE / TITLE: ${enquiry.role}`,
+    `EMAIL ADDRESS: ${enquiry.email}`,
+    `COUNTRY / JURISDICTION: ${enquiry.country}`,
+    `INVESTOR CLASSIFICATION: ${enquiry.investorType}`,
+    `REGULATORY CONFIRMATION: ${enquiry.confirmed ? 'Confirmed Institutional / Accredited Investor (SFA 2001)' : 'Not confirmed'}`,
+    `SUBMISSION DATE: ${formatDate(enquiry.createdAt)}`,
+    '',
+    '-----------------------------------------------------------------',
+    'CONFIDENTIALITY & LEGAL NOTICE',
+    '-----------------------------------------------------------------',
+    'The applicant has confirmed their institutional / accredited investor status.',
+    'Investor materials may only be shared under a confidentiality agreement.',
+    '',
+    '=================================================================',
+    'ADMIN ACTIONS',
+    '=================================================================',
+    'Review all inbound investor enquiries in the Pfundit Admin Dashboard:',
+    'https://www.pfundit.com/admin',
+    '',
+    '(Tip: To reply directly to this investor, simply click "Reply" in your email client.)',
+    '=================================================================',
+  ];
+
+  return lines.join('\n');
+}
+
+export async function sendInvestorEnquiryNotificationEmail(enquiry: {
+  name: string;
+  organisation: string;
+  role: string;
+  email: string;
+  country: string;
+  investorType: string;
+  confirmed: boolean;
+  createdAt: string;
+}) {
+  try {
+    const resend = getResendClient();
+    const recipientEmails = await getAdminNotificationEmails();
+
+    if (recipientEmails.length === 0) {
+      console.warn('No admin recipient emails configured. Skipping email notification.');
+      return { success: false, reason: 'No recipients configured' };
+    }
+
+    const plainText = buildInvestorEnquiryPlainText(enquiry);
+    const subject = `[Pfundit Investor Enquiry] ${enquiry.organisation} - ${enquiry.name} (${enquiry.investorType})`;
+
+    const result = await resend.emails.send({
+      from: envConfig.emailFrom,
+      to: recipientEmails,
+      replyTo: enquiry.email,
+      subject,
+      text: plainText,
+    });
+
+    if (result.error) {
+      console.error('Resend delivery error for investor enquiry:', result.error);
+      return { success: false, error: result.error };
+    }
+
+    return { success: true, data: result.data };
+  } catch (error) {
+    console.error('Failed to send investor enquiry notification via Resend:', error);
+    return { success: false, error };
+  }
+}
+
+export function buildContactSubmissionPlainText(submission: {
+  name: string;
+  email: string;
+  company?: string;
+  subject?: string;
+  message: string;
+  createdAt: string;
+}): string {
+  const lines = [
+    '=================================================================',
+    'NEW CONTACT FORM SUBMISSION - PFUNDIT',
+    '=================================================================',
+    '',
+    `FULL NAME: ${submission.name}`,
+    `EMAIL ADDRESS: ${submission.email}`,
+    submission.company ? `ORGANISATION: ${submission.company}` : null,
+    submission.subject ? `SUBJECT: ${submission.subject}` : null,
+    `SUBMISSION DATE: ${formatDate(submission.createdAt)}`,
+    '',
+    '-----------------------------------------------------------------',
+    'MESSAGE',
+    '-----------------------------------------------------------------',
+    submission.message,
+    '',
+    '=================================================================',
+    'ADMIN ACTIONS',
+    '=================================================================',
+    'Review all inbound contacts in the Pfundit Admin Dashboard:',
+    'https://www.pfundit.com/admin',
+    '',
+    '(Tip: To reply directly to this contact, simply click "Reply" in your email client.)',
+    '=================================================================',
+  ];
+
+  return lines.filter((line): line is string => line !== null).join('\n');
+}
+
+export async function sendContactSubmissionNotificationEmail(submission: {
+  name: string;
+  email: string;
+  company?: string;
+  subject?: string;
+  message: string;
+  createdAt: string;
+}) {
+  try {
+    const resend = getResendClient();
+    const recipientEmails = await getAdminNotificationEmails();
+
+    if (recipientEmails.length === 0) {
+      console.warn('No admin recipient emails configured. Skipping email notification.');
+      return { success: false, reason: 'No recipients configured' };
+    }
+
+    const plainText = buildContactSubmissionPlainText(submission);
+    const subject = `[Pfundit Contact] ${submission.name}${submission.company ? ` (${submission.company})` : ''} - ${submission.subject || 'New Message'}`;
+
+    const result = await resend.emails.send({
+      from: envConfig.emailFrom,
+      to: recipientEmails,
+      replyTo: submission.email,
+      subject,
+      text: plainText,
+    });
+
+    if (result.error) {
+      console.error('Resend delivery error for contact submission:', result.error);
+      return { success: false, error: result.error };
+    }
+
+    return { success: true, data: result.data };
+  } catch (error) {
+    console.error('Failed to send contact submission notification via Resend:', error);
+    return { success: false, error };
+  }
+}
+

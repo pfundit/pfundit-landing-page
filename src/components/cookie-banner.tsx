@@ -46,6 +46,18 @@ export function CookieBanner() {
     setHasDecided(false);
   }, []);
 
+  useEffect(() => {
+    const handleOpenCookieSettingsEvent = () => {
+      setHasDecided(false);
+      setShowPreferences(true);
+    };
+
+    window.addEventListener('open-cookie-settings', handleOpenCookieSettingsEvent);
+    return () => {
+      window.removeEventListener('open-cookie-settings', handleOpenCookieSettingsEvent);
+    };
+  }, []);
+
   const saveConsent = (functional: boolean, analytics: boolean) => {
     const consentRecord: CookiePreferences = {
       strictlyNecessary: true,
@@ -88,32 +100,12 @@ export function CookieBanner() {
     saveConsent(preferences.functional, preferences.analytics);
   };
 
-  // Re-open banner
-  const handleOpenSettings = () => {
-    setHasDecided(false);
-    setShowPreferences(true);
-  };
-
   if (hasDecided === null) {
     return null;
   }
 
   return (
     <>
-      {/* Floating button to change cookie choices anytime */}
-      {hasDecided && (
-        <button
-          onClick={handleOpenSettings}
-          className="fixed bottom-4 left-4 z-40 rounded-full border border-[#0f1b3d]/15 bg-white/95 px-3 py-1.5 text-[11px] font-medium text-[#0f1b3d]/80 shadow-md backdrop-blur-md transition-all hover:border-[#D3A337] hover:text-[#0f1b3d]"
-          aria-label="Cookie Settings"
-        >
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
-            Cookie Settings
-          </span>
-        </button>
-      )}
-
       {/* Main Consent Banner */}
       {!hasDecided && (
         <aside

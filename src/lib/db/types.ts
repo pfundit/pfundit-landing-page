@@ -46,3 +46,22 @@ export type NotificationSettingsRecord = {
   recipientEmails: string[];
   updatedAt: string;
 };
+
+export type InvestorType =
+  | 'Institutional investor'
+  | 'Accredited investor'
+  | 'Professional investor (other jurisdiction)'
+  | 'Other';
+
+export type InvestorEnquiryRecord = {
+  id: string;
+  name: string;
+  organisation: string;
+  role: string;
+  email: string;
+  country: string;
+  investorType: InvestorType | string;
+  confirmed: boolean;
+  createdAt: string;
+  status: 'new';
+};

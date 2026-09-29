@@ -1,2 +1,6 @@
 export { sendMail } from './send';
-export { buildContactSubmissionEmail, buildJobApplicationEmail } from './templates';
+export {
+  buildContactSubmissionEmail,
+  buildJobApplicationEmail,
+  buildInvestorEnquiryEmail,
+} from './templates';

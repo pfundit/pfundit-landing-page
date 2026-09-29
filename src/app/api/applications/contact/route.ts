@@ -5,6 +5,7 @@ import { getContactSubmissionsCollection } from '@/lib/db/collections';
 import type { ContactSubmissionRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { buildContactSubmissionEmail, sendMail } from '@/lib/mail';
+import { sendContactSubmissionNotificationEmail } from '@/services/mail/resend';
 
 export const runtime = 'nodejs';
 
@@ -88,13 +89,20 @@ export async function POST(request: Request) {
     const submissionsCollection = await getContactSubmissionsCollection();
     await submissionsCollection.insertOne(newSubmission);
 
-    const emailPayload = buildContactSubmissionEmail(newSubmission);
-    await sendMail({
-      subject: emailPayload.subject,
-      text: emailPayload.text,
-      html: emailPayload.html,
-      replyTo: newSubmission.email,
-    });
+    try {
+      const resendResult = await sendContactSubmissionNotificationEmail(newSubmission);
+      if (!resendResult || !resendResult.success) {
+        const emailPayload = buildContactSubmissionEmail(newSubmission);
+        await sendMail({
+          subject: emailPayload.subject,
+          text: emailPayload.text,
+          html: emailPayload.html,
+          replyTo: newSubmission.email,
+        });
+      }
+    } catch (mailErr) {
+      console.error('Failed to send contact submission notification:', mailErr);
+    }
 
     return NextResponse.json(newSubmission, { status: 201 });
   } catch (error) {
