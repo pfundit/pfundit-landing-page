@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: '%s | Pfundit',
   },
   description:
-    'Pfundit is a Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
+    'Pfundit is a Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.',
   applicationName: 'Pfundit',
   keywords: [
     'Pfundit',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Pfundit — Disciplined Credit for the Real Economy',
     description:
-      'Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India — focused on short-tenor, asset-backed financing in the real economy across India, Southeast Asia and the GCC.',
+      'Singapore holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.',
     url: siteUrl,
     siteName: 'Pfundit',
     locale: 'en_SG',

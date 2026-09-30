@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollReveal } from "@/animations/useScrollReveal";
 
 const advantagePoints = [
@@ -29,58 +27,10 @@ const advantagePoints = [
   },
 ];
 
-const ctiRows = [
-  {
-    label: "Traditional NBFC",
-    value: "55–65%",
-    width: "62%",
-    isHighlight: false,
-  },
-  {
-    label: "Existing digital lenders",
-    value: "38–48%",
-    width: "46%",
-    isHighlight: false,
-  },
-  {
-    label: "Pfundit — greenfield",
-    value: "25–30%",
-    width: "30%",
-    isHighlight: true,
-  },
-];
-
 export function Infrastructure() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const barRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useScrollReveal(sectionRef);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Custom animation just for the CTI progress bars
-    const ctx = gsap.context(() => {
-      barRefs.current.forEach((bar, i) => {
-        if (!bar) return;
-        const targetWidth = bar.dataset.width || "0%";
-        gsap.fromTo(
-          bar,
-          { width: 0 },
-          {
-            width: targetWidth,
-            duration: 1.1,
-            ease: "power3.out",
-            delay: i * 0.14,
-            scrollTrigger: { trigger: "[data-cti-panel]", start: "top 80%" },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
@@ -132,7 +82,7 @@ export function Infrastructure() {
           </div>
         </div>
 
-        {/* ── The Economics & CTI Comparison (Vertical Flow - Full Width) ── */}
+        {/* ── The Economics & Key Points (Vertical Flow - Full Width) ── */}
         <div
           data-reveal="block"
           className="reveal-hidden relative w-full space-y-10 sm:space-y-12"
@@ -161,66 +111,10 @@ export function Infrastructure() {
             ))}
           </div>
 
-          {/* Cost-to-Income Comparison */}
-          <div
-            data-cti-panel
-            className="pt-10 sm:pt-12 border-t border-[rgba(15,27,61,0.08)] w-full"
-          >
-            <div className="space-y-7 sm:space-y-8 w-full">
-              {ctiRows.map((row, i) => (
-                <div key={row.label} className="group w-full">
-                  <div className="mb-2.5 flex items-baseline justify-between gap-4">
-                    <span className="text-[14px] sm:text-[15px] font-medium text-navy/90">
-                      {row.label}
-                    </span>
-                    <span className="text-[14px] sm:text-[15px] font-bold text-navy">
-                      {row.value}
-                    </span>
-                  </div>
-                  <div className="h-3 sm:h-3.5 w-full bg-[#ece8df] overflow-hidden">
-                    {row.isHighlight ? (
-                      <div
-                        ref={(el) => {
-                          barRefs.current[i] = el;
-                        }}
-                        data-width={row.width}
-                        className="h-full flex overflow-hidden"
-                        style={{ width: 0 }}
-                      >
-                        <div
-                          className="h-full bg-[#b49050]"
-                          style={{ width: "83.333%" }}
-                        />
-                        <div
-                          className="h-full"
-                          style={{
-                            width: "16.667%",
-                            backgroundImage:
-                              "repeating-linear-gradient(45deg, #b49050, #b49050 2.5px, #dfcaa0 2.5px, #dfcaa0 6.5px)",
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        ref={(el) => {
-                          barRefs.current[i] = el;
-                        }}
-                        data-width={row.width}
-                        className="h-full bg-[#1b2b4d]"
-                        style={{ width: 0 }}
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-8 text-sm font-semibold text-navy">
-              That gap is the business. Everything else is execution.
-            </p>
-
-            <p className="mt-6 text-xs sm:text-[12.5px] leading-relaxed text-navy/60 w-full">
-              Target of 25–30% is projected as achievable within 24–36 months of launch in India, based on a technology-led cost architecture, Hub &amp; Spoke design and digital-first origination. Benchmarks are management estimates. Subject to regulatory approval and market conditions. Not a financial guarantee.
+          {/* Closing Line */}
+          <div className="pt-8 border-t border-[rgba(15,27,61,0.08)] w-full">
+            <p className="text-[14px] sm:text-[15.5px] leading-relaxed text-navy/70 w-full">
+              Our aim is a cost base that improves as the loan book grows, without a matching rise in branches or headcount.
             </p>
           </div>
         </div>

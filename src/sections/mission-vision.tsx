@@ -74,7 +74,24 @@ export function MissionVision() {
               className="typo-body text-navy/60"
               style={{ margin: 0, maxWidth: "60ch" }}
             >
-              India's MSME sector faces a credit gap of approximately $530 billion. Southeast Asia adds a further $300 billion shortfall. Across both regions, over 700 million adults remain outside the regulated credit system. The barrier is not demand — it is the cost and complexity of serving them. We are building the infrastructure that makes disciplined lending at this scale commercially viable.
+              India&apos;s MSMEs face an addressable credit gap of about ₹30 lakh crore (about US$350 billion), around a quarter of their total credit demand. Only 14% of MSMEs have access to formal credit, even though 89% of Indian adults now hold a financial account. The barrier is not demand. It is the cost and complexity of serving these businesses well. We are building the infrastructure that makes disciplined lending at this scale commercially viable.
+            </p>
+
+            {/* Source line */}
+            <p
+              className="mt-4 text-xs sm:text-[12.5px] leading-relaxed text-navy/45"
+              style={{ maxWidth: "60ch" }}
+            >
+              Sources:{" "}
+              <a
+                href="https://www.sidbi.in/uploads/publicationreport/Understanding-Indian-MSME-sector-Progress-and-Challenges%20-.Unabridged-Version-07-07-2025.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-navy transition-colors"
+              >
+                SIDBI, Understanding Indian MSME Sector: Progress and Challenges
+              </a>{" "}
+              (May 2025), US$ figure at about ₹85.5 per US$ in mid-May 2025; Deloitte, State of Financial Services in India (2026).
             </p>
           </div>
 
@@ -100,7 +117,7 @@ export function MissionVision() {
               className="typo-h3 text-navy"
               style={{ margin: 0, marginBottom: 28 }}
             >
-              To be Asia's most trusted technology-enabled credit platform by 2030 — regulated, scalable and built on infrastructure that compounds over time.
+              To become a lender that borrowers, regulators and funders trust, starting in India and built to the standards of a regulated institution.
             </h3>
 
             {/* Body */}
@@ -108,7 +125,7 @@ export function MissionVision() {
               className="typo-body text-navy/60"
               style={{ margin: 0, marginBottom: 48 }}
             >
-              We are not building a fintech app. We are building a financial institution that, once licensed, will manage its own loan book, stand behind every credit outcome and deepens its operating advantage with every loan made. Across India first, and across Asia by design — not by extension.
+              We are not building a fintech app. We are building a financial institution that, once licensed, will manage its own loan book, stand behind every credit outcome and deepen its operating advantage with every loan made.
             </p>
 
           </div>

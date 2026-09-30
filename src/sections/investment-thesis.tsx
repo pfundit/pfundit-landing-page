@@ -12,17 +12,6 @@ const capabilities = [
   { title: 'Technology-Driven Underwriting', description: 'Credit workflows built on data and decisioning tools from the first loan originated.' },
 ];
 
-const esgStats = [
-  { value: 'US$54B', label: 'India waste management market by 2030 — up from US$22B in 2023' },
-  { value: 'US$218B', label: "Projected annual value of Indiaʹs circular economy by 2030" },
-  { value: '500K tonnes', label: 'EV batteries requiring recycling or repurposing by 2030' },
-];
-
-const esgVerticals = [
-  { title: 'Recycling Waste to Energy', description: 'Asset-backed financing for waste-to-energy and biomethanation operators converting municipal and industrial waste streams into energy.' },
-  { title: 'Repurposing Electronics & Appliances', description: 'Working capital for refurbishment and e-waste recovery operators extending the life of electronics and home appliances instead of landfill disposal.' },
-  { title: 'Repurposing Batteries for Second Life', description: 'Receivables and inventory financing for operators redeploying retired EV and industrial batteries into second-life energy storage.' },
-];
 
 export function InvestmentThesis() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -78,7 +67,8 @@ export function InvestmentThesis() {
     <>
       {/* ── INVESTMENT THESIS ── */}
       <section ref={sectionRef} id="thesis"
-        className="relative overflow-hidden section-padding bg-tier-anchor"
+        className="relative overflow-hidden section-padding bg-tier-anchor scroll-mt-28 sm:scroll-mt-36"
+        style={{ scrollMarginTop: '136px' }}
       >
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.08)] to-transparent" />
 
@@ -105,7 +95,7 @@ export function InvestmentThesis() {
               <h3 className="typo-h3 text-white mb-6">India NBFC</h3>
               <div className="space-y-5 max-w-[42rem]">
                 <p data-reveal="intro" className="typo-body text-white/60">Pfundit is establishing an NBFC in India, subject to registration with the RBI, focused on shorter-tenor, asset-aware credit tied to real transaction flows — with every exposure underwritten and monitored at the asset level from day one.</p>
-                <p data-reveal="intro" className="typo-body text-white/60">The platform targets segments where structured, data-driven financing improves risk-adjusted returns: consumer and MSME working capital, advance on income from assets and circular-economy supply chains where established off-takers anchor the transaction.</p>
+                <p data-reveal="intro" className="typo-body text-white/60">The platform targets segments where structured, data-driven financing improves risk-adjusted returns: consumer and MSME working capital, advance on income from assets and secured lending to MSMEs, with a particular interest in businesses supporting a circular economy.</p>
                 <p data-reveal="intro" className="typo-body text-white/60">Institutional-grade governance, explainable technology-driven underwriting and transparent portfolios — designed to meet institutional expectations on risk sharing, reporting and regulatory alignment from the outset.</p>
               </div>
             </div>
@@ -113,15 +103,15 @@ export function InvestmentThesis() {
             {/* Right: SEA & GCC */}
             <div id="thesis-sea" className="header-group max-w-[42rem] !mb-0 lg:pl-10">
               <div data-reveal="intro" className="flex items-center gap-4 flex-wrap mb-6">
-                <span className="section-label rounded-full border border-[rgba(211, 163, 55,0.28)] bg-[rgba(211, 163, 55,0.08)] px-3 py-1.5 text-[#D3A337]">REGIONAL STRATEGY</span>
+                <span className="section-label rounded-full border border-[rgba(211, 163, 55,0.28)] bg-[rgba(211, 163, 55,0.08)] px-3 py-1.5 text-[#D3A337]">GROUP AMBITION</span>
               </div>
-              <h3 className="typo-h3 text-white mb-6">SEA &amp; GCC</h3>
+              <h3 className="typo-h3 text-white mb-6">Southeast Asia &amp; Gulf Cooperation Council (GCC)</h3>
               <div className="space-y-5 max-w-[42rem]">
                 <p data-reveal="intro" className="typo-body text-white/60">
-                  Pfundit was incorporated in Singapore because the founders&apos; operating experience is regional. Once the India platform is established and operational, the same model — transaction-backed credit, asset-level monitoring, institutional governance — is designed to extend into Southeast Asia and the GCC, subject to obtaining the licences required in each jurisdiction.
+                  Pfundit Pte. Ltd. is incorporated in Singapore because its founders&apos; banking careers have been regional. Over the longer term, the group may explore lending in Southeast Asia and the GCC through separate entities, each licensed in its own market.
                 </p>
                 <p data-reveal="intro" className="typo-body text-white/60">
-                  Southeast Asia carries an MSME financing shortfall exceeding $300 billion (ADB). The GCC and MENA region carries a further gap of approximately $260 billion (IFC), with SMEs securing just 12% of the credit they require. These are not parallel tracks. They are a deliberate second chapter — enabled by the same infrastructure, governance standards and team that builds India first.
+                  This is separate from the proposed Indian NBFC. Pfundit Capital Private Limited is focused on lending in India. Any regional activity would be undertaken by the Singapore group, not the Indian NBFC, and only after the relevant approvals in each jurisdiction.
                 </p>
               </div>
             </div>
@@ -179,77 +169,23 @@ export function InvestmentThesis() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(15,27,61,0.08)] to-transparent" />
 
         <div className="layout-shell editorial-container relative z-10">
-          <div className="header-group max-w-[38rem]">
+          <div className="header-group max-w-[42rem]">
             <div data-reveal="eyebrow" className="reveal-hidden mb-6 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
               <span className="section-label">ESG &amp; IMPACT</span>
             </div>
             <h2 data-reveal="heading" className="reveal-hidden font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-none tracking-[-0.03em] text-navy header-heading">
-              Financing <span className="text-[#D3A337]">India's Circular Economy</span>
+              Credit for India&apos;s circular economy
             </h2>
-            <p data-reveal="paragraph" className="reveal-hidden typo-body text-navy/60 mt-3">
-              India's waste and materials-recovery sector is scaling rapidly — and the working capital to build it out remains structurally scarce. Pfundit is designing asset-backed credit for the operators closing the loop: waste-to-energy converters, refurbishment and e-waste recovery businesses, and second-life battery operators. These are established businesses with observable off-take relationships and verifiable cash flows — exactly the transaction-anchored structures our credit model is designed to serve.
-            </p>
+            <div className="space-y-5 mt-6">
+              <p data-reveal="paragraph" className="reveal-hidden typo-body text-navy/60">
+                Once registered with the RBI, Pfundit intends to start by offering MSMEs secured business loans against property. Among the businesses we expect to serve are refurbishment and repair operators, and battery repurposing and recycling businesses. These are established MSMEs with steady customers and cash flows we can verify, which traditional lenders often find hard to underwrite.
+              </p>
+              <p data-reveal="paragraph" className="reveal-hidden typo-body text-navy/60">
+                As our loan book and track record build, we will consider more specialised financing for these businesses, subject to applicable regulatory requirements.
+              </p>
+            </div>
           </div>
-
-          {/* ── UNIFIED 3-COLUMN LAYOUT ── */}
-          <div className="mt-12 grid sm:grid-cols-3 relative">
-            {/* Continuous top border */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-navy/[0.08] via-navy/[0.04] to-transparent" />
-
-            {esgVerticals.map((v, i) => (
-              <div key={v.title} className={`group relative pt-10 pb-4 sm:pb-8 ${i > 0 ? 'sm:pl-10' : ''}`}>
-                {/* Vertical separator line */}
-                {i > 0 && <div className="hidden sm:block absolute left-0 top-0 h-full w-px bg-gradient-to-b from-navy/[0.06] to-transparent" />}
-
-                {/* ── STAT PART ── */}
-                <div data-reveal="block" className="reveal-hidden mb-12">
-                  <h4 data-reveal="stat" className="block font-serif-editorial text-[clamp(1.7rem,2.8vw,2.3rem)] leading-none tracking-[-0.04em] text-navy mb-3 transition-colors duration-300 group-hover:text-[#9e7b22]">
-                    {esgStats[i].value}
-                  </h4>
-                  <p className="typo-body-sm text-navy/50 max-w-[26ch]">
-                    {esgStats[i].label}
-                  </p>
-                </div>
-
-                {/* ── VERTICAL PART ── */}
-                <div data-reveal="block" className="reveal-hidden relative">
-                  {/* Icon & Animated Gold Line */}
-                  <div className="mb-6 flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(211, 163, 55,0.3)] bg-[rgba(211, 163, 55,0.05)] text-[#D3A337] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(211, 163, 55,0.1)]">
-                      {i === 0 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                      )}
-                      {i === 1 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                      )}
-                      {i === 2 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg>
-                      )}
-                    </div>
-                    {/* Animated Gold Line connecting to the edge */}
-                    <div className="h-px flex-1 ml-5 bg-navy/[0.04] relative overflow-hidden">
-                      <div className="absolute top-0 left-0 h-full w-full origin-left scale-x-0 bg-gradient-to-r from-[#D3A337] to-transparent transition-transform duration-700 ease-out group-hover:scale-x-100" />
-                    </div>
-                  </div>
-
-                  <h3 className="typo-button text-navy mb-3 transition-colors duration-300 group-hover:text-[#9e7b22]">
-                    {v.title}
-                  </h3>
-                  <p className="typo-body-sm text-navy/55 leading-relaxed">
-                    {v.description}
-                  </p>
-                </div>
-
-                {/* Subtle hover background glow behind entire column */}
-                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(ellipse_at_top_left,rgba(211, 163, 55,0.03),transparent_70%)] pointer-events-none" />
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-6 text-xs sm:text-[12.5px] leading-relaxed text-navy/55">
-            Market estimates: NextMSC India Waste Management Market (2024); IBEF / Kalaari Capital circular-economy projections. Figures reflect total addressable market opportunity from third-party research, not Pfundit's current loan book or AUM.
-          </p>
         </div>
       </section>
     </>

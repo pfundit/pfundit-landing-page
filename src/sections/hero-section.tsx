@@ -4,14 +4,27 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { TalkToUsButton } from '@/components/button';
 
-const stats = [
-  { value: 'US$1Tn+', label: 'Unaddressed credit demand across Asia', subLabel: 'India · Southeast Asia · GCC†' },
-  { value: '60+ yrs', label: 'Institutional banking, credit and entrepreneurship.', subLabel: 'Institutional banking · Entrepreneurial exits' },
-  { value: '25\u201330%*', label: 'Target cost-to-income', subLabel: 'Projected within 24–36 months of India launch. Subject to regulatory approval and market conditions.' },
-];
-
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
+
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const nav = document.querySelector('div[class*="fixed left-0 top-0"]') as HTMLElement | null;
+    const offset = nav ? nav.offsetHeight : 130;
+    const lenis = (typeof window !== 'undefined' ? (window as any).__lenis : null);
+    if (lenis?.scrollTo) {
+      lenis.scrollTo(el, { offset: -offset });
+    } else {
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elRect = el.getBoundingClientRect().top;
+      const targetY = elRect - bodyRect - offset;
+      window.scrollTo({
+        top: targetY,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   useEffect(() => {
     if (!sectionRef.current || typeof window === 'undefined') return;
@@ -20,7 +33,6 @@ export function HeroSection() {
       const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
       timeline
         .fromTo('[data-hero-reveal]', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.75, stagger: 0.09 })
-        .fromTo('[data-hero-check]', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.45, stagger: 0.1 }, '-=0.25')
         .fromTo('[data-hero-graphic]', { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.8, stagger: 0.1, ease: 'back.out(1.7)' }, 0.15);
     }, sectionRef);
 
@@ -38,10 +50,9 @@ export function HeroSection() {
         /* 
           Navbar = hiring strip (~42px) + nav bar (88px) = ~130px total.
           We use 136px as base so eyebrow clears the nav comfortably.
-          paddingBottom is kept tight so stats fit in the viewport.
         */
-        paddingTop: 'clamp(136px, 12vw, 152px)',
-        paddingBottom: 'clamp(24px, 2.5vw, 36px)',
+        paddingTop: 'clamp(136px, 12vw, 160px)',
+        paddingBottom: 'clamp(48px, 6vw, 72px)',
       }}
     >
       {/* ── Background image — fully visible on right side ── */}
@@ -148,7 +159,7 @@ export function HeroSection() {
           {/* Eyebrow — sits comfortably below navbar */}
           <div data-hero-reveal className="mb-6 flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D3A337]" />
-            <span className="section-label">CREDIT INFRASTRUCTURE · BUILT FOR ASIA</span>
+            <span className="section-label">SINGAPORE-BASED · BUILDING IN INDIA</span>
           </div>
 
           {/* Headline */}
@@ -157,81 +168,34 @@ export function HeroSection() {
             <span data-hero-reveal className="block">for the <span className="text-[#D3A337]">Real Economy.</span></span>
           </h1>
 
-          {/* Body */}
-          <p data-hero-reveal className="mt-6 max-w-[52ch] typo-body text-[clamp(1rem,1.35vw,1.25rem)] leading-[1.7] text-navy/60">
-            Pfundit is a Singapore-incorporated holding company building a technology-enabled lending business, starting with a proposed RBI-registered NBFC in India.
+          {/* Supporting text */}
+          <p data-hero-reveal className="mt-6 max-w-[58ch] typo-body text-[clamp(1rem,1.3vw,1.2rem)] leading-[1.7] text-navy/70">
+            Pfundit is building a technology-led lending business in India: short-tenor, asset-backed credit tied to real transaction flows, led by former HSBC and J.P. Morgan bankers and underwritten with the discipline of a regulated institution from day one.
           </p>
 
           {/* CTAs */}
-          <div data-hero-reveal className="mt-7 flex flex-wrap justify-center gap-3.5">
+          <div data-hero-reveal className="mt-8 flex flex-col sm:flex-row w-full sm:w-auto items-center justify-center gap-3.5">
             <button
-              className="typo-button rounded-full bg-[#0f1b3d] px-8 py-3.5 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#172a58] hover:shadow-lg"
-              onClick={() => document.getElementById('thesis')?.scrollIntoView({ behavior: 'smooth' })}
+              className="w-full sm:w-auto typo-button rounded-full bg-[#0f1b3d] px-8 py-3.5 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#172a58] hover:shadow-lg"
+              onClick={() => scrollToId('thesis')}
             >
-              Explore the Platform
+              See what we're building
             </button>
             <TalkToUsButton
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            />
+              className="w-full sm:w-auto"
+              onClick={() => scrollToId('contact')}
+            >
+              Write to us
+            </TalkToUsButton>
           </div>
 
-          {/* Credential check items */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3.5 w-full max-w-[940px]">
-            {[
-              { label: 'India', detail: 'Proposed NBFC (RBI) · Pre-application stage' },
-              { label: 'SEA & GCC', detail: 'Opportunistic expansion' },
-              { label: null, detail: 'Incorporated in Singapore · ACRA Registered' },
-            ].map((item, i) => (
-              <div key={i} data-hero-check className="flex items-center gap-2.5 text-[0.85rem] sm:text-[0.875rem] leading-[1.45] text-navy/60">
-                <svg className="h-4 w-4 shrink-0 text-[#D3A337]" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <circle cx="8" cy="8" r="7" fill="currentColor" />
-                  <path d="m4.8 8 2 2 4.3-4.3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="inline-flex items-baseline gap-1">
-                  {item.label && <strong className="font-semibold text-navy">{item.label}</strong>}
-                  <em>{item.detail}</em>
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Stats bar */}
-          <div data-hero-reveal className="mt-7 w-full max-w-[820px]">
-            {/* Grid row — the 3 stat columns */}
-            <div className="grid border-t border-navy/10 sm:grid-cols-3">
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.value}
-                  className={`px-4 py-6 sm:px-6 flex flex-col items-center justify-start text-center ${index > 0 ? 'sm:border-l sm:border-navy/10' : ''}`}
-                >
-                  <div className="flex flex-col items-center">
-                    <p className="font-serif-editorial text-[clamp(1.6rem,2.4vw,2.1rem)] leading-none tracking-[-0.04em] text-navy">
-                      {stat.value}
-                    </p>
-                    <p className="mt-1.5 max-w-[20ch] typo-body-sm text-navy/55">
-                      {stat.label}
-                    </p>
-                  </div>
-                  {stat.subLabel && (
-                    <div className="mt-3 flex-1 flex flex-col justify-start">
-                      <p className="max-w-[32ch] text-xs sm:text-[12.5px] leading-relaxed text-navy/55">
-                        {stat.subLabel}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            {/* Disclaimer row — full-width, below all 3 columns, no mixing */}
-            <div className="mx-auto max-w-[60rem] border-t border-navy/10 px-4 py-5 sm:px-8 text-center flex flex-col items-center justify-center">
-              <p className="text-[11.5px] sm:text-xs leading-relaxed text-navy/55 mb-1.5 max-w-[90ch]">
-                † Combined MSME and SME credit gap estimates: India ~$530Bn · Southeast Asia ~$300Bn · GCC / MENA ~$260Bn. Figures reflect TAM estimates from 3rd-party institutional research (e.g., EY 2024, ADB, IFC). Not a Pfundit forecast or commitment.
-              </p>
-              <p className="text-[11.5px] sm:text-xs leading-relaxed text-navy/55 max-w-[90ch]">
-                * Target cost-to-income of 25-30% is projected to be achievable within 24-36 months of launch in India. Subject to regulatory approvals and market conditions. Not a financial guarantee.
-              </p>
-            </div>
-          </div>
+          {/* Status note */}
+          <p
+            data-hero-reveal
+            className="mt-8 max-w-[62ch] text-[12.5px] sm:text-[13px] leading-relaxed text-navy/55 text-center font-normal not-italic"
+          >
+            Pfundit Capital Private Limited, a wholly-owned subsidiary of Pfundit Pte. Ltd., is incorporated in India and is at the pre-application stage for RBI registration as an NBFC. Neither entity lends, and no lending will begin until an RBI Certificate of Registration is granted.
+          </p>
 
         </div>
       </div>

@@ -93,7 +93,7 @@ export function Footer() {
           </div>
           <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-4 text-xs text-white/50 lg:flex-row lg:items-center lg:justify-between">
             <p>© 2026 Pfundit Pte. Ltd. · All Rights Reserved.</p>
-            <p>Singapore HoldCo · India NBFC (proposed) · Pan-Asia Lending Platform</p>
+            <p>Singapore HoldCo · India NBFC (proposed)</p>
           </div>
         </div>
       </div>

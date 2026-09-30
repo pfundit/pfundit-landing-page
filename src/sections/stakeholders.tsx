@@ -6,7 +6,7 @@ import { useScrollReveal } from '@/animations/useScrollReveal';
 const stakeholdersContent = [
   {
     title: 'The Leadership',
-    description: 'Founded by former HSBC and J.P. Morgan banking executives alongside serial entrepreneurs with a track record of Private Equity exits.'
+    description: 'Founded by former HSBC and J.P. Morgan banking executives alongside serial entrepreneurs who have built and exited companies, including through a private equity exit.'
   },
   {
     title: 'The Opportunity',

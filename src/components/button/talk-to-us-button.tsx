@@ -7,9 +7,10 @@ type TalkToUsButtonProps = {
   onClick: () => void;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
+  children?: React.ReactNode;
 };
 
-export function TalkToUsButton({ onClick, type = 'button', className = '' }: TalkToUsButtonProps) {
+export function TalkToUsButton({ onClick, type = 'button', className = '', children }: TalkToUsButtonProps) {
   return (
     <motion.button
       type={type}
@@ -18,7 +19,7 @@ export function TalkToUsButton({ onClick, type = 'button', className = '' }: Tal
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
     >
-      <span className="relative z-10">Write to Us</span>
+      <span className="relative z-10">{children || 'Write to us'}</span>
     </motion.button>
   );
 }

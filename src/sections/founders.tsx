@@ -231,7 +231,7 @@ export function Leadership() {
             Underwritten by <span className="text-[#D3A337]">experience.</span><br className="hidden sm:block" />
             {/* <span className="text-[#D3A337]">60+ years across HSBC and J.P. Morgan.</span> */}
           </h2>
-          <p data-anim="headline" className="mt-4 text-[1.1rem] text-white/60">Credit and banking in India and Singapore, at HSBC and J.P. Morgan. Two founder exits.</p>
+          <p data-anim="headline" className="mt-4 text-[1.1rem] text-white/60">Credit and banking in India and Singapore, at HSBC and J.P. Morgan, and founders who have built and exited companies, including In.Corp Global and Stone Apple.</p>
         </div>
 
         {/* ─── founders grid ─── */}
