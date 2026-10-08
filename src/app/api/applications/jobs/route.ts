@@ -11,7 +11,7 @@ export const runtime = 'nodejs';
 
 const applicationsSeedPath = path.join(process.cwd(), 'src', 'data', 'job-applications.json');
 const allowedResumeExtensions = new Set(['pdf', 'doc', 'docx']);
-const maxResumeBytes = 10 * 1024 * 1024;
+const maxResumeBytes = 4 * 1024 * 1024; // 4 MB limit (stays safely below Vercel's 4.5 MB serverless limit)
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
     }
 
     if (resume.size > maxResumeBytes) {
-      return NextResponse.json({ error: 'Resume size must be 10 MB or less' }, { status: 400 });
+      return NextResponse.json({ error: 'Resume size must be 4 MB or less' }, { status: 400 });
     }
 
     const extension = getFileExtension(resume.name);

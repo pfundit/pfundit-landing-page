@@ -20,6 +20,9 @@ export type Role = {
   jdUrl?: string;
 };
 
+const MAX_RESUME_SIZE_MB = 4;
+const MAX_RESUME_SIZE_BYTES = MAX_RESUME_SIZE_MB * 1024 * 1024;
+
 /* ─────────────────── helpers ─────────────────── */
 function ArrowIcon() {
   return (
@@ -127,6 +130,8 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
   const [selectedRole, setSelectedRole] = useState('');
   const [detailedRole, setDetailedRole] = useState<Role | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !window.location.hash) {
@@ -155,14 +160,50 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
   const handleApplyClick = (roleTitle: string) => {
     setSelectedRole(roleTitle);
     setFormStatus('idle');
+    setFileError(null);
+    setErrorMessage(null);
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFileError(null);
+    setErrorMessage(null);
+    setFormStatus('idle');
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setFileError(null);
+      return;
+    }
+
+    if (file.size > MAX_RESUME_SIZE_BYTES) {
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      setFileError(`Resume size is ${sizeMb} MB. Maximum allowed size is ${MAX_RESUME_SIZE_MB} MB. Please upload a smaller or compressed file.`);
+      event.target.value = '';
+    } else {
+      setFileError(null);
+    }
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setFormStatus('submitting');
+    setErrorMessage(null);
 
     const formData = new FormData(event.currentTarget);
+    const resume = formData.get('Resume');
+
+    if (resume instanceof File && resume.size > MAX_RESUME_SIZE_BYTES) {
+      const sizeMb = (resume.size / (1024 * 1024)).toFixed(1);
+      setFileError(`Resume size is ${sizeMb} MB. Maximum allowed size is ${MAX_RESUME_SIZE_MB} MB.`);
+      setErrorMessage(`Selected resume exceeds ${MAX_RESUME_SIZE_MB} MB. Please upload a smaller file.`);
+      setFormStatus('error');
+      return;
+    }
+
+    setFormStatus('submitting');
 
     try {
       const response = await fetch('/api/applications/jobs', {
@@ -172,13 +213,31 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
 
       if (response.ok) {
         setFormStatus('success');
-        setTimeout(() => setIsModalOpen(false), 3000);
+        setFileError(null);
+        setErrorMessage(null);
+        setTimeout(() => {
+          setIsModalOpen(false);
+          setFormStatus('idle');
+        }, 3000);
       } else {
-        console.error('Error submitting application');
+        let errorText = 'Failed to submit application. Please try again.';
+        try {
+          const data = await response.json();
+          if (data?.error) {
+            errorText = data.error;
+          }
+        } catch {
+          if (response.status === 413) {
+            errorText = 'File is too large for upload. Please upload a resume under 4 MB.';
+          }
+        }
+        console.error('Error submitting application:', errorText);
+        setErrorMessage(errorText);
         setFormStatus('error');
       }
     } catch (err) {
       console.error(err);
+      setErrorMessage('A network error occurred while submitting. Please try again.');
       setFormStatus('error');
     }
   };
@@ -370,7 +429,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                   </div>
 
                   <button
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={handleCloseModal}
                     className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#0f1b3d]/10 bg-white px-2 py-2 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/60 transition-colors hover:border-[#0f1b3d]/20 hover:text-[#0f1b3d] sm:px-2.5 sm:py-2.5"
                     aria-label="Close application form"
                     type="button"
@@ -453,8 +512,21 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                             <input type="url" name="LinkedIn" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.95rem] text-[#0f1b3d] transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" placeholder="https://linkedin.com/in/..." />
                           </div>
                           <div className="flex flex-col gap-1.5">
-                            <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Resume Upload (Required)</label>
-                            <input required type="file" name="Resume" accept=".pdf,.doc,.docx" className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.9rem] text-[#0f1b3d] file:mr-4 file:rounded-full file:border-0 file:bg-[#0f1b3d] file:px-4 file:py-2 file:text-[0.78rem] file:font-bold file:text-white transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]" />
+                            <div className="flex items-center justify-between">
+                              <label className="text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/75">Resume Upload (Required)</label>
+                              <span className="text-[0.7rem] font-medium text-[#0f1b3d]/50">Max 4 MB (PDF, DOC, DOCX)</span>
+                            </div>
+                            <input
+                              required
+                              type="file"
+                              name="Resume"
+                              accept=".pdf,.doc,.docx"
+                              onChange={handleFileChange}
+                              className="w-full rounded-xl border border-[#0f1b3d]/10 bg-[#F0F5FF]/60 px-4 py-2.5 text-[0.9rem] text-[#0f1b3d] file:mr-4 file:rounded-full file:border-0 file:bg-[#0f1b3d] file:px-4 file:py-2 file:text-[0.78rem] file:font-bold file:text-white transition-colors focus:border-[#D3A337] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D3A337]"
+                            />
+                            {fileError && (
+                              <p className="text-xs font-semibold text-red-500 mt-0.5">{fileError}</p>
+                            )}
                           </div>
                         </div>
 
@@ -485,7 +557,9 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                         </div>
 
                         {formStatus === 'error' && (
-                          <p className="text-sm font-medium text-red-500">Something went wrong. Please check your access key or try again.</p>
+                          <p className="text-sm font-medium text-red-500">
+                            {errorMessage || 'Something went wrong. Please check your details or try again.'}
+                          </p>
                         )}
                       </form>
                     )}
@@ -496,7 +570,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                       <button
                         type="submit"
                         form="application-form"
-                        disabled={formStatus === 'submitting'}
+                        disabled={formStatus === 'submitting' || !!fileError}
                         className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0f1b3d] py-3 text-[0.9rem] font-bold text-white transition-all hover:bg-[#0f1b3d]/90 hover:shadow-lg disabled:opacity-70 sm:py-3.5 sm:text-[0.95rem]"
                       >
                         {formStatus === 'submitting' ? (
