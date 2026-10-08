@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-navy: #0f1b3d;
@@ -632,4 +633,172 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--navy);
+}
+
+/* ==========================================================================
+   Rich Text Editor & Formatted Content (TipTap & Prose Overrides)
+   Ensures headings, bullet points, numbers, and links are fully styled
+   and not stripped by Tailwind base resets.
+   ========================================================================== */
+
+.tiptap-editor,
+.rich-text-content {
+  outline: none;
+}
+
+/* Headings */
+.tiptap-editor h1,
+.rich-text-content h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #0f1b3d;
+}
+
+.tiptap-editor h2,
+.rich-text-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 1.15rem;
+  margin-bottom: 0.45rem;
+  color: #0f1b3d;
+}
+
+.tiptap-editor h3,
+.rich-text-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+  color: #0f1b3d;
+}
+
+.tiptap-editor h4,
+.rich-text-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 0.85rem;
+  margin-bottom: 0.25rem;
+  color: #0f1b3d;
+}
+
+/* Paragraphs */
+.tiptap-editor p,
+.rich-text-content p {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+
+/* Unordered / Bullet Lists - Crucial fix for Tailwind Preflight reset */
+.tiptap-editor ul,
+.rich-text-content ul {
+  list-style-type: disc !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+/* Ordered / Numbered Lists */
+.tiptap-editor ol,
+.rich-text-content ol {
+  list-style-type: decimal !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+/* List Items */
+.tiptap-editor li,
+.rich-text-content li {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.6 !important;
+  display: list-item !important;
+}
+
+.tiptap-editor li > p,
+.rich-text-content li > p {
+  margin: 0 !important;
+  display: inline !important;
+}
+
+/* Nested lists */
+.tiptap-editor ul ul,
+.rich-text-content ul ul {
+  list-style-type: circle !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  padding-left: 1.25rem !important;
+}
+
+.tiptap-editor ol ol,
+.rich-text-content ol ol {
+  list-style-type: lower-alpha !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  padding-left: 1.25rem !important;
+}
+
+/* Blockquotes */
+.tiptap-editor blockquote,
+.rich-text-content blockquote {
+  border-left: 3px solid #D3A337 !important;
+  padding-left: 1rem !important;
+  margin-top: 0.85rem !important;
+  margin-bottom: 0.85rem !important;
+  font-style: italic !important;
+  color: rgba(15, 27, 61, 0.8) !important;
+  background: rgba(211, 163, 55, 0.04);
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+/* Divider / Horizontal Rule */
+.tiptap-editor hr,
+.rich-text-content hr {
+  border: none !important;
+  border-top: 1px solid rgba(15, 27, 61, 0.12) !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* Links */
+.tiptap-editor a,
+.rich-text-content a {
+  color: #D3A337 !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important;
+  transition: color 0.15s ease;
+}
+
+.tiptap-editor a:hover,
+.rich-text-content a:hover {
+  color: #b49050 !important;
+}
+
+/* Code & inline code */
+.tiptap-editor code,
+.rich-text-content code {
+  background-color: rgba(15, 27, 61, 0.06);
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.85em;
+  color: #0f1b3d;
+}
+
+/* TipTap Placeholder */
+.tiptap-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgba(15, 27, 61, 0.38);
+  pointer-events: none;
+  height: 0;
 }

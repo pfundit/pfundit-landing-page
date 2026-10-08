@@ -15,25 +15,25 @@ export function PlatformOverview() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     const ctx = gsap.context(() => {
       // Simple fade-in animations for the content
-      gsap.fromTo('.platform-reveal', 
-        { opacity: 0, y: 20 }, 
+      gsap.fromTo('.platform-reveal',
+        { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out' }
       );
-      
+
       // Diagram animations
       gsap.to('.diagram-ring', { rotation: 360, duration: 40, repeat: -1, ease: 'linear', transformOrigin: 'center' });
       gsap.to('.diagram-ring-reverse', { rotation: -360, duration: 30, repeat: -1, ease: 'linear', transformOrigin: 'center' });
-      gsap.fromTo('.diagram-pill', 
-        { scale: 0.8, opacity: 0 }, 
+      gsap.fromTo('.diagram-pill',
+        { scale: 0.8, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'back.out(1.5)', delay: 0.5 }
       );
-      
+
       // Floating dots
       gsap.to('.diagram-dot', { y: -4, duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: 0.2 });
-      
+
       // Center Core Pulse
       gsap.to('.diagram-core', {
         scale: 1.03,
@@ -50,15 +50,16 @@ export function PlatformOverview() {
         repeat: -1,
         ease: 'sine.inOut'
       });
-      
+
     }, containerRef);
-    
+
     return () => ctx.revert();
   }, []);
 
   return (
     <section ref={containerRef} className="relative min-h-[90vh] flex items-center bg-[#0d142b] py-24 text-white overflow-hidden pt-36 pb-24">
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes flowDash {
           from { stroke-dashoffset: 0; }
           to { stroke-dashoffset: -20; }
@@ -75,7 +76,7 @@ export function PlatformOverview() {
 
       <div className="layout-shell w-full relative z-10 px-6 sm:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
-          
+
           {/* LEFT: 2x2 Pillars Grid */}
           <div>
             <div className="mb-12 platform-reveal">
@@ -84,7 +85,7 @@ export function PlatformOverview() {
                 <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#D3A337]">THE PLATFORM</span>
               </div>
               <h2 className="font-serif-display text-[clamp(2.5rem,5vw,4.2rem)] leading-[0.95] tracking-[-0.03em] text-white">
-                Engineered for <br/>
+                Engineered for <br />
                 <span className="text-[#D3A337]">Structural Advantage</span>
               </h2>
             </div>
@@ -96,16 +97,16 @@ export function PlatformOverview() {
                   <div className="mb-6 flex items-center justify-between">
                     <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[rgba(211, 163, 55,0.3)] bg-[rgba(211, 163, 55,0.05)] text-[#D3A337] transition-transform duration-500 group-hover:scale-110 group-hover:bg-[rgba(211, 163, 55,0.1)]">
                       {i === 0 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /><line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" /><line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" /><line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="14" x2="23" y2="14" /><line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="14" x2="4" y2="14" /></svg>
                       )}
                       {i === 1 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                       )}
                       {i === 2 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                       )}
                       {i === 3 && (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
                       )}
                     </div>
                     {/* Animated Gold Line */}
@@ -129,18 +130,18 @@ export function PlatformOverview() {
 
           {/* RIGHT: Architecture Diagram */}
           <div className="relative hidden md:flex justify-center items-center w-full min-h-[400px] lg:min-h-[500px] platform-reveal">
-            
+
             {/* Grid background for the diagram */}
             <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
             <div className="relative w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] flex justify-center items-center mx-auto">
-              
+
               {/* Outer Orbit */}
               <div className="absolute w-[95%] h-[95%] rounded-full border border-[rgba(255,255,255,0.05)] diagram-ring" />
-              
+
               {/* Middle Orbit (dashed) */}
               <div className="absolute w-[70%] h-[70%] rounded-full border border-dashed border-[rgba(211, 163, 55,0.25)] diagram-ring-reverse" />
-              
+
               {/* Inner Orbit */}
               <div className="absolute w-[45%] h-[45%] rounded-full border border-[rgba(255,255,255,0.06)] diagram-ring" />
 
@@ -166,7 +167,7 @@ export function PlatformOverview() {
                 <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#D3A337] diagram-dot" />
                 <div className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:bottom-[calc(100%+12px)]">
                   <div className="whitespace-nowrap px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] backdrop-blur-sm diagram-pill">
-                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold uppercase tracking-wider text-white">Partner APIs</span>
+                    <span className="text-[0.7rem] md:text-[0.75rem] font-bold tracking-wider text-white">PARTNER API's</span>
                   </div>
                 </div>
               </div>
@@ -195,10 +196,10 @@ export function PlatformOverview() {
               <div className="diagram-core absolute w-[35%] h-[35%] rounded-full border-[2.5px] border-[#D3A337] bg-[#0d142b] flex justify-center items-center z-20 shadow-[0_0_40px_rgba(211, 163, 55,0.3),inset_0_0_20px_rgba(211, 163, 55,0.15)]">
                 <span className="diagram-logo font-serif-display text-2xl md:text-3xl lg:text-4xl text-[#D3A337]">Pfundit</span>
               </div>
-              
+
             </div>
           </div>
-          
+
         </div>
       </div>
     </section>

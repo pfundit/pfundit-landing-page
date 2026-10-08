@@ -75,7 +75,7 @@ export function HiringNotice() {
       <div>
         <h5 className="font-bold text-[#0f1b3d] mb-1 text-[13.5px] sm:text-[14px]">Important notice</h5>
         <p>
-          Pfundit Capital Private Limited (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36 Infantry Road, M.G. Road, Bengaluru 560001, India) is a subsidiary of Pfundit Pte. Ltd., Singapore. The company is at a pre-application stage for registration with the Reserve Bank of India as a Non-Banking Financial Company. It does not hold a Certificate of Registration from the RBI and does not currently offer loans or carry on any lending or other financial business. The roles on this page are to build the company’s capabilities ahead of, and subject to, registration. Nothing on this page is an offer of credit or of any financial product or service.
+          Pfundit Capital Private Ltd. (CIN: U64910KA2026FTC227353; registered office: Prestige Central, 36, Infantry Road, M.G. Road, Bangalore – 560001, India) is a subsidiary of Pfundit Pte. Ltd., Singapore. The company is at a pre-application stage for registration with the Reserve Bank of India as a Non-Banking Financial Company. It does not hold a Certificate of Registration from the RBI and does not currently offer loans or carry on any lending or other financial business. The roles on this page are to build the company’s capabilities ahead of, and subject to, registration. Nothing on this page is an offer of credit or of any financial product or service.
         </p>
       </div>
 
@@ -399,7 +399,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
                         )}
                         <h4 className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#0f1b3d]/70">Role Details</h4>
                         <div
-                          className="prose prose-sm text-xs leading-relaxed text-[#0f1b3d]/80 space-y-2 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-headings:text-xs prose-headings:mt-3 prose-headings:mb-1 prose-ul:list-disc prose-ul:pl-4 prose-a:text-[#D3A337] prose-a:underline font-normal"
+                          className="rich-text-content prose prose-sm text-xs leading-relaxed text-[#0f1b3d]/80 font-normal"
                           dangerouslySetInnerHTML={{ __html: current.description || '' }}
                         />
                         {current.jdUrl && (
@@ -567,7 +567,7 @@ export function Hiring({ initialRoles = [] }: { initialRoles?: Role[] } = {}) {
 
               {/* Rich Description */}
               <div
-                className="prose prose-sm max-w-none text-[0.92rem] leading-relaxed text-[#0f1b3d]/85 space-y-3 prose-headings:text-[#0f1b3d] prose-headings:font-bold prose-h2:text-lg prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2 prose-ul:list-disc prose-ul:pl-5 prose-li:my-1.5 prose-a:text-[#D3A337] prose-a:font-semibold prose-a:underline hover:prose-a:text-[#b49050]"
+                className="rich-text-content prose prose-sm max-w-none text-[0.92rem] leading-relaxed text-[#0f1b3d]/85"
                 dangerouslySetInnerHTML={{ __html: detailedRole.description || '' }}
               />
 

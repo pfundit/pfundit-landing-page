@@ -1195,7 +1195,7 @@ export function AdminDashboard() {
                         )}
                       </div>
                       <div
-                        className="prose prose-sm max-w-none text-sm text-[#0f1b3d]/80 leading-relaxed space-y-3"
+                        className="rich-text-content prose prose-sm max-w-none text-sm text-[#0f1b3d]/80 leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: currentJob.description || '<p>No description entered yet.</p>' }}
                       />
                     </div>
