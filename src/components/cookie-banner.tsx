@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface CookiePreferences {
   strictlyNecessary: boolean;
@@ -16,6 +17,9 @@ const COOKIE_STORAGE_KEY = 'pfundit_cookie_consent';
 const NOTICE_VERSION = '1.0';
 
 export function CookieBanner() {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith('/admin');
+
   const [hasDecided, setHasDecided] = useState<boolean | null>(null);
   const [showPreferences, setShowPreferences] = useState(false);
   const [preferences, setPreferences] = useState({
@@ -24,6 +28,8 @@ export function CookieBanner() {
   });
 
   useEffect(() => {
+    if (isAdmin) return;
+
     try {
       const stored = localStorage.getItem(COOKIE_STORAGE_KEY);
       if (stored) {
@@ -44,9 +50,11 @@ export function CookieBanner() {
       // Fallback if localStorage is inaccessible
     }
     setHasDecided(false);
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
+    if (isAdmin) return;
+
     const handleOpenCookieSettingsEvent = () => {
       setHasDecided(false);
       setShowPreferences(true);
@@ -56,7 +64,7 @@ export function CookieBanner() {
     return () => {
       window.removeEventListener('open-cookie-settings', handleOpenCookieSettingsEvent);
     };
-  }, []);
+  }, [isAdmin]);
 
   const saveConsent = (functional: boolean, analytics: boolean) => {
     const consentRecord: CookiePreferences = {
@@ -100,7 +108,7 @@ export function CookieBanner() {
     saveConsent(preferences.functional, preferences.analytics);
   };
 
-  if (hasDecided === null) {
+  if (isAdmin || hasDecided === null) {
     return null;
   }
 

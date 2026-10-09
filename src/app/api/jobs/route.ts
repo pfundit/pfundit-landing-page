@@ -60,35 +60,30 @@ async function getNextJobId() {
 
 async function ensureJobsSeeded() {
   const jobsCollection = await getJobsCollection();
+  const existingCount = await jobsCollection.estimatedDocumentCount();
+  if (existingCount > 0) return;
+
   const raw = await fs.readFile(jobsSeedPath, 'utf8');
   const seedData = JSON.parse(raw) as JobRecord[];
   if (seedData.length === 0) return;
 
-  const validIds = seedData.map((j) => j.id);
-
-  // 1. Remove any stale jobs whose ID is not in seedData
-  await jobsCollection.deleteMany({ id: { $nin: validIds } });
-
-  // 2. Ensure each job in seedData is uniquely synced by id
   const now = new Date().toISOString();
-  for (const job of seedData) {
-    const cleanJob: JobRecord = {
-      id: job.id,
-      title: job.title.trim(),
-      type: job.type.trim(),
-      category: job.category,
-      tags: Array.isArray(job.tags) ? job.tags.map((tag) => tag.trim()).filter(Boolean) : [],
-      description: job.description?.trim(),
-      cardBlurb: job.cardBlurb?.trim() || undefined,
-      location: job.location?.trim() || undefined,
-      jdUrl: job.jdUrl?.trim() || undefined,
-      createdAt: job.createdAt || now,
-      updatedAt: job.updatedAt || now,
-    };
+  const cleanSeedData: JobRecord[] = seedData.map((job) => ({
+    id: job.id,
+    title: job.title.trim(),
+    type: job.type.trim(),
+    category: job.category,
+    tags: Array.isArray(job.tags) ? job.tags.map((tag) => tag.trim()).filter(Boolean) : [],
+    description: job.description?.trim(),
+    cardBlurb: job.cardBlurb?.trim() || undefined,
+    location: job.location?.trim() || undefined,
+    jdUrl: job.jdUrl?.trim() || undefined,
+    createdAt: job.createdAt || now,
+    updatedAt: job.updatedAt || now,
+  }));
 
-    // Remove any accidental duplicates for this id, then insert clean record
-    await jobsCollection.deleteMany({ id: job.id });
-    await jobsCollection.insertOne(cleanJob);
+  if (cleanSeedData.length > 0) {
+    await jobsCollection.insertMany(cleanSeedData);
   }
 }
 
@@ -150,11 +145,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Sync to MongoDB
-    try {
-      await jobsCollection.insertOne(newJob);
-    } catch (dbErr: any) {
-      console.warn('MongoDB insert warning in POST /api/jobs:', dbErr?.message || dbErr);
-    }
+    await jobsCollection.insertOne(newJob);
 
     return NextResponse.json(newJob, { status: 201 });
   } catch (error: any) {

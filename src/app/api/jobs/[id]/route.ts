@@ -78,19 +78,15 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
       console.warn('Warning updating jobs.json on PUT:', fileErr);
     }
 
-    // 2. Sync to MongoDB (resilient to connection/timeout drops)
-    try {
-      const jobsCollection = await getJobsCollection();
-      const dbResult = await jobsCollection.findOneAndUpdate(
-        { id: params.id },
-        { $set: parsedPayload },
-        { returnDocument: 'after', projection: { _id: 0 } }
-      );
-      if (dbResult) {
-        updatedRecord = dbResult;
-      }
-    } catch (dbErr: any) {
-      console.warn('MongoDB sync notice in PUT /api/jobs/[id]:', dbErr?.message || dbErr);
+    // 2. Sync to MongoDB
+    const jobsCollection = await getJobsCollection();
+    const dbResult = await jobsCollection.findOneAndUpdate(
+      { id: params.id },
+      { $set: parsedPayload },
+      { returnDocument: 'after', projection: { _id: 0 } }
+    );
+    if (dbResult) {
+      updatedRecord = dbResult;
     }
 
     if (!updatedRecord) {
@@ -119,12 +115,8 @@ export async function DELETE(request: Request, props: { params: Promise<{ id: st
     }
 
     // 2. Remove from MongoDB
-    try {
-      const jobsCollection = await getJobsCollection();
-      await jobsCollection.deleteOne({ id: params.id });
-    } catch (dbErr: any) {
-      console.warn('MongoDB delete warning:', dbErr?.message || dbErr);
-    }
+    const jobsCollection = await getJobsCollection();
+    await jobsCollection.deleteOne({ id: params.id });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
