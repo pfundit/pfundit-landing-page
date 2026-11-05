@@ -1,19 +1,15 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-import {
-  getInvestorEnquiriesCollection,
-  getContactSubmissionsCollection,
-} from '@/lib/db/collections';
-import type { InvestorEnquiryRecord, ContactSubmissionRecord } from '@/lib/db/types';
+import { NextResponse, after } from 'next/server';
+import { getInvestorEnquiriesCollection } from '@/lib/db/collections';
+import type { InvestorEnquiryRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { buildInvestorEnquiryEmail, sendMail } from '@/lib/mail';
 import { sendInvestorEnquiryNotificationEmail } from '@/services/mail/resend';
+import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { listInvestorEnquiries } from '@/services/admin/records';
 
 export const runtime = 'nodejs';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const investorSeedPath = path.join(process.cwd(), 'src', 'data', 'investor-enquiries.json');
 
 const VALID_INVESTOR_TYPES = [
   'Institutional investor',
@@ -26,45 +22,14 @@ function normalizeString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-async function ensureInvestorEnquiriesSeeded() {
-  try {
-    const enquiriesCollection = await getInvestorEnquiriesCollection();
-    const existingCount = await enquiriesCollection.estimatedDocumentCount();
-    if (existingCount > 0) return;
-
-    try {
-      const raw = await fs.readFile(investorSeedPath, 'utf8');
-      const seedData = JSON.parse(raw) as InvestorEnquiryRecord[];
-      if (Array.isArray(seedData) && seedData.length > 0) {
-        await enquiriesCollection.insertMany(seedData);
-      }
-    } catch {
-      // File may be empty or not exist yet
-    }
-  } catch (error) {
-    console.warn('MongoDB query warning in ensureInvestorEnquiriesSeeded:', error);
-  }
-}
-
 export async function GET() {
-  try {
-    await ensureInvestorEnquiriesSeeded();
-    const enquiriesCollection = await getInvestorEnquiriesCollection();
-    const enquiries = await enquiriesCollection
-      .find({}, { projection: { _id: 0 } })
-      .sort({ createdAt: -1 })
-      .toArray();
+  if (!(await isAdminRequest())) return unauthorizedResponse();
 
-    return NextResponse.json(enquiries);
+  try {
+    return NextResponse.json(await listInvestorEnquiries());
   } catch (error) {
-    console.error('Error reading investor enquiries from DB, falling back to local file:', error);
-    try {
-      const raw = await fs.readFile(investorSeedPath, 'utf8');
-      const data = JSON.parse(raw);
-      return NextResponse.json(data);
-    } catch {
-      return NextResponse.json([], { status: 200 });
-    }
+    console.error('Error reading investor enquiries:', error);
+    return NextResponse.json({ error: 'Failed to read investor enquiries' }, { status: 500 });
   }
 }
 
@@ -118,63 +83,27 @@ export async function POST(request: Request) {
       status: 'new',
     };
 
-    // 1. Save to investor collection
-    try {
-      const enquiriesCollection = await getInvestorEnquiriesCollection();
-      await enquiriesCollection.insertOne(newEnquiry);
-    } catch (dbErr) {
-      console.warn('MongoDB insert warning for investor enquiry:', dbErr);
-    }
+    const enquiriesCollection = await getInvestorEnquiriesCollection();
+    await enquiriesCollection.insertOne({ ...newEnquiry });
 
-    // 2. Persist to local JSON fallback
-    try {
-      let localData: InvestorEnquiryRecord[] = [];
+    // Send notifications after the response so the visitor isn't kept waiting on email delivery.
+    after(async () => {
       try {
-        const raw = await fs.readFile(investorSeedPath, 'utf8');
-        localData = JSON.parse(raw);
-      } catch {
-        localData = [];
+        const resendResult = await sendInvestorEnquiryNotificationEmail(newEnquiry);
+        if (!resendResult || !resendResult.success) {
+          // Fallback to SMTP sendMail if configured
+          const emailPayload = buildInvestorEnquiryEmail(newEnquiry);
+          await sendMail({
+            subject: emailPayload.subject,
+            text: emailPayload.text,
+            html: emailPayload.html,
+            replyTo: newEnquiry.email,
+          });
+        }
+      } catch (mailErr) {
+        console.error('Failed to send investor enquiry email notification:', mailErr);
       }
-      localData.unshift(newEnquiry);
-      await fs.writeFile(investorSeedPath, JSON.stringify(localData, null, 2), 'utf8');
-    } catch (fsErr) {
-      console.warn('File write error for investor enquiry seed:', fsErr);
-    }
-
-    // 3. Mirror into contact submissions so existing admin contact view captures it
-    try {
-      const mirroredContact: ContactSubmissionRecord = {
-        id: createRecordId('contact'),
-        name,
-        email,
-        company: organisation,
-        subject: `Investor Enquiry (${investorType})`,
-        message: `Investor Enquiry Details:\n- Role: ${role}\n- Country: ${country}\n- Investor Type: ${investorType}\n- Status: Confirmed Accredited/Institutional Investor`,
-        createdAt: newEnquiry.createdAt,
-        status: 'new',
-      };
-      const contactCollection = await getContactSubmissionsCollection();
-      await contactCollection.insertOne(mirroredContact);
-    } catch (mirrorErr) {
-      console.warn('Failed to mirror investor enquiry into contact submissions:', mirrorErr);
-    }
-
-    // 4. Send email notification via Resend to admin recipients
-    try {
-      const resendResult = await sendInvestorEnquiryNotificationEmail(newEnquiry);
-      if (!resendResult || !resendResult.success) {
-        // Fallback to SMTP sendMail if configured
-        const emailPayload = buildInvestorEnquiryEmail(newEnquiry);
-        await sendMail({
-          subject: emailPayload.subject,
-          text: emailPayload.text,
-          html: emailPayload.html,
-          replyTo: newEnquiry.email,
-        });
-      }
-    } catch (mailErr) {
-      console.error('Failed to send investor enquiry email notification:', mailErr);
-    }
+    });
 
     return NextResponse.json(newEnquiry, { status: 201 });
   } catch (error) {

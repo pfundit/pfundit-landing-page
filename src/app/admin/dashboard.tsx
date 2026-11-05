@@ -3,9 +3,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { RichTextEditor } from '@/components/editor/rich-text-editor';
+import dynamic from 'next/dynamic';
 
-type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings';
+// The rich text editor (Tiptap) is heavy and only needed inside the job modal,
+// so load it on demand instead of shipping it with the initial dashboard bundle.
+const RichTextEditor = dynamic(
+  () => import('@/components/editor/rich-text-editor').then((mod) => mod.RichTextEditor),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[220px] animate-pulse rounded-xl border border-[#0f1b3d]/10 bg-[#F8FAFF]" />
+    ),
+  },
+);
+
+type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings' | 'security';
 
 type Job = {
   id: string;
@@ -59,6 +71,14 @@ type InvestorEnquiry = {
   status?: string;
 };
 
+export type AdminDashboardInitialData = {
+  jobs: Job[];
+  jobApplications: JobApplication[];
+  investorEnquiries: InvestorEnquiry[];
+  contactSubmissions: ContactSubmission[];
+  recipientEmails: string[];
+};
+
 type DateFilterPreset = 'all' | '7d' | '30d' | 'custom';
 
 type DateRangeFilterState = {
@@ -73,6 +93,7 @@ const tabs: Array<{ key: TabKey; label: string; description: string }> = [
   { key: 'investors', label: 'Investor Enquiries', description: 'Review prospective institutional & accredited investor access requests.' },
   { key: 'contacts', label: 'Contact Forms', description: 'Review inbound contact submissions.' },
   { key: 'settings', label: 'Email Notifications', description: 'Configure recipient emails for jobs, contacts, and investor enquiries.' },
+  { key: 'security', label: 'Account Security', description: 'Change the admin password used to sign in to this dashboard.' },
 ];
 
 function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
@@ -98,6 +119,14 @@ function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
     return (
       <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg>
+    );
+  }
+
+  if (tabKey === 'security') {
+    return (
+      <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16.5 10.5V7.5a4.5 4.5 0 1 0-9 0v3m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
       </svg>
     );
   }
@@ -145,6 +174,8 @@ function EmptyState({ title, description }: { title: string; description: string
 
 const detailModalHeaderClassName = 'flex items-start justify-between border-b border-[#0f1b3d]/8 px-6 py-4';
 const detailModalCloseButtonClassName = 'rounded-full p-2 text-[#0f1b3d]/50 hover:bg-[#F0F5FF] hover:text-[#0f1b3d]';
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const filterChipBaseClass = 'rounded-full px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] transition-colors';
 
@@ -270,20 +301,20 @@ function DateRangeFilter({
   );
 }
 
-export function AdminDashboard() {
+export function AdminDashboard({ initialData }: { initialData: AdminDashboardInitialData }) {
   const [activeTab, setActiveTab] = useState<TabKey>('jobs');
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
-  const [investorEnquiries, setInvestorEnquiries] = useState<InvestorEnquiry[]>([]);
-  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
+  const [jobs, setJobs] = useState<Job[]>(initialData.jobs);
+  const jobApplications = initialData.jobApplications;
+  const investorEnquiries = initialData.investorEnquiries;
+  const contactSubmissions = initialData.contactSubmissions;
   const [applicationDateFilter, setApplicationDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [investorDateFilter, setInvestorDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [contactDateFilter, setContactDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication | null>(null);
   const [selectedInvestorEnquiry, setSelectedInvestorEnquiry] = useState<InvestorEnquiry | null>(null);
   const [selectedContactSubmission, setSelectedContactSubmission] = useState<ContactSubmission | null>(null);
-  const [recipientEmails, setRecipientEmails] = useState<string[]>([]);
-  const [savedRecipientEmails, setSavedRecipientEmails] = useState<string[]>([]);
+  const [recipientEmails, setRecipientEmails] = useState<string[]>(initialData.recipientEmails);
+  const [savedRecipientEmails, setSavedRecipientEmails] = useState<string[]>(initialData.recipientEmails);
   const [newEmailInput, setNewEmailInput] = useState('');
   const [emailInputError, setEmailInputError] = useState('');
   const [settingsLoading, setSettingsLoading] = useState(false);
@@ -293,73 +324,60 @@ export function AdminDashboard() {
   const [tagInput, setTagInput] = useState('');
   const [formLoading, setFormLoading] = useState(false);
   const [modalTab, setModalTab] = useState<'edit' | 'preview'>('edit');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [visiblePasswordFields, setVisiblePasswordFields] = useState<Record<string, boolean>>({});
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
   const router = useRouter();
 
-  const filteredJobApplications = jobApplications.filter((application) => {
-    const submittedAt = new Date(application.createdAt).getTime();
+  const filteredJobApplications = useMemo(() => {
     const { fromTime, toTime } = getDateRangeBounds(applicationDateFilter);
-    return submittedAt >= fromTime && submittedAt <= toTime;
-  });
+    return jobApplications.filter((application) => {
+      const submittedAt = new Date(application.createdAt).getTime();
+      return submittedAt >= fromTime && submittedAt <= toTime;
+    });
+  }, [jobApplications, applicationDateFilter]);
 
-  const filteredInvestorEnquiries = investorEnquiries.filter((enquiry) => {
-    const submittedAt = new Date(enquiry.createdAt).getTime();
+  const filteredInvestorEnquiries = useMemo(() => {
     const { fromTime, toTime } = getDateRangeBounds(investorDateFilter);
-    return submittedAt >= fromTime && submittedAt <= toTime;
-  });
+    return investorEnquiries.filter((enquiry) => {
+      const submittedAt = new Date(enquiry.createdAt).getTime();
+      return submittedAt >= fromTime && submittedAt <= toTime;
+    });
+  }, [investorEnquiries, investorDateFilter]);
 
-  const filteredContactSubmissions = contactSubmissions.filter((submission) => {
-    const submittedAt = new Date(submission.createdAt).getTime();
+  const filteredContactSubmissions = useMemo(() => {
     const { fromTime, toTime } = getDateRangeBounds(contactDateFilter);
-    return submittedAt >= fromTime && submittedAt <= toTime;
-  });
+    return contactSubmissions.filter((submission) => {
+      const submittedAt = new Date(submission.createdAt).getTime();
+      return submittedAt >= fromTime && submittedAt <= toTime;
+    });
+  }, [contactSubmissions, contactDateFilter]);
 
-  const loadDashboardData = async () => {
-    const [jobsResponse, jobApplicationsResponse, investorResponse, contactResponse, settingsResponse] = await Promise.all([
-      fetch('/api/jobs'),
-      fetch('/api/applications/jobs'),
-      fetch('/api/applications/investor'),
-      fetch('/api/applications/contact'),
-      fetch('/api/admin/settings'),
-    ]);
-
-    if (jobsResponse.ok) {
-      setJobs(await jobsResponse.json());
+  /** Session expired / invalid: send the admin back to the login screen. */
+  const handleUnauthorized = (response: Response) => {
+    if (response.status === 401) {
+      router.replace('/admin/login');
+      router.refresh();
+      return true;
     }
+    return false;
+  };
 
-    if (jobApplicationsResponse.ok) {
-      setJobApplications(await jobApplicationsResponse.json());
-    }
-
-    if (investorResponse && investorResponse.ok) {
-      setInvestorEnquiries(await investorResponse.json());
-    }
-
-    if (contactResponse.ok) {
-      setContactSubmissions(await contactResponse.json());
-    }
-
-    if (settingsResponse && settingsResponse.ok) {
-      const settingsData = await settingsResponse.json();
-      if (Array.isArray(settingsData.recipientEmails)) {
-        setRecipientEmails(settingsData.recipientEmails);
-        setSavedRecipientEmails(settingsData.recipientEmails);
-      }
+  const reloadJobs = async () => {
+    const response = await fetch('/api/jobs', { cache: 'no-store' });
+    if (response.ok) {
+      setJobs(await response.json());
     }
   };
 
-  useEffect(() => {
-    void (async () => {
-      try {
-        await loadDashboardData();
-      } catch (error) {
-        console.error('Failed to load admin dashboard data', error);
-      }
-    })();
-  }, []);
-
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/admin/login');
+    router.replace('/admin/login');
+    router.refresh();
   };
 
   const openCreateModal = () => {
@@ -407,11 +425,12 @@ export function AdminDashboard() {
         body: JSON.stringify(payload),
       });
 
+      if (handleUnauthorized(response)) return;
       if (!response.ok) {
         throw new Error('Failed to save job');
       }
 
-      await loadDashboardData();
+      await reloadJobs();
       setIsEditing(false);
       setCurrentJob({});
       setTagInput('');
@@ -430,17 +449,16 @@ export function AdminDashboard() {
 
     try {
       const response = await fetch(`/api/jobs/${jobId}`, { method: 'DELETE' });
+      if (handleUnauthorized(response)) return;
       if (!response.ok) {
         throw new Error('Failed to delete job');
       }
-      await loadDashboardData();
+      setJobs((current) => current.filter((job) => job.id !== jobId));
     } catch (error) {
       console.error(error);
       alert('An error occurred while deleting the job posting.');
     }
   };
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const hasPendingValidInput = useMemo(() => {
     if (!newEmailInput.trim()) return false;
@@ -524,6 +542,7 @@ export function AdminDashboard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ recipientEmails: emailsToSave }),
       });
+      if (handleUnauthorized(res)) return;
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.error || 'Failed to save settings');
@@ -537,6 +556,48 @@ export function AdminDashboard() {
       setEmailInputError(msg);
     } finally {
       setSettingsLoading(false);
+    }
+  };
+
+  const passwordChecks = [
+    { label: 'At least 8 characters', ok: newPassword.length >= 8 },
+    { label: 'Contains a letter and a number', ok: /[a-zA-Z]/.test(newPassword) && /[0-9]/.test(newPassword) },
+    { label: 'Matches confirmation', ok: newPassword.length > 0 && newPassword === confirmPassword },
+  ];
+  const canSubmitPassword =
+    !passwordLoading && currentPassword.length > 0 && passwordChecks.every((check) => check.ok);
+
+  const handleChangePassword = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setPasswordError('');
+    setPasswordSuccess('');
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError('New password and confirmation do not match.');
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      const res = await fetch('/api/admin/password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      if (handleUnauthorized(res)) return;
+      const data = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to update password');
+      }
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setVisiblePasswordFields({});
+      setPasswordSuccess('Password updated. Use the new password the next time you sign in.');
+    } catch (err: unknown) {
+      setPasswordError(err instanceof Error ? err.message : 'Failed to update password');
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -572,7 +633,9 @@ export function AdminDashboard() {
                 ? investorEnquiries.length
                 : tab.key === 'contacts'
                 ? contactSubmissions.length
-                : recipientEmails.length;
+                : tab.key === 'settings'
+                ? recipientEmails.length
+                : null;
 
             return (
               <button
@@ -591,9 +654,11 @@ export function AdminDashboard() {
                     </span>
                     <p className="truncate text-[0.82rem] font-medium tracking-tight sm:text-[0.85rem]">{tab.label}</p>
                   </div>
-                  <span className={`min-w-7 rounded-full px-2 py-0.5 text-center text-[0.625rem] font-semibold uppercase tracking-[0.16em] ${isActive ? 'bg-white/12 text-white' : 'bg-[#0f1b3d]/5 text-[#0f1b3d]/42'}`}>
-                    {count}
-                  </span>
+                  {count !== null && (
+                    <span className={`min-w-7 rounded-full px-2 py-0.5 text-center text-[0.625rem] font-semibold uppercase tracking-[0.16em] ${isActive ? 'bg-white/12 text-white' : 'bg-[#0f1b3d]/5 text-[#0f1b3d]/42'}`}>
+                      {count}
+                    </span>
+                  )}
                 </div>
               </button>
             );
@@ -1001,6 +1066,104 @@ export function AdminDashboard() {
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'security' && (
+            <div className="max-w-2xl">
+              <form
+                onSubmit={handleChangePassword}
+                className="rounded-[1.5rem] border border-[#0f1b3d]/10 bg-white p-6 shadow-[0_18px_60px_rgba(15,27,61,0.06)] sm:p-8"
+              >
+                <div className="border-b border-[#0f1b3d]/10 pb-5">
+                  <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d] sm:text-xl">Change Admin Password</h2>
+                  <p className="mt-1 text-xs text-[#0f1b3d]/65 sm:text-sm">
+                    The new password applies to every admin login. Your current session stays signed in.
+                  </p>
+                </div>
+
+                <div className="mt-6 space-y-4">
+                  {[
+                    { id: 'current-password', label: 'Current Password', value: currentPassword, setter: setCurrentPassword, autoComplete: 'current-password' },
+                    { id: 'new-password', label: 'New Password', value: newPassword, setter: setNewPassword, autoComplete: 'new-password' },
+                    { id: 'confirm-password', label: 'Confirm New Password', value: confirmPassword, setter: setConfirmPassword, autoComplete: 'new-password' },
+                  ].map((field) => {
+                    const isVisible = Boolean(visiblePasswordFields[field.id]);
+                    return (
+                    <div key={field.id}>
+                      <label htmlFor={field.id} className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#0f1b3d]/70">
+                        {field.label}
+                      </label>
+                      <div className="relative">
+                      <input
+                        id={field.id}
+                        type={isVisible ? 'text' : 'password'}
+                        autoComplete={field.autoComplete}
+                        value={field.value}
+                        onChange={(event) => {
+                          field.setter(event.target.value);
+                          if (passwordError) setPasswordError('');
+                          if (passwordSuccess) setPasswordSuccess('');
+                        }}
+                        className="w-full rounded-xl border border-[#0f1b3d]/15 bg-white py-2.5 pl-4 pr-11 text-sm text-[#0f1b3d] focus:border-[#D3A337] focus:outline-none focus:ring-1 focus:ring-[#D3A337]"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setVisiblePasswordFields((current) => ({ ...current, [field.id]: !current[field.id] }))
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#0f1b3d]/40 transition-colors hover:text-[#0f1b3d] focus:outline-none focus-visible:text-[#0f1b3d]"
+                        aria-label={isVisible ? `Hide ${field.label.toLowerCase()}` : `Show ${field.label.toLowerCase()}`}
+                      >
+                        {isVisible ? (
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+                          </svg>
+                        ) : (
+                          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        )}
+                      </button>
+                      </div>
+                    </div>
+                    );
+                  })}
+                </div>
+
+                <ul className="mt-4 grid gap-1.5">
+                  {passwordChecks.map((check) => (
+                    <li
+                      key={check.label}
+                      className={`flex items-center gap-2 text-xs font-medium ${check.ok ? 'text-emerald-600' : 'text-[#0f1b3d]/45'}`}
+                    >
+                      <span aria-hidden="true">{check.ok ? '✓' : '○'}</span>
+                      {check.label}
+                    </li>
+                  ))}
+                </ul>
+
+                {passwordError && (
+                  <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{passwordError}</div>
+                )}
+                {passwordSuccess && (
+                  <div className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    {passwordSuccess}
+                  </div>
+                )}
+
+                <div className="mt-6 border-t border-[#0f1b3d]/10 pt-5">
+                  <button
+                    type="submit"
+                    disabled={!canSubmitPassword}
+                    className="inline-flex items-center gap-2 rounded-full bg-[#0f1b3d] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#0f1b3d]/90 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {passwordLoading ? 'Updating...' : 'Update Password'}
+                  </button>
+                </div>
+              </form>
             </div>
           )}
         </div>

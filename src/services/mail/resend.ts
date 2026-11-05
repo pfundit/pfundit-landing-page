@@ -56,8 +56,6 @@ export function buildJobApplicationPlainText(application: JobApplicationRecord, 
     '=================================================================',
     'To review and manage all applications, visit the Pfundit Admin Portal:',
     'https://www.pfundit.com/admin',
-    '',
-    '(Tip: To reply directly to this candidate, simply click "Reply" in your email client.)',
     '=================================================================',
   ];
 
@@ -163,8 +161,6 @@ export function buildInvestorEnquiryPlainText(enquiry: {
     '=================================================================',
     'Review all inbound investor enquiries in the Pfundit Admin Dashboard:',
     'https://www.pfundit.com/admin',
-    '',
-    '(Tip: To reply directly to this investor, simply click "Reply" in your email client.)',
     '=================================================================',
   ];
 
@@ -242,8 +238,6 @@ export function buildContactSubmissionPlainText(submission: {
     '=================================================================',
     'Review all inbound contacts in the Pfundit Admin Dashboard:',
     'https://www.pfundit.com/admin',
-    '',
-    '(Tip: To reply directly to this contact, simply click "Reply" in your email client.)',
     '=================================================================',
   ];
 

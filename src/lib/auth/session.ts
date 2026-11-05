@@ -40,14 +40,23 @@ function getSessionSecret() {
   return secret;
 }
 
-async function getSigningKey() {
-  return crypto.subtle.importKey(
-    'raw',
-    encoder.encode(getSessionSecret()),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign', 'verify'],
-  );
+let cachedKey: { secret: string; key: Promise<CryptoKey> } | null = null;
+
+function getSigningKey() {
+  const secret = getSessionSecret();
+  if (!cachedKey || cachedKey.secret !== secret) {
+    cachedKey = {
+      secret,
+      key: crypto.subtle.importKey(
+        'raw',
+        encoder.encode(secret),
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign', 'verify'],
+      ),
+    };
+  }
+  return cachedKey.key;
 }
 
 async function signMessage(message: string) {
@@ -73,11 +82,18 @@ export async function verifyAdminSessionToken(token: string | undefined) {
   if (parts.length !== 2) return false;
 
   const [payloadPart, signaturePart] = parts;
-  const expectedSignature = await signMessage(payloadPart);
-
-  if (signaturePart !== expectedSignature) return false;
 
   try {
+    // Constant-time HMAC verification (avoids timing leaks from string comparison)
+    const key = await getSigningKey();
+    const isValid = await crypto.subtle.verify(
+      'HMAC',
+      key,
+      fromBase64Url(signaturePart),
+      encoder.encode(payloadPart),
+    );
+    if (!isValid) return false;
+
     const payloadBytes = fromBase64Url(payloadPart);
     const payload = JSON.parse(decoder.decode(payloadBytes)) as SessionPayload;
     if (!payload.exp) return false;

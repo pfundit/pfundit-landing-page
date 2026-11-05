@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { PremiumBackground } from '@/components/background/premium-background';
 import { Navbar } from '@/components/navbar/Navbar';
 import { Hiring, Contact } from '@/sections';
+import type { Role } from '@/sections/hiring';
 import { getBreadcrumbSchema, getJobPostingsSchema } from '@/lib/seo/schemas';
-import { getJobsCollection } from '@/lib/db/collections';
+import { listJobs } from '@/services/admin/records';
 import type { JobRecord } from '@/lib/db/types';
 
 export const dynamic = 'force-dynamic';
@@ -26,12 +27,7 @@ export const metadata: Metadata = {
 
 async function getJobsFromDatabase(): Promise<JobRecord[]> {
   try {
-    const jobsCollection = await getJobsCollection();
-    const jobs = await jobsCollection
-      .find({}, { projection: { _id: 0 } })
-      .sort({ id: 1 })
-      .toArray();
-    return jobs;
+    return await listJobs();
   } catch (error) {
     console.error('Failed to fetch jobs directly from DB in HiringPage:', error);
     return [];
@@ -61,7 +57,7 @@ export default async function HiringPage() {
 
       <main className="relative z-10">
         <div className="section-cinematic">
-          <Hiring initialRoles={jobs as any} />
+          <Hiring initialRoles={jobs as Role[]} />
         </div>
 
         <div className="section-cinematic section-cinematic-alt">

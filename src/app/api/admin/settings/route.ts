@@ -4,10 +4,13 @@ import {
   getDefaultAdminEmails,
   setAdminNotificationEmails,
 } from '@/services/settings/notification-settings';
+import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
 
 export const runtime = 'nodejs';
 
 export async function GET() {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const recipientEmails = await getAdminNotificationEmails();
     const defaultEmails = getDefaultAdminEmails();
@@ -26,6 +29,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const body = await request.json();
     const emails = Array.isArray(body?.recipientEmails) ? body.recipientEmails : [];

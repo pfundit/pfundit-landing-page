@@ -1,6 +1,7 @@
 import type { Collection } from 'mongodb';
 import { getDatabase } from '@/lib/db/client';
 import type {
+  AdminCredentialsRecord,
   ContactSubmissionRecord,
   InvestorEnquiryRecord,
   JobApplicationRecord,
@@ -14,6 +15,7 @@ const COLLECTIONS = {
   contactSubmissions: 'contactSubmissions',
   investorEnquiries: 'investorEnquiries',
   settings: 'settings',
+  adminAuth: 'adminAuth',
 } as const;
 
 export async function getJobsCollection(): Promise<Collection<JobRecord>> {
@@ -39,4 +41,9 @@ export async function getInvestorEnquiriesCollection(): Promise<Collection<Inves
 export async function getSettingsCollection(): Promise<Collection<NotificationSettingsRecord>> {
   const db = await getDatabase();
   return db.collection<NotificationSettingsRecord>(COLLECTIONS.settings);
+}
+
+export async function getAdminAuthCollection(): Promise<Collection<AdminCredentialsRecord>> {
+  const db = await getDatabase();
+  return db.collection<AdminCredentialsRecord>(COLLECTIONS.adminAuth);
 }

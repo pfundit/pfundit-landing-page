@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getJobsCollection } from '@/lib/db/collections';
 import type { JobCategory, JobRecord } from '@/lib/db/types';
+import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { listJobs } from '@/services/admin/records';
 
 const jobsSeedPath = path.join(process.cwd(), 'src', 'data', 'jobs.json');
 const allowedCategories = new Set<JobCategory>(['Leadership', 'Technology', 'Business']);
@@ -58,56 +60,20 @@ async function getNextJobId() {
   return String(maxId + 1).padStart(2, '0');
 }
 
-async function ensureJobsSeeded() {
-  const jobsCollection = await getJobsCollection();
-  const existingCount = await jobsCollection.estimatedDocumentCount();
-  if (existingCount > 0) return;
-
-  const raw = await fs.readFile(jobsSeedPath, 'utf8');
-  const seedData = JSON.parse(raw) as JobRecord[];
-  if (seedData.length === 0) return;
-
-  const now = new Date().toISOString();
-  const cleanSeedData: JobRecord[] = seedData.map((job) => ({
-    id: job.id,
-    title: job.title.trim(),
-    type: job.type.trim(),
-    category: job.category,
-    tags: Array.isArray(job.tags) ? job.tags.map((tag) => tag.trim()).filter(Boolean) : [],
-    description: job.description?.trim(),
-    cardBlurb: job.cardBlurb?.trim() || undefined,
-    location: job.location?.trim() || undefined,
-    jdUrl: job.jdUrl?.trim() || undefined,
-    createdAt: job.createdAt || now,
-    updatedAt: job.updatedAt || now,
-  }));
-
-  if (cleanSeedData.length > 0) {
-    await jobsCollection.insertMany(cleanSeedData);
-  }
-}
-
 export async function GET() {
   try {
-    await ensureJobsSeeded();
-    const jobsCollection = await getJobsCollection();
-    const jobs = await jobsCollection
-      .find({}, { projection: { _id: 0 } })
-      .sort({ id: 1 })
-      .toArray();
-
-    if (jobs && jobs.length > 0) {
+    const jobs = await listJobs();
+    if (jobs.length > 0) {
       return NextResponse.json(jobs);
     }
-  } catch (error: any) {
-    console.warn('MongoDB query warning in /api/jobs, serving from jobs.json:', error?.message || error);
+  } catch (error: unknown) {
+    console.warn('MongoDB query warning in /api/jobs, serving from jobs.json:', error instanceof Error ? error.message : error);
   }
 
   // Resilient fallback to jobs.json so job postings never fail to display
   try {
     const raw = await fs.readFile(jobsSeedPath, 'utf8');
-    const fallbackJobs = JSON.parse(raw);
-    return NextResponse.json(fallbackJobs);
+    return NextResponse.json(JSON.parse(raw));
   } catch (fallbackError) {
     console.error('Error reading fallback jobs:', fallbackError);
     return NextResponse.json({ error: 'Failed to read jobs' }, { status: 500 });
@@ -115,6 +81,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const body = await request.json();
     const parsedPayload = parseJobPayload(body);
@@ -145,11 +113,11 @@ export async function POST(request: Request) {
     }
 
     // 2. Sync to MongoDB
-    await jobsCollection.insertOne(newJob);
+    await jobsCollection.insertOne({ ...newJob });
 
     return NextResponse.json(newJob, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating job:', error);
-    return NextResponse.json({ error: 'Failed to create job', details: error?.message || String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create job' }, { status: 500 });
   }
 }

@@ -1,56 +1,25 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { NextResponse, after } from 'next/server';
 import { getContactSubmissionsCollection } from '@/lib/db/collections';
 import type { ContactSubmissionRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { buildContactSubmissionEmail, sendMail } from '@/lib/mail';
 import { sendContactSubmissionNotificationEmail } from '@/services/mail/resend';
+import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { listContactSubmissions } from '@/services/admin/records';
 
 export const runtime = 'nodejs';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const contactSeedPath = path.join(process.cwd(), 'src', 'data', 'contact-submissions.json');
 
 function normalizeString(value: unknown) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-async function ensureContactSeeded() {
-  const submissionsCollection = await getContactSubmissionsCollection();
-  const existingCount = await submissionsCollection.estimatedDocumentCount();
-  if (existingCount > 0) return;
-
-  const raw = await fs.readFile(contactSeedPath, 'utf8');
-  const seedData = JSON.parse(raw) as ContactSubmissionRecord[];
-  if (seedData.length === 0) return;
-
-  const normalizedSeed = seedData.map((entry) => ({
-    id: entry.id || createRecordId('contact'),
-    name: normalizeString(entry.name),
-    email: normalizeString(entry.email).toLowerCase(),
-    company: normalizeString(entry.company) || undefined,
-    subject: normalizeString(entry.subject) || undefined,
-    message: normalizeString(entry.message),
-    createdAt: entry.createdAt || new Date().toISOString(),
-    status: 'new' as const,
-  }));
-
-  if (normalizedSeed.length > 0) {
-    await submissionsCollection.insertMany(normalizedSeed);
-  }
-}
-
 export async function GET() {
-  try {
-    await ensureContactSeeded();
-    const submissionsCollection = await getContactSubmissionsCollection();
-    const submissions = await submissionsCollection
-      .find({}, { projection: { _id: 0 } })
-      .sort({ createdAt: -1 })
-      .toArray();
+  if (!(await isAdminRequest())) return unauthorizedResponse();
 
-    return NextResponse.json(submissions);
+  try {
+    return NextResponse.json(await listContactSubmissions());
   } catch (error) {
     console.error('Error reading contact submissions:', error);
     return NextResponse.json({ error: 'Failed to read contact submissions' }, { status: 500 });
@@ -87,22 +56,25 @@ export async function POST(request: Request) {
     };
 
     const submissionsCollection = await getContactSubmissionsCollection();
-    await submissionsCollection.insertOne(newSubmission);
+    await submissionsCollection.insertOne({ ...newSubmission });
 
-    try {
-      const resendResult = await sendContactSubmissionNotificationEmail(newSubmission);
-      if (!resendResult || !resendResult.success) {
-        const emailPayload = buildContactSubmissionEmail(newSubmission);
-        await sendMail({
-          subject: emailPayload.subject,
-          text: emailPayload.text,
-          html: emailPayload.html,
-          replyTo: newSubmission.email,
-        });
+    // Send notifications after the response so the visitor isn't kept waiting on email delivery.
+    after(async () => {
+      try {
+        const resendResult = await sendContactSubmissionNotificationEmail(newSubmission);
+        if (!resendResult || !resendResult.success) {
+          const emailPayload = buildContactSubmissionEmail(newSubmission);
+          await sendMail({
+            subject: emailPayload.subject,
+            text: emailPayload.text,
+            html: emailPayload.html,
+            replyTo: newSubmission.email,
+          });
+        }
+      } catch (mailErr) {
+        console.error('Failed to send contact submission notification:', mailErr);
       }
-    } catch (mailErr) {
-      console.error('Failed to send contact submission notification:', mailErr);
-    }
+    });
 
     return NextResponse.json(newSubmission, { status: 201 });
   } catch (error) {

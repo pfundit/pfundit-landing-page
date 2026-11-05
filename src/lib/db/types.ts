@@ -47,6 +47,14 @@ export type NotificationSettingsRecord = {
   updatedAt: string;
 };
 
+export type AdminCredentialsRecord = {
+  key: 'admin_credentials';
+  usernames: string[];
+  passwordHash: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type InvestorType =
   | 'Institutional investor'
   | 'Accredited investor'

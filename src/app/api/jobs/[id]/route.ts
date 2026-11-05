@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getJobsCollection } from '@/lib/db/collections';
 import type { JobCategory, JobRecord } from '@/lib/db/types';
+import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
 
 const jobsSeedPath = path.join(process.cwd(), 'src', 'data', 'jobs.json');
 const allowedCategories = new Set<JobCategory>(['Leadership', 'Technology', 'Business']);
@@ -49,6 +50,8 @@ function parseJobUpdatePayload(body: unknown) {
 }
 
 export async function PUT(request: Request, props: { params: Promise<{ id: string }> }) {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const params = await props.params;
     const body = await request.json();
@@ -94,13 +97,15 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
     }
 
     return NextResponse.json(updatedRecord);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating job:', error);
-    return NextResponse.json({ error: 'Failed to update job', details: error?.message || String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to update job' }, { status: 500 });
   }
 }
 
 export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
+  if (!(await isAdminRequest())) return unauthorizedResponse();
+
   try {
     const params = await props.params;
 
@@ -119,7 +124,7 @@ export async function DELETE(request: Request, props: { params: Promise<{ id: st
     await jobsCollection.deleteOne({ id: params.id });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting job:', error);
     return NextResponse.json({ error: 'Failed to delete job' }, { status: 500 });
   }
