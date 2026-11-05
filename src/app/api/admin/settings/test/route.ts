@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
 import { sendTestNotificationEmail } from '@/services/mail/resend';
 import { getAdminNotificationEmails } from '@/services/settings/notification-settings';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('settings');
+  if (!auth.ok) return auth.response;
 
   try {
     let targetEmails: string[] = [];

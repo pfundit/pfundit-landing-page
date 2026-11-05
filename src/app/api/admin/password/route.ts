@@ -1,33 +1,20 @@
 import { NextResponse } from 'next/server';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 import { createAttemptLimiter, getClientIp } from '@/lib/auth/rate-limit';
-import {
-  getAdminPasswordInfo,
-  setAdminPassword,
-  validateNewPassword,
-  verifyAdminPassword,
-} from '@/services/auth/admin-credentials';
+import { setAdminSessionCookie } from '@/lib/auth/session-cookie';
+import { changeOwnPassword, validateNewPassword } from '@/services/auth/admin-users';
 
 export const runtime = 'nodejs';
 
 const changeLimiter = createAttemptLimiter({ maxAttempts: 5, windowMs: 15 * 60 * 1000 });
 
-export async function GET() {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
-
-  try {
-    return NextResponse.json(await getAdminPasswordInfo());
-  } catch (error) {
-    console.error('Failed to read admin password info:', error);
-    return NextResponse.json({ error: 'Failed to read password settings' }, { status: 500 });
-  }
-}
-
+/** Changes the signed-in admin's own password. Any signed-in admin may do this. */
 export async function POST(request: Request) {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin();
+  if (!auth.ok) return auth.response;
 
   try {
-    const limiterKey = `password:${getClientIp(request)}`;
+    const limiterKey = `password:${auth.admin.id}:${getClientIp(request)}`;
     const retryAfter = changeLimiter.blockedFor(limiterKey);
     if (retryAfter > 0) {
       return NextResponse.json(
@@ -53,16 +40,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'New password must be different from the current password.' }, { status: 400 });
     }
 
-    const isCurrentValid = await verifyAdminPassword(currentPassword);
-    if (!isCurrentValid) {
+    const result = await changeOwnPassword(auth.admin.id, currentPassword, newPassword);
+    if (!result.ok) {
       changeLimiter.recordFailure(limiterKey);
       return NextResponse.json({ error: 'Current password is incorrect.' }, { status: 400 });
     }
 
     changeLimiter.reset(limiterKey);
-    const { updatedAt } = await setAdminPassword(newPassword);
-
-    return NextResponse.json({ success: true, updatedAt });
+    // Other sessions for this account are revoked; keep this one signed in with a fresh cookie.
+    return setAdminSessionCookie(
+      NextResponse.json({ success: true, updatedAt: result.updatedAt }),
+      auth.admin.id,
+      result.sessionVersion,
+    );
   } catch (error) {
     console.error('Failed to change admin password:', error);
     return NextResponse.json({ error: 'Failed to update password' }, { status: 500 });

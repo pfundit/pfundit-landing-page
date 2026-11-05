@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
-import {
-  ADMIN_SESSION_COOKIE,
-  ADMIN_SESSION_MAX_AGE,
-  createAdminSessionToken,
-} from '@/lib/auth/session';
+import { setAdminSessionCookie } from '@/lib/auth/session-cookie';
 import { createAttemptLimiter, getClientIp } from '@/lib/auth/rate-limit';
-import { isAdminAuthConfigured, verifyAdminCredentials } from '@/services/auth/admin-credentials';
+import { authenticateAdmin, isAdminAuthConfigured } from '@/services/auth/admin-users';
 
 export const runtime = 'nodejs';
 
@@ -30,23 +26,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Admin auth environment is not configured on server' }, { status: 500 });
     }
 
-    const isValid = await verifyAdminCredentials(username, password);
-    if (!isValid) {
+    const result = await authenticateAdmin(username, password);
+    if (!result.ok) {
+      if (result.reason === 'disabled') {
+        // Only reachable with the correct password, so this doesn't leak account existence.
+        return NextResponse.json(
+          { error: 'This admin account has been disabled. Contact another admin.' },
+          { status: 403 },
+        );
+      }
       loginLimiter.recordFailure(limiterKey);
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
     loginLimiter.reset(limiterKey);
-    const sessionToken = await createAdminSessionToken();
-    const response = NextResponse.json({ success: true });
-    response.cookies.set(ADMIN_SESSION_COOKIE, sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: ADMIN_SESSION_MAX_AGE,
-    });
-    return response;
+    return setAdminSessionCookie(NextResponse.json({ success: true }), result.admin.id, result.admin.sessionVersion);
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

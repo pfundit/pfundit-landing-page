@@ -4,7 +4,7 @@ import type { JobApplicationRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { uploadResumeToCloudinary } from '@/services/storage/cloudinary';
 import { sendJobApplicationNotificationEmail } from '@/services/mail/resend';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 import { listJobApplications } from '@/services/admin/records';
 
 export const runtime = 'nodejs';
@@ -21,7 +21,8 @@ function getFileExtension(fileName: string) {
 }
 
 export async function GET() {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('applications');
+  if (!auth.ok) return auth.response;
 
   try {
     return NextResponse.json(await listJobApplications());

@@ -47,6 +47,41 @@ export type NotificationSettingsRecord = {
   updatedAt: string;
 };
 
+/** Dashboard areas an admin can be granted access to. `admins` = manage other admins (full control). */
+export const ADMIN_PERMISSIONS = ['jobs', 'applications', 'investors', 'contacts', 'settings', 'admins'] as const;
+export type AdminPermission = (typeof ADMIN_PERMISSIONS)[number];
+
+export type AdminUserRecord = {
+  id: string;
+  username: string;
+  name?: string;
+  passwordHash: string;
+  permissions: AdminPermission[];
+  active: boolean;
+  /** Bumped on password change / disable / permission change to invalidate existing sessions. */
+  sessionVersion: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  lastLoginAt?: string;
+  passwordChangedAt?: string;
+};
+
+/** Admin user as exposed to the dashboard (never includes the password hash). */
+export type AdminPublic = {
+  id: string;
+  username: string;
+  name: string;
+  permissions: AdminPermission[];
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  lastLoginAt?: string;
+  passwordChangedAt?: string;
+};
+
+/** @deprecated Legacy shared-password record. Migrated into `admins` on first run. */
 export type AdminCredentialsRecord = {
   key: 'admin_credentials';
   usernames: string[];

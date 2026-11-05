@@ -4,7 +4,7 @@ import type { ContactSubmissionRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { buildContactSubmissionEmail, sendMail } from '@/lib/mail';
 import { sendContactSubmissionNotificationEmail } from '@/services/mail/resend';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 import { listContactSubmissions } from '@/services/admin/records';
 
 export const runtime = 'nodejs';
@@ -16,7 +16,8 @@ function normalizeString(value: unknown) {
 }
 
 export async function GET() {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('contacts');
+  if (!auth.ok) return auth.response;
 
   try {
     return NextResponse.json(await listContactSubmissions());

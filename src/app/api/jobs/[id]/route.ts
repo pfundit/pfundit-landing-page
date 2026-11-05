@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { getJobsCollection } from '@/lib/db/collections';
 import type { JobCategory, JobRecord } from '@/lib/db/types';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 
 const jobsSeedPath = path.join(process.cwd(), 'src', 'data', 'jobs.json');
 const allowedCategories = new Set<JobCategory>(['Leadership', 'Technology', 'Business']);
@@ -50,7 +50,8 @@ function parseJobUpdatePayload(body: unknown) {
 }
 
 export async function PUT(request: Request, props: { params: Promise<{ id: string }> }) {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('jobs');
+  if (!auth.ok) return auth.response;
 
   try {
     const params = await props.params;
@@ -104,7 +105,8 @@ export async function PUT(request: Request, props: { params: Promise<{ id: strin
 }
 
 export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('jobs');
+  if (!auth.ok) return auth.response;
 
   try {
     const params = await props.params;

@@ -1,12 +1,14 @@
 import { redirect } from 'next/navigation';
 import { AdminDashboard, type AdminDashboardInitialData } from './dashboard';
-import { isAdminRequest } from '@/lib/auth/require-admin';
+import { getCurrentAdmin, hasPermission } from '@/lib/auth/require-admin';
+import type { AdminPermission } from '@/lib/db/types';
 import {
   listContactSubmissions,
   listInvestorEnquiries,
   listJobApplications,
   listJobs,
 } from '@/services/admin/records';
+import { listAdmins } from '@/services/auth/admin-users';
 import { getAdminNotificationEmails } from '@/services/settings/notification-settings';
 
 async function settle<T>(label: string, promise: Promise<T>, fallback: T): Promise<T> {
@@ -19,26 +21,33 @@ async function settle<T>(label: string, promise: Promise<T>, fallback: T): Promi
 }
 
 export default async function AdminPage() {
-  if (!(await isAdminRequest())) {
+  const admin = await getCurrentAdmin();
+  if (!admin) {
     redirect('/admin/login');
   }
 
-  // Fetch everything server-side in parallel, in a single request, so the
-  // dashboard renders with data instead of waiting on 5 client round-trips.
-  const [jobs, jobApplications, investorEnquiries, contactSubmissions, recipientEmails] = await Promise.all([
-    settle('jobs', listJobs(), []),
-    settle('job applications', listJobApplications(), []),
-    settle('investor enquiries', listInvestorEnquiries(), []),
-    settle('contact submissions', listContactSubmissions(), []),
-    settle('notification settings', getAdminNotificationEmails(), [] as string[]),
+  // Only load what this admin is allowed to see. Everything runs in parallel,
+  // server-side, so the dashboard renders with data instead of client round-trips.
+  const allowed = (permission: AdminPermission) => hasPermission(admin, permission);
+  const none = <T,>(value: T) => Promise.resolve(value);
+
+  const [jobs, jobApplications, investorEnquiries, contactSubmissions, recipientEmails, admins] = await Promise.all([
+    allowed('jobs') ? settle('jobs', listJobs(), []) : none([]),
+    allowed('applications') ? settle('job applications', listJobApplications(), []) : none([]),
+    allowed('investors') ? settle('investor enquiries', listInvestorEnquiries(), []) : none([]),
+    allowed('contacts') ? settle('contact submissions', listContactSubmissions(), []) : none([]),
+    allowed('settings') ? settle('notification settings', getAdminNotificationEmails(), [] as string[]) : none([] as string[]),
+    allowed('admins') ? settle('admins', listAdmins(), []) : none([]),
   ]);
 
   const initialData: AdminDashboardInitialData = {
+    currentAdmin: admin,
     jobs,
     jobApplications,
     investorEnquiries,
     contactSubmissions,
     recipientEmails,
+    admins,
   };
 
   return <AdminDashboard initialData={initialData} />;

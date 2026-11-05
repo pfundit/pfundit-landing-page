@@ -3,7 +3,11 @@ const decoder = new TextDecoder();
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24;
 
-type SessionPayload = {
+export type SessionPayload = {
+  /** Admin user id. */
+  sub: string;
+  /** Admin sessionVersion at sign-in; a mismatch means the session was revoked. */
+  v: number;
   exp: number;
 };
 
@@ -65,8 +69,10 @@ async function signMessage(message: string) {
   return toBase64Url(new Uint8Array(signature));
 }
 
-export async function createAdminSessionToken() {
+export async function createAdminSessionToken(adminId: string, sessionVersion: number) {
   const payload: SessionPayload = {
+    sub: adminId,
+    v: sessionVersion,
     exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
   };
 
@@ -75,11 +81,16 @@ export async function createAdminSessionToken() {
   return `${payloadPart}.${signaturePart}`;
 }
 
-export async function verifyAdminSessionToken(token: string | undefined) {
-  if (!token) return false;
+/**
+ * Verifies the token signature and expiry only (cheap, no DB). Returns the payload,
+ * or null if invalid. Callers that authorize actions must also check the admin in
+ * the database (see getCurrentAdmin in require-admin.ts).
+ */
+export async function verifyAdminSessionToken(token: string | undefined): Promise<SessionPayload | null> {
+  if (!token) return null;
 
   const parts = token.split('.');
-  if (parts.length !== 2) return false;
+  if (parts.length !== 2) return null;
 
   const [payloadPart, signaturePart] = parts;
 
@@ -92,14 +103,17 @@ export async function verifyAdminSessionToken(token: string | undefined) {
       fromBase64Url(signaturePart),
       encoder.encode(payloadPart),
     );
-    if (!isValid) return false;
+    if (!isValid) return null;
 
     const payloadBytes = fromBase64Url(payloadPart);
-    const payload = JSON.parse(decoder.decode(payloadBytes)) as SessionPayload;
-    if (!payload.exp) return false;
-    return payload.exp > Math.floor(Date.now() / 1000);
+    const payload = JSON.parse(decoder.decode(payloadBytes)) as Partial<SessionPayload>;
+    if (typeof payload.sub !== 'string' || typeof payload.v !== 'number' || typeof payload.exp !== 'number') {
+      return null;
+    }
+    if (payload.exp <= Math.floor(Date.now() / 1000)) return null;
+    return payload as SessionPayload;
   } catch {
-    return false;
+    return null;
   }
 }
 

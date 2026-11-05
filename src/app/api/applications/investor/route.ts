@@ -4,7 +4,7 @@ import type { InvestorEnquiryRecord } from '@/lib/db/types';
 import { createRecordId } from '@/lib/server/ids';
 import { buildInvestorEnquiryEmail, sendMail } from '@/lib/mail';
 import { sendInvestorEnquiryNotificationEmail } from '@/services/mail/resend';
-import { isAdminRequest, unauthorizedResponse } from '@/lib/auth/require-admin';
+import { requireAdmin } from '@/lib/auth/require-admin';
 import { listInvestorEnquiries } from '@/services/admin/records';
 
 export const runtime = 'nodejs';
@@ -23,7 +23,8 @@ function normalizeString(value: unknown): string {
 }
 
 export async function GET() {
-  if (!(await isAdminRequest())) return unauthorizedResponse();
+  const auth = await requireAdmin('investors');
+  if (!auth.ok) return auth.response;
 
   try {
     return NextResponse.json(await listInvestorEnquiries());

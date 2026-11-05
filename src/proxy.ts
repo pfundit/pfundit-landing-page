@@ -8,7 +8,7 @@ export async function proxy(request: NextRequest) {
   // Protect all /admin routes except /admin/login
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
     const sessionCookie = request.cookies.get(ADMIN_SESSION_COOKIE);
-    const isValidSession = await verifyAdminSessionToken(sessionCookie?.value);
+    const isValidSession = (await verifyAdminSessionToken(sessionCookie?.value)) !== null;
     
     if (!isValidSession) {
       const loginUrl = new URL('/admin/login', request.url);
@@ -19,7 +19,7 @@ export async function proxy(request: NextRequest) {
   // Redirect authenticated users away from the login page
   if (pathname === '/admin/login') {
     const sessionCookie = request.cookies.get(ADMIN_SESSION_COOKIE);
-    const isValidSession = await verifyAdminSessionToken(sessionCookie?.value);
+    const isValidSession = (await verifyAdminSessionToken(sessionCookie?.value)) !== null;
     if (isValidSession) {
       const adminUrl = new URL('/admin', request.url);
       return NextResponse.redirect(adminUrl);

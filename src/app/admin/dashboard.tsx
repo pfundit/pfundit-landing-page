@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import type { AdminPublic } from '@/lib/db/types';
+import { AdminUsersPanel } from './admin-users-panel';
 
 // The rich text editor (Tiptap) is heavy and only needed inside the job modal,
 // so load it on demand instead of shipping it with the initial dashboard bundle.
@@ -17,7 +19,7 @@ const RichTextEditor = dynamic(
   },
 );
 
-type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings' | 'security';
+type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings' | 'admins' | 'security';
 
 type Job = {
   id: string;
@@ -72,6 +74,8 @@ type InvestorEnquiry = {
 };
 
 export type AdminDashboardInitialData = {
+  currentAdmin: AdminPublic;
+  admins: AdminPublic[];
   jobs: Job[];
   jobApplications: JobApplication[];
   investorEnquiries: InvestorEnquiry[];
@@ -93,7 +97,8 @@ const tabs: Array<{ key: TabKey; label: string; description: string }> = [
   { key: 'investors', label: 'Investor Enquiries', description: 'Review prospective institutional & accredited investor access requests.' },
   { key: 'contacts', label: 'Contact Forms', description: 'Review inbound contact submissions.' },
   { key: 'settings', label: 'Email Notifications', description: 'Configure recipient emails for jobs, contacts, and investor enquiries.' },
-  { key: 'security', label: 'Account Security', description: 'Change the admin password used to sign in to this dashboard.' },
+  { key: 'admins', label: 'Admin Users', description: 'Add teammates, choose which tabs each one can access, reset passwords, or disable accounts.' },
+  { key: 'security', label: 'My Account', description: 'Change the password you use to sign in to this dashboard.' },
 ];
 
 function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
@@ -119,6 +124,14 @@ function TabIcon({ tabKey, active }: { tabKey: TabKey; active: boolean }) {
     return (
       <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg>
+    );
+  }
+
+  if (tabKey === 'admins') {
+    return (
+      <svg className={`h-4 w-4 ${className}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
       </svg>
     );
   }
@@ -302,7 +315,13 @@ function DateRangeFilter({
 }
 
 export function AdminDashboard({ initialData }: { initialData: AdminDashboardInitialData }) {
-  const [activeTab, setActiveTab] = useState<TabKey>('jobs');
+  const currentAdmin = initialData.currentAdmin;
+  // "My Account" is always available; every other tab requires its permission.
+  const visibleTabs = tabs.filter(
+    (tab) => tab.key === 'security' || currentAdmin.permissions.includes(tab.key),
+  );
+  const [activeTab, setActiveTab] = useState<TabKey>(visibleTabs[0].key);
+  const [admins, setAdmins] = useState<AdminPublic[]>(initialData.admins);
   const [jobs, setJobs] = useState<Job[]>(initialData.jobs);
   const jobApplications = initialData.jobApplications;
   const investorEnquiries = initialData.investorEnquiries;
@@ -357,10 +376,18 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
     });
   }, [contactSubmissions, contactDateFilter]);
 
-  /** Session expired / invalid: send the admin back to the login screen. */
+  /**
+   * 401: session expired / revoked -> back to login.
+   * 403: access was changed by another admin -> refresh so the tabs reflect it.
+   */
   const handleUnauthorized = (response: Response) => {
     if (response.status === 401) {
       router.replace('/admin/login');
+      router.refresh();
+      return true;
+    }
+    if (response.status === 403) {
+      alert('You no longer have access to this section. The dashboard will refresh.');
       router.refresh();
       return true;
     }
@@ -593,7 +620,7 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
       setNewPassword('');
       setConfirmPassword('');
       setVisiblePasswordFields({});
-      setPasswordSuccess('Password updated. Use the new password the next time you sign in.');
+      setPasswordSuccess('Password updated. Other devices signed in as you have been signed out.');
     } catch (err: unknown) {
       setPasswordError(err instanceof Error ? err.message : 'Failed to update password');
     } finally {
@@ -601,7 +628,7 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
     }
   };
 
-  const activeTabConfig = tabs.find((tab) => tab.key === activeTab) || tabs[0];
+  const activeTabConfig = visibleTabs.find((tab) => tab.key === activeTab) || visibleTabs[0];
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F0F5FF] text-[#0f1b3d] lg:block">
@@ -622,7 +649,7 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
         </div>
 
         <nav className="mt-3 grid flex-1 content-start gap-1.5 lg:mt-3.5 lg:gap-1.5">
-          {tabs.map((tab) => {
+          {visibleTabs.map((tab) => {
             const isActive = tab.key === activeTab;
             const count =
               tab.key === 'jobs'
@@ -635,6 +662,8 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
                 ? contactSubmissions.length
                 : tab.key === 'settings'
                 ? recipientEmails.length
+                : tab.key === 'admins'
+                ? admins.length
                 : null;
 
             return (
@@ -666,6 +695,15 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
         </nav>
 
         <div className="mt-3 border-t border-[#0f1b3d]/8 pt-2.5 lg:mt-3.5 lg:pt-3.5">
+          <div className="mb-2.5 flex items-center gap-2.5 px-1">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0f1b3d] text-xs font-bold uppercase text-white">
+              {(currentAdmin.name || currentAdmin.username).slice(0, 1)}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[0.8rem] font-semibold text-[#0f1b3d]">{currentAdmin.name || currentAdmin.username}</p>
+              <p className="truncate text-[0.68rem] text-[#0f1b3d]/50">@{currentAdmin.username}</p>
+            </div>
+          </div>
           <button
             type="button"
             onClick={handleLogout}
@@ -1069,6 +1107,15 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
             </div>
           )}
 
+          {activeTab === 'admins' && currentAdmin.permissions.includes('admins') && (
+            <AdminUsersPanel
+              currentAdmin={currentAdmin}
+              admins={admins}
+              setAdmins={setAdmins}
+              handleAuthError={handleUnauthorized}
+            />
+          )}
+
           {activeTab === 'security' && (
             <div className="max-w-2xl">
               <form
@@ -1076,9 +1123,10 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
                 className="rounded-[1.5rem] border border-[#0f1b3d]/10 bg-white p-6 shadow-[0_18px_60px_rgba(15,27,61,0.06)] sm:p-8"
               >
                 <div className="border-b border-[#0f1b3d]/10 pb-5">
-                  <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d] sm:text-xl">Change Admin Password</h2>
+                  <h2 className="text-lg font-bold tracking-tight text-[#0f1b3d] sm:text-xl">Change Your Password</h2>
                   <p className="mt-1 text-xs text-[#0f1b3d]/65 sm:text-sm">
-                    The new password applies to every admin login. Your current session stays signed in.
+                    Updates the password for <span className="font-semibold text-[#0f1b3d]">@{currentAdmin.username}</span> only.
+                    You stay signed in here; any other devices signed in as you will be signed out.
                   </p>
                 </div>
 
