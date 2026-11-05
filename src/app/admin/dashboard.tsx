@@ -19,6 +19,12 @@ const RichTextEditor = dynamic(
   },
 );
 
+// In-app resume viewer (pdf.js) for small screens, loaded only when first opened.
+const ResumeViewer = dynamic(() => import('./resume-viewer').then((mod) => mod.ResumeViewer), { ssr: false });
+
+/** Matches the dashboard's mobile layout (sidebar stacks below the `lg` breakpoint). */
+const MOBILE_VIEWER_QUERY = '(max-width: 1023px)';
+
 type TabKey = 'jobs' | 'applications' | 'investors' | 'contacts' | 'settings' | 'admins' | 'security';
 
 type Job = {
@@ -330,6 +336,7 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
   const [investorDateFilter, setInvestorDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [contactDateFilter, setContactDateFilter] = useState<DateRangeFilterState>({ preset: 'all', from: '', to: '' });
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication | null>(null);
+  const [resumePreview, setResumePreview] = useState<JobApplication | null>(null);
   const [selectedInvestorEnquiry, setSelectedInvestorEnquiry] = useState<InvestorEnquiry | null>(null);
   const [selectedContactSubmission, setSelectedContactSubmission] = useState<ContactSubmission | null>(null);
   const [recipientEmails, setRecipientEmails] = useState<string[]>(initialData.recipientEmails);
@@ -1591,6 +1598,13 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
                       href={selectedJobApplication.resumeUrl || selectedJobApplication.resumeLink}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={(event) => {
+                        // Phones/tablets: preview inside the dashboard so "back" returns here.
+                        // Desktop keeps opening the file in a new tab.
+                        if (!window.matchMedia(MOBILE_VIEWER_QUERY).matches) return;
+                        event.preventDefault();
+                        setResumePreview(selectedJobApplication);
+                      }}
                       className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0f1b3d] px-4 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#17264f]"
                     >
                       View Resume
@@ -1611,6 +1625,15 @@ export function AdminDashboard({ initialData }: { initialData: AdminDashboardIni
             </div>
           </div>
         </div>
+      )}
+
+      {resumePreview && (resumePreview.resumeUrl || resumePreview.resumeLink) && (
+        <ResumeViewer
+          url={(resumePreview.resumeUrl || resumePreview.resumeLink) as string}
+          fileName={resumePreview.resumeName}
+          title={resumePreview.name}
+          onClose={() => setResumePreview(null)}
+        />
       )}
     </div>
   );
